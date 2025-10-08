@@ -3,9 +3,26 @@
 Generally, client-side installations would be done on your own shell and server-side installations would be done on Linux.
 
 
-# For Server
+# For Client Side
 
-This is done on linux to mimic behavior on DigitalOcean, in which we will be using a Linux Ubuntu server.
+This section would need `npm`, the package manager of Node.js. \
+You could get it here: https://nodejs.org/en/download
+
+## Installing Dependencies
+
+```
+cd saln-client
+npm install
+```
+
+To run: 
+```
+npm run dev
+```
+
+# For Server Side
+
+This is done on Linux to mimic behavior on DigitalOcean, in which we will be using a Linux Ubuntu server.
 
 ## Installing MySQL in Linux
 
