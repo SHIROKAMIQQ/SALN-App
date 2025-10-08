@@ -16,10 +16,14 @@ npm install
 ```
 
 ## Run Client
+`npm run dev` must be run in the `saln-client` directory.
 
 ```
+cd saln-client
 npm run dev
 ```
+
+You should see a Marko page at (usually) http://localhost:3000
 
 # For Server Side
 
@@ -89,9 +93,11 @@ php artisan migrate
 ```
 
 # Run Server
+`php artisan serve` must be run inside the `saln-server` folder using a Linux shell.
 
 ```
+cd saln-server
 php artisan serve
 ```
 
-You should see some Laravel screen on http://127.0.0.1:8000
+You should see some Laravel screen at (usually) http://127.0.0.1:8000
