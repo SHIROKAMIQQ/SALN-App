@@ -15,7 +15,8 @@ cd saln-client
 npm install
 ```
 
-To run: 
+## Run Client
+
 ```
 npm run dev
 ```
@@ -85,6 +86,12 @@ DB_PASSWORD=saln_password
 Then on Linux, run
 ```
 php artisan migrate
+```
+
+# Run Server
+
+```
 php artisan serve
 ```
+
 You should see some Laravel screen on http://127.0.0.1:8000
