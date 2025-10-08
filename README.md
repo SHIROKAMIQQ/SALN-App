@@ -64,6 +64,7 @@ To check Composer version: `composer -v`
 composer global require laravel/installer
 echo 'export PATH="$PATH:$HOME/.config/composer/vendor/bin"' >> ~/.bashrc
 source ~/.bashrc
+composer install
 ```
 
 **Local Configurations**
@@ -82,7 +83,7 @@ Open `saln-server/.env`
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=saln
+DB_DATABASE=saln_app_DB
 DB_USERNAME=saln_user
 DB_PASSWORD=saln_password
 ```
