@@ -1,0 +1,26 @@
+import BaseCard from "./BaseCard.marko";
+
+<script>
+    console.log(input.options);
+</script>
+
+<BaseCard>
+    <div class="card-header">
+        <span class="card-label">${input.label}</span>
+        <span class="card-subtext"> ${input.subtext}</span>
+    </div>
+    <div class="choice-container">
+        <for|option| of=input.options>
+            <div>
+                <label style="margin-right: 1rem;">
+                    <input
+                    type="radio"
+                    name=input.name
+                    value=option
+                    />
+                    ${option}
+                </label>
+            </div>
+        </for>
+    </div>
+</BaseCard>

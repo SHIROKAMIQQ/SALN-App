@@ -1,0 +1,56 @@
+/* Base Card */
+
+.card {
+  background-color: #F9FAFB;
+  border-radius: 12px;
+  border: 7px solid #0D9488;
+  padding: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+  width: 70%;
+  box-sizing: border-box;
+  color: black;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+
+/* TextCard */
+
+.card-input {
+  width: 40%;
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: white;
+  background-color: black;
+  font-weight: 100;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 0.75rem;
+  }
+
+  .card-label {
+    font-size: 0.9rem;
+  }
+
+  .card-input {
+    width: 90%
+  }
+}
