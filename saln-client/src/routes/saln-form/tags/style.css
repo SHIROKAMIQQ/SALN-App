@@ -36,8 +36,20 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
-  color: white;
-  background-color: black;
+  color-scheme: dark;
+  font-weight: 100;
+}
+
+/* Calendar Card */
+
+.date-input {
+  width: 40%;
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  color-scheme: dark;
   font-weight: 100;
 }
 
@@ -51,6 +63,10 @@
   }
 
   .card-input {
-    width: 90%
+    width: 90%;
+  }
+
+  .date-input {
+    width: 90%;
   }
 }
