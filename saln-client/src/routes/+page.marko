@@ -1,7 +1,33 @@
-import TextCard from "../components/Card/TextCard.marko";
-import ChoiceCard from "../components/Card/ChoiceCard.marko";
-
 <div class="container">
-  <TextCard label="Text Input Example" subtext="Sub Text" placeholder="Enter text input" value="Text Input"/>
-  <ChoiceCard label="Choice Card Sample" subtext="Sub Text" name="choices" options=["ChoiceA", "ChoiceB", "ChoiceC"] />
+  <header>
+    <img src="./logo.svg" alt="Marko" class="logo">
+  </header>
+  <main>
+    <p>
+      Edit
+      <code>./src/routes/+page.marko</code>
+       and save to reload.
+    </p>
+    <a href="https://markojs.com/docs/getting-started">
+      Learn Marko
+    </a>
+  </main>
 </div>
+<mouse-mask/>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1em, 2vw, 2em);
+    padding: 1em;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+  }
+  img.logo {
+    width: 12em;
+  }
+</style>
