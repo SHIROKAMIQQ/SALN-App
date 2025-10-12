@@ -1,5 +1,16 @@
 import BaseCard from "./BaseCard.marko";
 import "./style.css";
+import { AssetTypes } from "../../../utils/assetTypes.js";
+
+export interface Input {
+    type: 
+        AssetTypes.REAL_PROPERTY | 
+        AssetTypes.PERSONAL_PROPERTY | 
+        AssetTypes.LIABILITY | 
+        AssetTypes.CONNECTION | 
+        AssetTypes.RELATIVE;
+    attributes: Record<String, String>;
+}
 
 <BaseCard>
     <div class="display-card">

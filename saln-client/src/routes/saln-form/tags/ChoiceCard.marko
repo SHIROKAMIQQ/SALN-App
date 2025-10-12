@@ -1,6 +1,13 @@
 import BaseCard from "./BaseCard.marko";
 import "./style.css";
 
+export interface Input {
+    label: String;
+    subtext?: String;
+    name: String;
+    options: String[];
+}
+
 <BaseCard>
     <div class="card-header">
         <span class="card-label">${input.label}</span>
