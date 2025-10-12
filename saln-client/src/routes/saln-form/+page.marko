@@ -1,9 +1,25 @@
 import TextCard from "./tags/TextCard.marko";
 import ChoiceCard from "./tags/ChoiceCard.marko";
-import CalendarCard from "./tags/CalendarCard.marko"; 
+import CalendarCard from "./tags/CalendarCard.marko";
+import { AssetTypes } from "../../utils/assetTypes.js";
+<script>
+
+
+</script>
 
 <div class="container">
   <TextCard label="Text Input Example" subtext="Sub Text" placeholder="Enter text input" value="Text Input"/>
   <ChoiceCard label="Choice Card Sample" subtext="Sub Text" name="choices" options=["ChoiceA", "ChoiceB", "ChoiceC"] />
   <CalendarCard label="Date Today" subtext="Sub Text" />
+  <DisplayCard type=AssetTypes.REAL_PROPERTY attributes={
+    Key1: "Value1",
+    Key2: "Value2",
+    Key3: "Value2",
+    Key4: "Value4",
+    Key5: "Value5",
+    Key6: "Value6",
+    Key7: "Value7",
+    Key8: "Value8",
+
+  } />
 </div>

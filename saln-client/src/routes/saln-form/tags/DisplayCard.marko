@@ -1,0 +1,18 @@
+import BaseCard from "./BaseCard.marko";
+import "./style.css";
+
+<BaseCard>
+    <div class="display-card">
+        <div class="attributes-dictionary">
+            <for|key, value| in=input.attributes>
+                <p class="attribute-item"><b class="attribute-key">${key}:</b> ${value}</p>
+            </for>
+        </div> 
+        <div class="card-actions">
+            <span>
+                <button class="editButton">Edit</button>
+                <button class="deleteButton">Delete</button>
+            </span>
+        </div>
+    </div>
+</BaseCard>
