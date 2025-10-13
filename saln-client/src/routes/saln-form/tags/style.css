@@ -112,6 +112,117 @@
   margin-left: 5px;
 }
 
+/* AssetModal */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.asset-modal {
+  background-color: #F9FAFB;
+  border: 7px solid #0D9488;
+  border-radius: 1em;
+  padding: 2%;
+  width: 50%;
+  max-height: 80%;
+  max-width: 700px;
+  min-width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  overflow-y: auto;
+}
+
+.asset-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.field-label {
+  color: black;
+  font-weight: 600;
+}
+
+.field-subtext {
+  font-size: 0.9em;
+  color: #555;
+  display: block;
+}
+
+.field-input {
+  width: 50%;
+  padding: 0.6em;
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+  font-size: 1em;
+  color-scheme: dark;
+}
+
+.asset-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+  margin-top: 2vh;
+  margin-bottom: 1rem;
+}
+
+.cancelButton, .addButton {
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-size: 1em;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  width: 25vh;
+  transition: all 0.2s ease-in-out;
+}
+
+.cancelButton {
+  background-color: #FFFFFF;
+  border: 3px solid #0D9488;
+  color: black;
+}
+
+.cancelButton:hover {
+  background-color: #CCC;
+}
+
+.addButton {
+  background-color: #1F3B4D;
+  color: white;
+}
+
+.addButton:hover {
+  background-color: #1C4963;  
+}
+
+
 @media (max-width: 600px) {
   .card {
     padding: 0.75rem;
@@ -131,5 +242,9 @@
 
   .card-actions {
     padding-top: 2vh;
+  }
+
+  .field-input {
+    width: 90%;
   }
 }

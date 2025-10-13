@@ -3,12 +3,7 @@ import "./style.css";
 import { AssetTypes } from "../../../utils/assetTypes.js";
 
 export interface Input {
-    type: 
-        AssetTypes.REAL_PROPERTY | 
-        AssetTypes.PERSONAL_PROPERTY | 
-        AssetTypes.LIABILITY | 
-        AssetTypes.CONNECTION | 
-        AssetTypes.RELATIVE;
+    type: AssetTypes;
     attributes: Record<String, String>;
 }
 

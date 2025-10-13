@@ -1,4 +1,4 @@
-import { AssetTypes } from "../../utils/assetTypes.js";
+import { AssetTypes } from "../../utils/assetTypes.ts";
 
 <div class="container">
   <TextCard label="Text Input Example" subtext="Sub Text" placeholder="Enter text input" value="Text Input"/>
@@ -15,3 +15,13 @@ import { AssetTypes } from "../../utils/assetTypes.js";
     Key8: "Value8",
   } />
 </div>
+
+<let/openModal=false>
+
+<button onClick() { openModal = true }>
+  Open Modal
+</button>
+
+<if=openModal>
+  <AssetModal type=AssetTypes.CONNECTION showModal:=openModal/> 
+</if>
