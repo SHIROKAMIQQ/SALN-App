@@ -10,15 +10,27 @@ import type * as Run from "@marko/run";
 declare module "@marko/run" {
 	interface AppData extends Run.DefineApp<{
 		routes: {
-			"/": Routes["/_index"];
+			"/": { verb: "get"; meta: typeof import("../src/routes/+meta.json"); };
+			"/uploadJSON": { verb: "get"; meta: typeof import("../src/routes/uploadJSON/+meta.json"); };
 		}
 	}> {}
 }
 
-declare module "../src/routes/_index/+page.marko" {
+declare module "../src/routes/+page.marko" {
   namespace MarkoRun {
     export { NotHandled, NotMatched, GetPaths, PostPaths, GetablePath, GetableHref, PostablePath, PostableHref, Platform };
     export type Route = Run.Routes["/"];
+    export type Context = Run.MultiRouteContext<Route> & Marko.Global;
+    export type Handler = Run.HandlerLike<Route>;
+    /** @deprecated use `((context, next) => { ... }) satisfies MarkoRun.Handler` instead */
+    export const route: Run.HandlerTypeFn<Route>;
+  }
+}
+
+declare module "../src/routes/uploadJSON/+page.marko" {
+  namespace MarkoRun {
+    export { NotHandled, NotMatched, GetPaths, PostPaths, GetablePath, GetableHref, PostablePath, PostableHref, Platform };
+    export type Route = Run.Routes["/uploadJSON"];
     export type Context = Run.MultiRouteContext<Route> & Marko.Global;
     export type Handler = Run.HandlerLike<Route>;
     /** @deprecated use `((context, next) => { ... }) satisfies MarkoRun.Handler` instead */
@@ -27,12 +39,10 @@ declare module "../src/routes/_index/+page.marko" {
 }
 
 declare module "../src/routes/+layout.marko" {
-  export interface Input {
-    renderBody: Marko.Body;
-  }
+  export interface Input extends Run.LayoutInput<typeof import("../src/routes/+layout.marko")> {}
   namespace MarkoRun {
     export { NotHandled, NotMatched, GetPaths, PostPaths, GetablePath, GetableHref, PostablePath, PostableHref, Platform };
-    export type Route = Run.Routes["/"];
+    export type Route = Run.Routes["/" | "/uploadJSON"];
     export type Context = Run.MultiRouteContext<Route> & Marko.Global;
     export type Handler = Run.HandlerLike<Route>;
     /** @deprecated use `((context, next) => { ... }) satisfies MarkoRun.Handler` instead */
@@ -40,6 +50,14 @@ declare module "../src/routes/+layout.marko" {
   }
 }
 
-type Routes = {
-	"/_index": { verb: "get"; meta: typeof import("../src/routes/_index/+meta.json"); };
+declare module "../src/routes/uploadJSON/+layout.marko" {
+  export interface Input extends Run.LayoutInput<typeof import("../src/routes/uploadJSON/+layout.marko")> {}
+  namespace MarkoRun {
+    export { NotHandled, NotMatched, GetPaths, PostPaths, GetablePath, GetableHref, PostablePath, PostableHref, Platform };
+    export type Route = Run.Routes["/uploadJSON"];
+    export type Context = Run.MultiRouteContext<Route> & Marko.Global;
+    export type Handler = Run.HandlerLike<Route>;
+    /** @deprecated use `((context, next) => { ... }) satisfies MarkoRun.Handler` instead */
+    export const route: Run.HandlerTypeFn<Route>;
+  }
 }
