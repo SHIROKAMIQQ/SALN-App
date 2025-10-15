@@ -9,17 +9,13 @@ import Relatives from "./Relatives.marko";
 // TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
 <let/tmpData = {
   personalInfo: {
-    filingType: 0, 
-    familyName: "",
-    firstName: "",
-    mi: "",
+    filingType: 0, // 0: Not Applicable, 1: Joint, 2: Separate
+    declarantName: "",
     address: "",
     position: "",
     agency: "",
     officeAddress: "",
-    spouseFamilyName: "",
-    spouseFirstName: "",
-    spouseMI: "",
+    spouseName: "",
     spousePosition: "",
     spouseAgency: "",
     spouseOfficeAddress: "",
@@ -39,10 +35,14 @@ import Relatives from "./Relatives.marko";
   console.log(tmpData);
 </script>
 
+<p>filingType: ${tmpData.personalInfo.filingType}</p>
+<p>declarantName: ${tmpData.personalInfo.declarantName}</p>
+
 <if=(currentPage === 1)>
   <h1>Personal Information</h1>
   <PersonalInfo
-    submitPage(newPersonalInfo) {
+    personalInfo = tmpData.personalInfo
+    updateFormData(newPersonalInfo) {
       tmpData = {...tmpData, personalInfo: newPersonalInfo};
     }
   />

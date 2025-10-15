@@ -1,5 +1,6 @@
 export interface Input {
-	submitPage: (personalInfo: any) => void;
+	personalInfo: any;
+	updateFormData: (personalInfo: any) => void;
 }
 
 // TODO: use value attribute of Card when Editing SALN.
@@ -9,46 +10,76 @@ export interface Input {
 		subtext="Husband and wife who are both public officials and employees may file the required statements jointly or sepatately."
 		name="FilingType"
 		options=["Joint Filing", "Separate Filing", "Not Applicable"]
+		updateAnswer(answer) {
+			input.updateFormData({...input.personalInfo, filingType: answer});
+		}
 	/>
-	<TextCard 
+	<TextCard
 		label="Declarant"
 		subtext="Last Name, First Name, M.I."
 		placeholder="Last Name, First Name, M.I."
+		updateAnswer(answer) {
+			input.updateFormData({...input.personalInfo, declarantName: answer});
+		}
 	/>
 	<TextCard
 		label="Address"
 		placeholder="Address"
+		updateAnswer(answer) {
+			input.updateFormData({...input.personalInfo, address: answer});
+		}
 	/>
 	<TextCard
 		label="Position"
 		placeholder="Position"
+		updateAnswer(answer) {
+			input.updateFormData({...input.personalInfo, position: answer});
+		}
 	/>
 	<TextCard 
 		label="Agency/Office"
 		placeholder="Agency/Office"
+		updateAnswer(answer) {
+			input.updateFormData({...input.personalInfo, agency: answer});
+		}
 	/>
 	<TextCard 
 		label="Office Address"
 		placeholder="Office Address"
+		updateAnswer(answer) {
+			input.updateFormData({...input.personalInfo, officeAddress: answer});
+		}
 	/> 
 	<TextCard 
 		label="Spouse"
 		subtext="Last Name, First Name, M.I. | Leave BLANK if unapplicable."
 		placeholder="Last Name, First Name, M.I."
+		updateAnswer(answer) {
+			input.updateFormData({...input.personalInfo, spouseName: answer});
+		}
 	/>
 	<TextCard 
 		label="Position"
 		subtext="of Spouse | Leave BLANK if unapplicable"
 		placeholder="Position of Spouse"
+		updateAnswer(answer) {
+			input.updateFormData({...input.personalInfo, spousePosition: answer});
+		}
 	/>
 	<TextCard 
 		label="Agency/Office"
 		subtext="of Spouse | Leave BLANK if unapplicable"
 		placeholder="Agency/Office of Spouse"
+		updateAnswer(answer) {
+			input.updateFormData({...input.personalInfo, spouseAgency: answer});
+		}
 	/>
 	<TextCard 
 		label="Office Address"
 		subtext="of Spouse | Leave BLANK if unapplicable"
 		placeholder="Office Address of Spouse"
+		updateAnswer(answer) {
+			input.updateFormData({...input.personalInfo, spouseOfficeAddress: answer});
+		}
 	/>
 </div>

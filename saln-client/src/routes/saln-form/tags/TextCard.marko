@@ -6,6 +6,7 @@ export interface Input {
     subtext?: string;
     placeholder: string;
     value: string;
+    updateAnswer: (answer: string) => void;
 }
 
 <BaseCard>
@@ -17,5 +18,8 @@ export interface Input {
         type="text" 
         placeholder=input.placeholder 
         value=input.value
+        onInput(event) {
+            input.updateAnswer(event.target.value);
+        }
     />
 </BaseCard>
