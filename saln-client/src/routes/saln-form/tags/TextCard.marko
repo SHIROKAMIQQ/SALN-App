@@ -2,10 +2,10 @@ import BaseCard from "./BaseCard.marko";
 import "./style.css";
 
 export interface Input {
-    label: String;
-    subtext?: String;
-    placeholder: String;
-    value?: String;
+    label: string;
+    subtext?: string;
+    placeholder: string;
+    value: string;
 }
 
 <BaseCard>
@@ -16,6 +16,6 @@ export interface Input {
     <input class="card-input" 
         type="text" 
         placeholder=input.placeholder 
-        value=input.value 
+        value=input.value
     />
 </BaseCard>

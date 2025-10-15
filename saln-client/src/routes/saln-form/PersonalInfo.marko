@@ -1,0 +1,54 @@
+export interface Input {
+	submitPage: (personalInfo: any) => void;
+}
+
+// TODO: use value attribute of Card when Editing SALN.
+<div>
+	<ChoiceCard 
+		label="Filing Type"
+		subtext="Husband and wife who are both public officials and employees may file the required statements jointly or sepatately."
+		name="FilingType"
+		options=["Joint Filing", "Separate Filing", "Not Applicable"]
+	/>
+	<TextCard 
+		label="Declarant"
+		subtext="Last Name, First Name, M.I."
+		placeholder="Last Name, First Name, M.I."
+	/>
+	<TextCard
+		label="Address"
+		placeholder="Address"
+	/>
+	<TextCard
+		label="Position"
+		placeholder="Position"
+	/>
+	<TextCard 
+		label="Agency/Office"
+		placeholder="Agency/Office"
+	/>
+	<TextCard 
+		label="Office Address"
+		placeholder="Office Address"
+	/> 
+	<TextCard 
+		label="Spouse"
+		subtext="Last Name, First Name, M.I. | Leave BLANK if unapplicable."
+		placeholder="Last Name, First Name, M.I."
+	/>
+	<TextCard 
+		label="Position"
+		subtext="of Spouse | Leave BLANK if unapplicable"
+		placeholder="Position of Spouse"
+	/>
+	<TextCard 
+		label="Agency/Office"
+		subtext="of Spouse | Leave BLANK if unapplicable"
+		placeholder="Agency/Office of Spouse"
+	/>
+	<TextCard 
+		label="Office Address"
+		subtext="of Spouse | Leave BLANK if unapplicable"
+		placeholder="Office Address of Spouse"
+	/>
+</div>
