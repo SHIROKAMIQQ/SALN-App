@@ -1,14 +1,56 @@
 export interface Input {
 	personalInfo: any;
 	updateFormData: (personalInfo: any) => void;
+	updateFormValid: (newFormValid: boolean) => void;
 }
 
 <script>
-	console.log(input.personalInfo);
-	console.log(input.personalInfo.filingType);
+	let tmpValid = true;
+	const namePattern = /^[A-Za-z]+(?:\s[A-Za-z])?,\s[A-Za-z]+(?:\s[A-Za-z])?,\s[A-Za-z]\.$/
+
+	if (!([0, 1, 2].includes(filingType))) {
+		tmpValid = false;
+		console.log("filingType failed.");
+	}
+	if (
+		(!declarantName) ||
+		(!namePattern.test(declarantName))
+	) {
+		tmpValid = false;
+		console.log("declarantName failed.");
+	}
+	if (!address) {
+		tmpValid = false;
+		console.log("address failed.");
+	}
+	if (!position) {
+		tmpValid = false;
+		console.log("position failed.");
+	}
+	if (!agency) {
+		tmpValid = false;
+		console.log("agency failed.");
+	}
+	if (!officeAddress) {
+		tmpValid = false;
+		console.log("officeAddress failed.");
+	}
+
+	if (!(
+		(!spouseName && !spousePosition && !spouseAgency && !spouseOfficeAddress) ||
+		(spouseName && spousePosition && spouseAgency && spouseOfficeAddress)
+	)) {
+		tmpValid = false;
+		console.log("spouse failed.");
+	}
+	if (spouseName && !namePattern.test(spouseName)) {
+		tmpValid = false;
+		console.log("spouseName failed.");
+	}
+
+	input.updateFormValid(tmpValid);
 </script>
 
-// TODO: use value attribute of Card when Editing SALN.
 <div>
 	<let/filingType = input.personalInfo.filingType />
 	<ChoiceCard 
@@ -18,6 +60,7 @@ export interface Input {
 		options=["Joint Filing", "Separate Filing", "Not Applicable"]
 		value=filingType
 		updateAnswer(answer) {
+			filingType = answer;
 			input.updateFormData({...input.personalInfo, filingType: answer});
 		}
 	/>
@@ -28,6 +71,7 @@ export interface Input {
 		placeholder="Last Name, First Name, M.I."
 		value=declarantName
 		updateAnswer(answer) {
+			declarantName = answer;
 			input.updateFormData({...input.personalInfo, declarantName: answer});
 		}
 	/>
@@ -37,6 +81,7 @@ export interface Input {
 		placeholder="Address"
 		value=address
 		updateAnswer(answer) {
+			address = answer;
 			input.updateFormData({...input.personalInfo, address: answer});
 		}
 	/>
@@ -46,6 +91,7 @@ export interface Input {
 		placeholder="Position"
 		value=position
 		updateAnswer(answer) {
+			position = answer;
 			input.updateFormData({...input.personalInfo, position: answer});
 		}
 	/>
@@ -55,6 +101,7 @@ export interface Input {
 		placeholder="Agency/Office"
 		value=agency
 		updateAnswer(answer) {
+			agency = answer;
 			input.updateFormData({...input.personalInfo, agency: answer});
 		}
 	/>
@@ -64,6 +111,7 @@ export interface Input {
 		placeholder="Office Address"
 		value=officeAddress
 		updateAnswer(answer) {
+			officeAddress = answer;
 			input.updateFormData({...input.personalInfo, officeAddress: answer});
 		}
 	/> 
@@ -74,6 +122,7 @@ export interface Input {
 		placeholder="Last Name, First Name, M.I."
 		value=spouseName
 		updateAnswer(answer) {
+			spouseName = answer;
 			input.updateFormData({...input.personalInfo, spouseName: answer});
 		}
 	/>
@@ -84,6 +133,7 @@ export interface Input {
 		placeholder="Position of Spouse"
 		value=spousePosition
 		updateAnswer(answer) {
+			spousePosition = answer;
 			input.updateFormData({...input.personalInfo, spousePosition: answer});
 		}
 	/>
@@ -94,6 +144,7 @@ export interface Input {
 		placeholder="Agency/Office of Spouse"
 		value=spouseAgency
 		updateAnswer(answer) {
+			spouseAgency = answer;
 			input.updateFormData({...input.personalInfo, spouseAgency: answer});
 		}
 	/>
@@ -104,6 +155,7 @@ export interface Input {
 		placeholder="Office Address of Spouse"
 		value=spouseOfficeAddress
 		updateAnswer(answer) {
+			spouseOfficeAddress = answer;
 			input.updateFormData({...input.personalInfo, spouseOfficeAddress: answer});
 		}
 	/>

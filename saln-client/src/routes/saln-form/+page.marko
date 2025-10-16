@@ -42,6 +42,9 @@ import Relatives from "./Relatives.marko";
     updateFormData(newPersonalInfo) {
       tmpData = {...tmpData, personalInfo: newPersonalInfo};
     }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
   />
 </if>
 <else if=(currentPage === 2)>
@@ -83,7 +86,7 @@ import Relatives from "./Relatives.marko";
         currentPage++;
         formValid = false;
       } else {
-        alert("Please complete all fields before proceeding.");
+        alert("You have incomplete/improper required fields.");
       }
     }>  
       Next

@@ -19,7 +19,7 @@ export interface Input {
         placeholder=input.placeholder 
         value=input.value
         onInput(event) {
-            input.updateAnswer(event.target.value);
+            input.updateAnswer(event.target.value.trim());
         }
     />
 </BaseCard>
