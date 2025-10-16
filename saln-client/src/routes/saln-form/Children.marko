@@ -8,6 +8,49 @@ export interface Input {
 
 <let/showModal = false />
 
+<let/checkData = (obj: any) => {
+	if (!obj.Name) {
+		console.log("Name fails.");
+		return false;
+	}
+
+	if (!obj.DoB) {
+		console.log("DoB fails.");
+		return false;
+	}
+
+	const today = new Date();
+	const dob = new Date(obj.DoB);
+	let age = today.getFullYear() - dob.getFullYear();
+	const m = today.getMonth() - dob.getMonth();
+	if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+	console.log(`Age ${age}`);
+	if (age >= 18 || today < dob) {
+		console.log("DoB fails.");
+		return false;
+	}
+
+	if (!obj.Age) {
+		console.log("Age fail.");
+		return false;
+	}
+
+	obj.Age = Number(obj.Age);
+	if (
+		obj.Age >= 18 ||
+		obj.Age !== age
+	) {
+		console.log("Age fails.");
+		return false;
+	}
+
+	return true;
+} />
+
+<script>
+	input.updateFormValid(true);
+</script>
+
 <div class="page-buttons">
 	<button class="nextButton" 
 		onClick() {
@@ -19,10 +62,22 @@ export interface Input {
 </div>
 
 <if=(input.children.length > 0)>
-	<for|child| of=input.children>
+	<for|child, idx| of=input.children>
 		<DisplayCard 
 			type=AssetTypes.UNMARRIED_CHILDREN
 			attributes=child
+			idx=idx
+			editElement (obj, i) {
+				const newChildrenList = input.children.map((child, idx) => i === idx ? obj : child ); 
+				input.updateFormData(newChildrenList);
+			}
+			deleteElement (i) {
+				const newChildrenList = input.children.filter((child, idx) => i !== idx); 
+				input.updateFormData(newChildrenList);
+			}
+			validateData (obj) {
+				return checkData(obj);
+			}
 		/>
 	</for>
 </if>
@@ -33,49 +88,15 @@ export interface Input {
 <if=(showModal)>
 	<AssetModal
 		type=AssetTypes.UNMARRIED_CHILDREN
-		showModalChange(o) {
-			showModal = o;
+		idx=-1
+		closeModal() {
+			showModal = false;
 		}
-		addToList (obj) {
+		fetchData (obj, i) {
 			input.updateFormData([...input.children, obj]);
 		}
 		validateData (obj) {
-			if (!obj.Name) {
-				console.log("Name fails.");
-				return false;
-			}
-
-			if (!obj.DoB) {
-				console.log("DoB fails.");
-				return false;
-			}
-
-			const today = new Date();
-			const dob = new Date(obj.DoB);
-			let age = today.getFullYear() - dob.getFullYear();
-			const m = today.getMonth() - dob.getMonth();
-			if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
-			console.log(`Age ${age}`);
-			if (age >= 18 || today < dob) {
-				console.log("DoB fails.");
-				return false;
-			}
-
-			if (!obj.Age) {
-				console.log("Age fail.");
-				return false;
-			}
-
-			obj.Age = Number(obj.Age);
-			if (
-				obj.Age >= 18 ||
-				obj.Age !== age
-			) {
-				console.log("Age fails.");
-				return false;
-			}
-
-			return true;
+			return checkData(obj);
 		}
 	/>
 </if>

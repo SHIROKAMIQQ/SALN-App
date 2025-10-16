@@ -3,9 +3,11 @@ import { AssetTypes, AssetFields } from "../../../utils/assetTypes.js";
 
 export interface Input {
   type: AssetTypes;
-  showModalChange: (showModal: boolean) => void;
-  addToList: (x: any) => void;
-  validateData: (x: any) => boolean;
+  attributes?: any;
+  idx: number;
+  closeModal: () => void;
+  fetchData: (obj: any, i: number) => void;
+  validateData: (obj: any) => boolean;
 }
 
 <div class="modal-overlay">
@@ -20,8 +22,8 @@ export interface Input {
           const valid = input.validateData(data);
 
           if (valid) {
-            input.addToList(data);
-            input.showModalChange(false);
+            input.fetchData(data, input.idx);
+            input.closeModal();
           } else {
             alert("You have incomplete/improper required fields.") // Make this more specific.
           }
@@ -38,7 +40,8 @@ export interface Input {
             <input class="field-input"
               type=field.type
               name=field.inputName
-              placeholder=field.label 
+              placeholder=field.label
+              value=input.attributes? input.attributes[field.inputName] : "" 
               min=0
             />
           </div>
@@ -47,7 +50,7 @@ export interface Input {
         <div class="asset-modal-buttons">
           <button class="cancelButton" 
             onClick() {
-              input.showModalChange?.(false);
+              input.closeModal();
             }
           > 
             Cancel
