@@ -1,27 +1,167 @@
-import { AssetTypes } from "../../utils/assetTypes.ts";
+import PersonalInfo from "./PersonalInfo.marko";
+import Children from "./Children.marko";
+import RealProperties from "./RealProperties.marko";
+import PersonalProperties from "./PersonalProperties.marko";
+import Liabilities from "./Liabilities.marko";
+import Connections from "./Connections.marko";
+import Relatives from "./Relatives.marko";
 
-<div class="container">
-  <TextCard label="Text Input Example" subtext="Sub Text" placeholder="Enter text input" value="Text Input"/>
-  <ChoiceCard label="Choice Card Sample" subtext="Sub Text" name="choices" options=["ChoiceA", "ChoiceB", "ChoiceC"] />
-  <CalendarCard label="Date Today" subtext="Sub Text" />
-  <DisplayCard type=AssetTypes.CONNECTION attributes={
-    Key1: "Value1",
-    Key2: "Value2",
-    Key3: "Value2",
-    Key4: "Value4",
-    Key5: "Value5",
-    Key6: "Value6",
-    Key7: "Value7",
-    Key8: "Value8",
-  } />
+// TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
+<let/tmpData = {
+  personalInfo: {
+    filingType: 0, // 0: Not Applicable, 1: Joint, 2: Separate
+    declarantName: "Guiang, Miguel, A.",
+    address: "a",
+    position: "a",
+    agency: "a",
+    officeAddress: "a",
+    spouseName: "",
+    spousePosition: "",
+    spouseAgency: "",
+    spouseOfficeAddress: "",
+  },
+  children: [
+    {
+      Name: "Child1",
+      DoB: '2025-10-16',
+      Age: 20 
+    }
+  ],
+  realProperties: [],
+  personalProperties: [],
+  liabilities: [],
+  connections: [],
+  relatives: []
+}/>
+
+<let/currentPage = 1 />
+<let/formValid = false />
+
+<script>
+  console.log(tmpData);
+</script>
+
+<if=(currentPage === 1)>
+  <h1>Personal Information</h1>
+  <PersonalInfo
+    personalInfo = tmpData.personalInfo
+    updateFormData(newPersonalInfo) {
+      tmpData = {...tmpData, personalInfo: newPersonalInfo};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
+</if>
+<else if=(currentPage === 2)>
+  <h1>Children</h1>
+  <Children 
+    children = tmpData.children
+    updateFormData (newChildrenList) {
+      tmpData = {...tmpData, children: newChildrenList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
+</else>
+<else if=(currentPage === 3)>
+  <RealProperties />
+</else>
+<else if=(currentPage === 4)>
+  <PersonalProperties />
+</else>
+<else if=(currentPage === 5)>
+  <Liabilities />
+</else>
+<else if=(currentPage === 6)>
+  <Connections />
+</else>
+<else if=(currentPage === 7)>
+  <Relatives />
+</else>
+
+<div class="page-buttons">
+  <if=(currentPage > 1)>
+    <button class="prevButton" onClick() {
+      currentPage--;
+    }>
+      Prev
+    </button>
+  </if>
+  <else>
+    <a href="/"> // TODO Send this to dashboard.
+      <button class="prevButton"> Cancel </button>
+    </a>
+  </else>
+
+  <if=(currentPage < 7)>
+    <button class="nextButton" onClick() {
+      if(formValid) {
+        currentPage++;
+        formValid = false;
+      } else {
+        alert("You have incomplete/improper required fields.");
+      }
+    }>  
+      Next
+    </button>
+  </if> 
+  <if=(currentPage === 7)>
+    <button class="nextButton" onClick() {console.log("Submit");}>Submit</button>
+  </if>
 </div>
 
-<let/openModal=false>
+<style>
+  p, h1 {
+    color: black;
+  }
 
-<button onClick() { openModal = true }>
-  Open Modal
-</button>
+  h1, .subheader {
+    margin-left: 10%;
+  }
 
-<if=openModal>
-  <AssetModal type=AssetTypes.CONNECTION showModal:=openModal/> 
-</if>
+  .page-buttons {
+    flex-wrap: nowrap;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 85%;
+  }
+
+  .prevButton, .nextButton {
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-size: 1em;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  width: 10vw;
+  min-width: 100px;
+  transition: all 0.2s ease-in-out;
+}
+
+.prevButton {
+  background-color: #FFFFFF;
+  border: 3px solid #0D9488;
+  color: black;
+  margin-right: 10px;
+}
+
+.prevButton:hover {
+  background-color: #CCC;
+}
+
+.nextButton {
+  background-color: #1F3B4D;
+  color: white;
+  margin-left: 10px;
+}
+
+.nextButton:hover {
+  background-color: #1C4963;  
+}
+
+</style>

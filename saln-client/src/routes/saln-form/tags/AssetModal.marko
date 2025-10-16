@@ -1,22 +1,35 @@
 import "./style.css";
 import { AssetTypes, AssetFields } from "../../../utils/assetTypes.js";
 
-// labels[] {
-//     label: String;
-//     subtext?: String;
-// }
-
 export interface Input {
   type: AssetTypes;
-  showModalChange: (showModal: boolean) => void; 
+  attributes?: any;
+  idx: number;
+  mode: string;
+  closeModal: () => void;
+  fetchData: (obj: any, i: number) => void;
+  validateData: (obj: any) => boolean;
 }
-
-<let/showModal:=input.showModal>
 
 <div class="modal-overlay">
   <div class="asset-modal">
     <div class="asset-fields">
-      <form class="asset-fields">
+      <form class="asset-fields"
+        onSubmit(event) {
+          event.preventDefault();
+          const formData = new FormData(event.target);
+          const data = Object.fromEntries(formData.entries()); 
+          
+          const valid = input.validateData(data);
+
+          if (valid) {
+            input.fetchData(data, input.idx);
+            input.closeModal();
+          } else {
+            alert("You have incomplete/improper required fields.") // Make this more specific.
+          }
+        }
+      >
         <for|field| of=AssetFields[input.type]>
           <div class="field">
             <div class="field-header">
@@ -26,17 +39,26 @@ export interface Input {
               </if>
             </div>
             <input class="field-input"
-              type="text"
+              type=field.type
               name=field.inputName
-              placeholder=field.label 
+              placeholder=field.label
+              value=input.attributes? input.attributes[field.inputName] : "" 
+              min=0
             />
           </div>
         </for>
+
+        <div class="asset-modal-buttons">
+          <button class="cancelButton" 
+            onClick() {
+              input.closeModal();
+            }
+          > 
+            Cancel
+          </button>
+          <button class="addButton" type="submit">${input.mode}</button>
+        </div> 
       </form>
     </div>
-    <div class="asset-modal-buttons">
-      <button class="cancelButton" onClick() {input.showModalChange?.(false)}>Cancel</button>
-      <button class="addButton" onClick() {input.showModalChange?.(false)}>Add</button>
-    </div> 
   </div>
 </div>
