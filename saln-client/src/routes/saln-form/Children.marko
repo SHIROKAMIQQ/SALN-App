@@ -19,7 +19,12 @@ export interface Input {
 </div>
 
 <if=(input.children.length > 0)>
-	<p>Has Child</p>
+	<for|child| of=input.children>
+		<DisplayCard 
+			type=AssetTypes.UNMARRIED_CHILDREN
+			attributes=child
+		/>
+	</for>
 </if>
 <else>
 	<h1 class="indicator">No children</h1>
@@ -41,5 +46,9 @@ export interface Input {
 	.indicator {
 		text-align: center;
 		margin-left: 0;
+	}
+
+	.page-buttons {
+		margin-bottom: 2vh;
 	}
 </style>
