@@ -11,7 +11,7 @@ export enum AssetTypes {
 
 export const AssetFields = {
   [AssetTypes.UNMARRIED_CHILDREN]: [
-    {label: "Name", inputName: "Name"},
+    {label: "Name", subtext: "Unmarried child below eighteen (18) years of age living in declarant's household", inputName: "Name"},
     {label: "Date of Birth", inputName: "DoB"},
     {label: "Age", inputName: "Age"}
   ],

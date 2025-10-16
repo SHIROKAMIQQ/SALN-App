@@ -9,18 +9,24 @@ import Relatives from "./Relatives.marko";
 // TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
 <let/tmpData = {
   personalInfo: {
-    filingType: -1, // 0: Not Applicable, 1: Joint, 2: Separate
-    declarantName: "test name",
-    address: "",
-    position: "",
-    agency: "",
-    officeAddress: "",
+    filingType: 0, // 0: Not Applicable, 1: Joint, 2: Separate
+    declarantName: "Guiang, Miguel, A.",
+    address: "a",
+    position: "a",
+    agency: "a",
+    officeAddress: "a",
     spouseName: "",
     spousePosition: "",
     spouseAgency: "",
     spouseOfficeAddress: "",
   },
-  children: [],
+  children: [
+    {
+      Name: "Child1",
+      DoB: new Date(2005, 10, 8),
+      Age: 20 
+    }
+  ],
   realProperties: [],
   personalProperties: [],
   liabilities: [],
@@ -48,7 +54,16 @@ import Relatives from "./Relatives.marko";
   />
 </if>
 <else if=(currentPage === 2)>
-  <Children />
+  <h1>Children</h1>
+  <Children 
+    children = tmpData.children
+    updateFormData (newChildrenList) {
+      tmpData = {...tmpData, children: newChildrenList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
 </else>
 <else if=(currentPage === 3)>
   <RealProperties />
@@ -102,7 +117,7 @@ import Relatives from "./Relatives.marko";
     color: black;
   }
 
-  h1 {
+  h1, .subheader {
     margin-left: 10%;
   }
 

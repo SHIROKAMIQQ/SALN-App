@@ -1,0 +1,45 @@
+import { AssetTypes } from "../../utils/assetTypes.ts";
+
+export interface Input {
+	children: any[];
+	updateFormData: (newChildren: any) => void;
+	updateFormValid: (newFormValid: boolean) => void;
+}
+
+<let/showModal = false />
+
+<div class="page-buttons">
+	<button class="nextButton" 
+		onClick() {
+			showModal = true;
+		}
+	>
+			Add Asset
+	</button>
+</div>
+
+<if=(input.children.length > 0)>
+	<p>Has Child</p>
+</if>
+<else>
+	<h1 class="indicator">No children</h1>
+</else>
+
+<if=(showModal)>
+	<AssetModal
+		type=AssetTypes.UNMARRIED_CHILDREN
+		showModalChange(o) {
+			showModal = o;
+		}
+		addToList (obj) {
+			input.updateFormData([...input.children, obj]);
+		}
+	/>
+</if>
+
+<style>
+	.indicator {
+		text-align: center;
+		margin-left: 0;
+	}
+</style>
