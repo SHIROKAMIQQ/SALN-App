@@ -222,6 +222,55 @@
   background-color: #1C4963;  
 }
 
+/* DeleteAssetModal*/
+
+.delete-modal {
+  background-color: #F9FAFB;
+  border: 7px solid #B22222;
+  border-radius: 1em;
+  padding: 2%;
+  width: 50%;
+  max-height: 80%;
+  max-width: 700px;
+  min-width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  overflow-y: auto;
+}
+
+.cancelDeleteButton, .deleteModalButton {
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-size: 1em;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  width: 25vh;
+  transition: all 0.2s ease-in-out;
+}
+
+.cancelDeleteButton {
+  background-color: #FFFFFF;
+  border: 3px solid #B22222;
+  color: black;
+}
+
+.cancelDeleteButton:hover {
+  background-color: #CCC;
+}
+
+.deleteModalButton {
+  background-color: #B22222;
+  color: white;
+}
+
+.deleteModalButton:hover {
+  background-color: #E03A3A;
+}
 
 @media (max-width: 600px) {
   .card {
