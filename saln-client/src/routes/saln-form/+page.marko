@@ -9,8 +9,8 @@ import Relatives from "./Relatives.marko";
 // TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
 <let/tmpData = {
   personalInfo: {
-    filingType: 0, // 0: Not Applicable, 1: Joint, 2: Separate
-    declarantName: "",
+    filingType: -1, // 0: Not Applicable, 1: Joint, 2: Separate
+    declarantName: "test name",
     address: "",
     position: "",
     agency: "",
@@ -34,9 +34,6 @@ import Relatives from "./Relatives.marko";
 <script>
   console.log(tmpData);
 </script>
-
-<p>filingType: ${tmpData.personalInfo.filingType}</p>
-<p>declarantName: ${tmpData.personalInfo.declarantName}</p>
 
 <if=(currentPage === 1)>
   <h1>Personal Information</h1>

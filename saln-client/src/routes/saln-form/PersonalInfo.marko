@@ -3,81 +3,106 @@ export interface Input {
 	updateFormData: (personalInfo: any) => void;
 }
 
+<script>
+	console.log(input.personalInfo);
+	console.log(input.personalInfo.filingType);
+</script>
+
 // TODO: use value attribute of Card when Editing SALN.
 <div>
+	<let/filingType = input.personalInfo.filingType />
 	<ChoiceCard 
 		label="Filing Type"
 		subtext="Husband and wife who are both public officials and employees may file the required statements jointly or sepatately."
 		name="FilingType"
 		options=["Joint Filing", "Separate Filing", "Not Applicable"]
+		value=filingType
 		updateAnswer(answer) {
 			input.updateFormData({...input.personalInfo, filingType: answer});
 		}
 	/>
+	<let/declarantName = input.personalInfo.declarantName />
 	<TextCard
 		label="Declarant"
 		subtext="Last Name, First Name, M.I."
 		placeholder="Last Name, First Name, M.I."
+		value=declarantName
 		updateAnswer(answer) {
 			input.updateFormData({...input.personalInfo, declarantName: answer});
 		}
 	/>
+	<let/address = input.personalInfo.address />
 	<TextCard
 		label="Address"
 		placeholder="Address"
+		value=address
 		updateAnswer(answer) {
 			input.updateFormData({...input.personalInfo, address: answer});
 		}
 	/>
+	<let/position = input.personalInfo.position />
 	<TextCard
 		label="Position"
 		placeholder="Position"
+		value=position
 		updateAnswer(answer) {
 			input.updateFormData({...input.personalInfo, position: answer});
 		}
 	/>
+	<let/agency = input.personalInfo.agency />
 	<TextCard 
 		label="Agency/Office"
 		placeholder="Agency/Office"
+		value=agency
 		updateAnswer(answer) {
 			input.updateFormData({...input.personalInfo, agency: answer});
 		}
 	/>
+	<let/officeAddress = input.personalInfo.officeAddress />
 	<TextCard 
 		label="Office Address"
 		placeholder="Office Address"
+		value=officeAddress
 		updateAnswer(answer) {
 			input.updateFormData({...input.personalInfo, officeAddress: answer});
 		}
 	/> 
+	<let/spouseName = input.personalInfo.spouseName />
 	<TextCard 
 		label="Spouse"
 		subtext="Last Name, First Name, M.I. | Leave BLANK if unapplicable."
 		placeholder="Last Name, First Name, M.I."
+		value=spouseName
 		updateAnswer(answer) {
 			input.updateFormData({...input.personalInfo, spouseName: answer});
 		}
 	/>
+	<let/spousePosition = input.personalInfo.spousePosition />
 	<TextCard 
 		label="Position"
 		subtext="of Spouse | Leave BLANK if unapplicable"
 		placeholder="Position of Spouse"
+		value=spousePosition
 		updateAnswer(answer) {
 			input.updateFormData({...input.personalInfo, spousePosition: answer});
 		}
 	/>
+	<let/spouseAgency = input.personalInfo.spouseAgency />
 	<TextCard 
 		label="Agency/Office"
 		subtext="of Spouse | Leave BLANK if unapplicable"
 		placeholder="Agency/Office of Spouse"
+		value=spouseAgency
 		updateAnswer(answer) {
 			input.updateFormData({...input.personalInfo, spouseAgency: answer});
 		}
 	/>
+	<let/spouseOfficeAddress = input.personalInfo.spouseOfficeAddress />
 	<TextCard 
 		label="Office Address"
 		subtext="of Spouse | Leave BLANK if unapplicable"
 		placeholder="Office Address of Spouse"
+		value=spouseOfficeAddress
 		updateAnswer(answer) {
 			input.updateFormData({...input.personalInfo, spouseOfficeAddress: answer});
 		}

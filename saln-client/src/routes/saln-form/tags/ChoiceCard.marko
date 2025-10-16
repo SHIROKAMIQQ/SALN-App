@@ -6,6 +6,7 @@ export interface Input {
     subtext?: string;
     name: string;
     options: string[];
+	value: number;
     updateAnswer: (answer: number) => void;
 }
 
@@ -24,14 +25,27 @@ export const answerNum = {
 		<for|option| of=input.options>
 			<div>
 				<label style="margin-right: 1rem;">
-					<input
-					type="radio"
-					name=input.name
-					value=option
-					onInput(event) {
-						input.updateAnswer(answerNum[event.target.value]);
-					}
-					/>
+					<if=(input.value === answerNum[option])>
+						<input
+						type="radio"
+						name=input.name
+						value=option
+						onInput(event) {
+							input.updateAnswer(answerNum[event.target.value]);
+						}
+						checked
+						/>
+					</if>
+					<else>
+						<input
+						type="radio"
+						name=input.name
+						value=option
+						onInput(event) {
+							input.updateAnswer(answerNum[event.target.value]);
+						}
+						/>
+					</else>
 					${option}
 				</label>
 			</div>
