@@ -39,6 +39,44 @@ export interface Input {
 		addToList (obj) {
 			input.updateFormData([...input.children, obj]);
 		}
+		validateData (obj) {
+			if (!obj.Name) {
+				console.log("Name fails.");
+				return false;
+			}
+
+			if (!obj.DoB) {
+				console.log("DoB fails.");
+				return false;
+			}
+
+			const today = new Date();
+			const dob = new Date(obj.DoB);
+			let age = today.getFullYear() - dob.getFullYear();
+			const m = today.getMonth() - dob.getMonth();
+			if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+			console.log(`Age ${age}`);
+			if (age >= 18 || today < dob) {
+				console.log("DoB fails.");
+				return false;
+			}
+
+			if (!obj.Age) {
+				console.log("Age fail.");
+				return false;
+			}
+
+			obj.Age = Number(obj.Age);
+			if (
+				obj.Age >= 18 ||
+				obj.Age !== age
+			) {
+				console.log("Age fails.");
+				return false;
+			}
+
+			return true;
+		}
 	/>
 </if>
 
