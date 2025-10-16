@@ -1,0 +1,42 @@
+import "./style.css";
+import { AssetTypes, AssetFields } from "../../../utils/assetTypes.js";
+
+// labels[] {
+//     label: String;
+//     subtext?: String;
+// }
+
+export interface Input {
+  type: AssetTypes;
+  showModalChange: (showModal: boolean) => void; 
+}
+
+<let/showModal:=input.showModal>
+
+<div class="modal-overlay">
+  <div class="asset-modal">
+    <div class="asset-fields">
+      <form class="asset-fields">
+        <for|field| of=AssetFields[input.type]>
+          <div class="field">
+            <div class="field-header">
+              <b class="field-label">${field.label}</b>
+              <if=field.subtext>
+                <span class="field-subtext">${field.subtext}</span>
+              </if>
+            </div>
+            <input class="field-input"
+              type="text"
+              name=field.inputName
+              placeholder=field.label 
+            />
+          </div>
+        </for>
+      </form>
+    </div>
+    <div class="asset-modal-buttons">
+      <button class="cancelButton" onClick() {input.showModalChange?.(false)}>Cancel</button>
+      <button class="addButton" onClick() {input.showModalChange?.(false)}>Add</button>
+    </div> 
+  </div>
+</div>

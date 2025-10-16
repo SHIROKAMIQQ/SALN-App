@@ -1,0 +1,41 @@
+import "./style.css";
+
+export interface Input {
+    showModalChange: (showModal: boolean) => void; 
+}
+<let/showModal:=input.showModal>
+
+
+<div class = "modal-overlay">
+    <div class = "help-modal">
+    <div class = "title">Sample JSON file format</div>
+    <button class="help-back" onClick() {input.showModalChange?.(false)}>Back</button>
+    <pre class="json">
+    {
+  <span class="key">"personalInfo"</span>: {
+    <span class="key">"filingType"</span>: <span class="number">0</span>, <span class="comment">// 0 for Joint Filing,1 for Separate Filing</span> 
+    <span class="key">"familyName"</span>: <span class="string">""</span>,
+    <span class="key">"firstName"</span>: <span class="string">""</span>,
+    <span class="key">"mi"</span>: <span class="string">""</span>,
+    <span class="key">"address"</span>: <span class="string">""</span>,
+    <span class="key">"position"</span>: <span class="string">""</span>,
+    <span class="key">"agency"</span>: <span class="string">""</span>,
+    <span class="key">"officeAddress"</span>: <span class="string">""</span>,
+    <span class="key">"spouseFamilyName"</span>: <span class="string">""</span>,
+    <span class="key">"spouseFirstName"</span>: <span class="string">""</span>,
+    <span class="key">"spouseMI"</span>: <span class="string">""</span>,
+    <span class="key">"spousePosition"</span>: <span class="string">""</span>,
+    <span class="key">"spouseAgency"</span>: <span class="string">""</span>,
+    <span class="key">"spouseOfficeAddress"</span>: <span class="string">""</span>
+  },
+  <span class="key">"children"</span>: [],
+  <span class="key">"realProperties"</span>: [],
+  <span class="key">"personalProperties"</span>: [],
+  <span class="key">"liabilities"</span>: [],
+  <span class="key">"connections"</span>: [],
+  <span class="key">"relatives"</span>: []
+    }
+        </pre>
+  
+    </div>
+</div>

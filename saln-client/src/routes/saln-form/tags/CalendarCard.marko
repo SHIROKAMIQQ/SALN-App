@@ -1,0 +1,18 @@
+import BaseCard from "./BaseCard.marko";
+import "./style.css";
+
+
+
+<BaseCard>
+    <div class="card-header">
+        <span class="card-label">${input.label}</span>
+        <span class="card-subtext"> ${input.subtext}</span>
+    </div>
+    <div class="card-content">
+        <input 
+            type="date"
+            class="date-input"
+            value=input.value
+        />
+    </div>
+</BaseCard>

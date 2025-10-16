@@ -1,75 +1,25 @@
-<div class="container">
+import "./tags/style.css";
 
-    <button type = "button" class = "uploadJSON">
-      Upload JSON file here
+
+<let/openModal = false> 
+<let/helpModal = false>
+<body>
+<div class="container">
+    <button class = "uploadJSON" onClick() { openModal = true }>
+      Upload JSON File Here
     </button>
-    <button type = "button" class = "help">
+    <if=openModal>
+      <uploadModal showModal:=openModal/> 
+    </if>
+    <button class = "help" onClick() { helpModal = true }>
       Help
     </button>
+    <if = helpModal>
+      <helpModal showModal:=helpModal/> 
+    </if>
     <div class="button-bar">
         <button class="cancel">Cancel</button>
         <button class="upload">Upload</button>
     </div>
 </div>
-//<mouse-mask/>
-
-<style>
-  .container {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(1em, 2vw, 2em);
-    padding:1em;
-    top: 100px;
-    width: 50vw;
-    height: 50vh;
-    border-radius: 20px;
-    border: 10px solid #0D9488;
-  }
-  .uploadJSON{
-    border-radius: 20px;
-    background-color:#161619;
-    color: #F9FAFB;
-    text-align: center;
-    width: 70vh;
-    height: 10vh;
-    font-size: 5vh;
-  }
-  .help{
-    position: absolute; 
-    border-radius: 50px;
-    background-color: #1F3B4D;
-    font-weight: bold;
-    color: #FFFFFF;
-    top: 2vh;           /* distance from the top edge */
-    right: 10px; 
-    font-weight: 700px;
-    font-size: 3vh;
-    text-align: center; 
-    width:15vh;
-    height:5vh;
-  }
-  .button-bar {
-  position: absolute;
-  bottom: 5vh;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 3vw; 
-    }
-
-    .cancel {
-    border-radius: 50px;
-    padding: 1em 2em;
-    font-weight: bold;
-    }
-    .upload{
-    border-radius: 50px;
-    padding: 1em 2em;
-    background-color: #0D9488;
-    font-size: 2vh;
-    color:#FFFFFF;
-    font-weight: bold;
-    }
-</style>
+</body>

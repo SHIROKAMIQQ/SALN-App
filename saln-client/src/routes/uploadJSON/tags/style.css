@@ -1,0 +1,181 @@
+  html,
+  body {
+  font-family: inter;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  background: #E5E5E0;
+  }
+  .container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1em, 2vw, 2em);
+    padding:1em;
+    top: 100px;
+    width: 50vw;
+    height: 50vh;
+    border-radius: 20px;
+    border: 10px solid #0D9488;
+  }
+  .uploadJSON{
+    border-radius: 20px;
+    background-color:#161619;
+    color: #F9FAFB;
+    text-align: center;
+    width: 70vh;
+    height: 10vh;
+    font-size: 5vh;
+  }
+  .help{
+    position: absolute; 
+    border-radius: 50px;
+    background-color: #1F3B4D;
+    font-weight: bold;
+    color: #FFFFFF;
+    top: 2vh;         
+    right: 10px; 
+    font-weight: 700px;
+    font-size: 3vh;
+    text-align: center; 
+    width:15vh;
+    height:5vh;
+  }
+  .button-bar {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3vw; 
+    }
+
+    .cancel,.cancelUpload {
+    border-radius: 50px;
+    padding: 1em 2em;
+    font-weight: bold;
+    }
+    .upload,.submitUpload{
+    border-radius: 50px;
+    padding: 1em 2em;
+    background-color: #0D9488;
+    font-size: 2vh;
+    color:#FFFFFF;
+    font-weight: bold;
+    }
+
+
+
+
+/* Upload Modal*/
+
+.modal-overlay {
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal {
+  position:absolute;
+  background: #fff;
+  border-radius: 16px;
+  font-size: clamp(1em, 2vw, 2em);
+  border-radius: 20px;
+  width: 30vw;
+  height: 30vh;
+  border: 10px solid #0D9488;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  padding: 24px;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Upload title */
+.uploadTitle {
+  position:absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+} 
+
+.dragandDrop {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px dashed #888;
+  width:80%;
+  border-radius: 12px;
+  padding: 40px 20px;
+  color: #666;
+  font-size: 1rem;
+  background-color: #fafafa;
+  transition: all 0.2s ease;
+}
+
+
+/* Help Modal*/
+.help-modal{
+  position:absolute;
+  background: #fff;
+  border-radius: 16px;
+  top:10%;
+  border-radius: 20px;
+  width: 60vw;
+  height: 60vh;
+  border: 10px solid #0D9488;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  padding: 24px;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+  max-width: 1000px;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.title {
+  font-size: 1em;
+  font-family: inter;
+  font-weight: 500;
+  text-align: left;
+  color: #1e1e1e;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding-bottom: 8px;
+}
+.JSON {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.50em;
+  line-height: 1.5em;
+    }
+.help-back{
+  position:absolute;
+  top:5%;
+  right:2%;
+  border-radius: 50px;
+  padding: 1em 2em;
+  font-size: 2vh;
+  font-weight: bold;
+}
+.string { color: #ce9178; }
+.number { color: #b5cea8; }
+.key { color: #9cdcfe; }
+.boolean { color: #569cd6; }
+.comment {color:#6A9955}

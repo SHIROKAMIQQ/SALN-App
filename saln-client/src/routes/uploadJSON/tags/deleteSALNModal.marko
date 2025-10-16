@@ -1,0 +1,34 @@
+import "./style.css";
+
+export interface Input{
+    salnID: number;
+    dateFilled: Date;
+    name: String;
+    position: String;
+    agencyorOffice: String;
+    officeAddress: String;
+    showModalChange: (showDeleteModal: boolean) => void; 
+}
+<let/showDeleteModal:=input.showDeleteModal>
+
+<div class = ".modal-overlay">
+    <div class = "modal">
+    <div class = "title">Are you sure you want to delete</div>
+    <div class = "SALN,Date">
+        <p>${input.salnID}</p>
+        <p>${input.dateFilled}</p>
+    </div>
+    <div class = "SALNDetails">
+        <p>${input.name}</p>
+        <p>${input.position}</p>
+        <p>${input.agencyorOffice}</p>
+        <p>${input.officeAddress}</p>
+    </div>
+    <div class = "button-bar">
+        <button class="noDelete" onClick() {input.showModalChange?.(false)}>No</button>
+        <button class="Delete" onClick() {input.showModalChange?.(false)}>Delete</button>
+    </div>
+    </div>
+
+</div>
+

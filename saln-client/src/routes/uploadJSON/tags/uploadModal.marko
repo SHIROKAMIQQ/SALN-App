@@ -1,0 +1,20 @@
+import "./style.css";
+
+
+export interface Input {
+    showModalChange: (showModal: boolean) => void; 
+}
+<let/showModal:=input.showModal>
+
+<div class="modal-overlay">
+    <div class = "modal">
+        <div class = "uploadTitle">Upload File</div>
+        <div class = "dragandDrop">
+            Drag and Drop JSON File here
+        </div>
+        <div class = "button-bar">
+        <button class="cancelUpload" onClick() {input.showModalChange?.(false)}>Cancel</button>
+        <button class="submitUpload" onClick() {input.showModalChange?.(false)}>Submit</button>
+        </div>
+    </div>
+</div>

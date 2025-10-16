@@ -1,0 +1,21 @@
+import BaseCard from "./BaseCard.marko";
+import "./style.css";
+
+export interface Input {
+    label: String;
+    subtext?: String;
+    placeholder: String;
+    value?: String;
+}
+
+<BaseCard>
+    <div class="card-header">
+        <span class="card-label">${input.label}</span>
+        <span class="card-subtext"> ${input.subtext}</span>
+    </div>
+    <input class="card-input" 
+        type="text" 
+        placeholder=input.placeholder 
+        value=input.value 
+    />
+</BaseCard>

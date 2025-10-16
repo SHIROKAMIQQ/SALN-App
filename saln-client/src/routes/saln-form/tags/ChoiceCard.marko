@@ -1,0 +1,30 @@
+import BaseCard from "./BaseCard.marko";
+import "./style.css";
+
+export interface Input {
+    label: String;
+    subtext?: String;
+    name: String;
+    options: String[];
+}
+
+<BaseCard>
+    <div class="card-header">
+        <span class="card-label">${input.label}</span>
+        <span class="card-subtext"> ${input.subtext}</span>
+    </div>
+    <div class="choice-container">
+        <for|option| of=input.options>
+            <div>
+                <label style="margin-right: 1rem;">
+                    <input
+                    type="radio"
+                    name=input.name
+                    value=option
+                    />
+                    ${option}
+                </label>
+            </div>
+        </for>
+    </div>
+</BaseCard>

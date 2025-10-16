@@ -74,7 +74,7 @@ A lot of this part will be changed, but for now, we will just avoid exceptions w
 ``` sql
 CREATE DATABASE saln_app_DB;
 CREATE USER 'saln_user'@'localhost' IDENTIFIED BY 'saln_password';
-GRANT ALL PRIVILEGES ON saln.* TO 'saln_user'@'localhost';
+GRANT ALL PRIVILEGES ON saln_app_DB.* TO 'saln_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
 

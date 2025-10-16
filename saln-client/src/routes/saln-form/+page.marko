@@ -1,0 +1,27 @@
+import { AssetTypes } from "../../utils/assetTypes.ts";
+
+<div class="container">
+  <TextCard label="Text Input Example" subtext="Sub Text" placeholder="Enter text input" value="Text Input"/>
+  <ChoiceCard label="Choice Card Sample" subtext="Sub Text" name="choices" options=["ChoiceA", "ChoiceB", "ChoiceC"] />
+  <CalendarCard label="Date Today" subtext="Sub Text" />
+  <DisplayCard type=AssetTypes.CONNECTION attributes={
+    Key1: "Value1",
+    Key2: "Value2",
+    Key3: "Value2",
+    Key4: "Value4",
+    Key5: "Value5",
+    Key6: "Value6",
+    Key7: "Value7",
+    Key8: "Value8",
+  } />
+</div>
+
+<let/openModal=false>
+
+<button onClick() { openModal = true }>
+  Open Modal
+</button>
+
+<if=openModal>
+  <AssetModal type=AssetTypes.CONNECTION showModal:=openModal/> 
+</if>
