@@ -6,16 +6,9 @@ export interface Input {
     subtext?: string;
     name: string;
     options: string[];
-	value: number;
+	value: string;
     updateAnswer: (answer: number) => void;
 }
-
-export const answerNum = {
-	"Not Applicable": 0,
-	"Joint Filing": 1,
-	"Separate Filing": 2
-}
-
 <BaseCard>
 	<div class="card-header">
 		<span class="card-label">${input.label}</span>
@@ -25,13 +18,13 @@ export const answerNum = {
 		<for|option| of=input.options>
 			<div>
 				<label style="margin-right: 1rem;">
-					<if=(input.value === answerNum[option])>
+					<if=(input.value === option)>
 						<input
 						type="radio"
 						name=input.name
 						value=option
 						onInput(event) {
-							input.updateAnswer(answerNum[event.target.value]);
+							input.updateAnswer(event.target?.value);
 						}
 						checked
 						/>
@@ -42,7 +35,7 @@ export const answerNum = {
 						name=input.name
 						value=option
 						onInput(event) {
-							input.updateAnswer(answerNum[event.target.value]);
+							input.updateAnswer(event.target?.value);
 						}
 						/>
 					</else>

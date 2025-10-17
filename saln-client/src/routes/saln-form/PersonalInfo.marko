@@ -9,7 +9,7 @@ export interface Input {
 <script>
 	let tmpValid = true;
 
-	if (!([0, 1, 2].includes(filingType))) {
+	if (!(["Not Applicable", "Joint Filing", "Separate Filing"].includes(filingType))) {
 		tmpValid = false;
 		console.log("filingType failed.");
 	}

@@ -7,9 +7,11 @@ import Connections from "./Connections.marko";
 import Relatives from "./Relatives.marko";
 
 // TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
+// For tmpData, all fields would be strings for readability.
+// But, they will be converted into appropriate data types once stored into the database.
 <let/tmpData = {
   personalInfo: {
-    filingType: 0, // 0: Not Applicable, 1: Joint, 2: Separate
+    filingType: "", // 0: Not Applicable, 1: Joint, 2: Separate
     declarantName: "Guiang, Miguel, A.",
     address: "a",
     position: "a",
@@ -23,8 +25,8 @@ import Relatives from "./Relatives.marko";
   children: [
     {
       Name: "Child1",
-      DoB: '2025-10-16',
-      Age: 20 
+      DoB: '2007-10-16',
+      Age: '18'
     }
   ],
   realProperties: [],

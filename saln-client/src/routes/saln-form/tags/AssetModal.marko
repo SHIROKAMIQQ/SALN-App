@@ -39,11 +39,10 @@ export interface Input {
               </if>
             </div>
             <input class="field-input"
-              type=field.type
+              type="text"
               name=field.inputName
               placeholder=field.label
               value=input.attributes? input.attributes[field.inputName] : "" 
-              min=0
             />
           </div>
         </for>
