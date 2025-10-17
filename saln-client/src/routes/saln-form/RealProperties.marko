@@ -1,4 +1,4 @@
-import { AssetTypes, costPattern, yearPattern } from "../../utils/assetTypes.ts";
+import { AssetTypes, costPattern, yearPattern, commaCost } from "../../utils/assetTypes.ts";
 
 export interface Input {
 	realProperties: any[];
@@ -31,6 +31,7 @@ export interface Input {
 		console.log("AssessedValue fail.");
 		return false; 
 	}
+	obj.AssessedValue = commaCost(obj.AssessedValue);
 
 	if (
 		!obj.CurrentFairMarketValue ||
@@ -39,6 +40,7 @@ export interface Input {
 		console.log("CurrentFairMarketValue fail.");
 		return false;
 	}
+	obj.CurrentFairMarketValue = commaCost(obj.CurrentFairMarketValue);
 
 	if (
 		!obj.AcquisitionYear ||
@@ -66,6 +68,7 @@ export interface Input {
 		console.log("AcquisitionCost fail.");
 		return false;
 	}
+	obj.AcquisitionCost = commaCost(obj.AcquisitionCost);
 
 	return true;
 } />

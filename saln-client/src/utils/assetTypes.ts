@@ -164,6 +164,16 @@ export const agePattern = /^(0|[1-9][0-9]{0,2})$/
 
 export const costPattern = /^(\d{1,3}(,\d{3})*|\d+)(\.\d{1,2})?$/
 
+export function commaCost(costString: string) {
+  const numericValue = parseFloat(costString.replace(/,/g, ""));
+  if (isNaN(numericValue)) return "";
+
+  return numericValue.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
 export const yearPattern = /^\d{4}$/
 
 // Optional utility if you need a list
