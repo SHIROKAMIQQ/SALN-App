@@ -1,8 +1,8 @@
-import { AssetTypes } from "../../utils/assetTypes.ts";
+import { AssetTypes, agePattern } from "../../utils/assetTypes.ts";
 
 export interface Input {
 	children: any[];
-	updateFormData: (newChildren: any) => void;
+	updateFormData: (newChildren: any[]) => void;
 	updateFormValid: (newFormValid: boolean) => void;
 }
 
@@ -21,24 +21,27 @@ export interface Input {
 
 	const today = new Date();
 	const dob = new Date(obj.DoB);
-	let age = today.getFullYear() - dob.getFullYear();
+	let dobage = today.getFullYear() - dob.getFullYear();
 	const m = today.getMonth() - dob.getMonth();
-	if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
-	console.log(`Age ${age}`);
-	if (age >= 18 || today < dob) {
+	if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) dobage--;
+	console.log(`Age ${dobage}`);
+	if (dobage >= 18 || today < dob) {
 		console.log("DoB fails.");
 		return false;
 	}
 
-	if (!obj.Age) {
+	if (
+		!obj.Age ||
+		!agePattern.test(obj.Age)
+	) {
 		console.log("Age fail.");
 		return false;
 	}
 
-	obj.Age = Number(obj.Age);
+	const age = Number(obj.Age);
 	if (
-		obj.Age >= 18 ||
-		obj.Age !== age
+		age >= 18 ||
+		age !== age
 	) {
 		console.log("Age fails.");
 		return false;
@@ -57,7 +60,7 @@ export interface Input {
 			showModal = true;
 		}
 	>
-			Add Asset
+			Add Child
 	</button>
 </div>
 
@@ -101,14 +104,3 @@ export interface Input {
 		}
 	/>
 </if>
-
-<style>
-	.indicator {
-		text-align: center;
-		margin-left: 0;
-	}
-
-	.page-buttons {
-		margin-bottom: 2vh;
-	}
-</style>

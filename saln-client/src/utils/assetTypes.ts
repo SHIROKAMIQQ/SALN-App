@@ -50,20 +50,21 @@ export const AssetFields = {
     },
     {
       label: "Assessed Value", 
-      subtext: "(As found in the Tax Declaration of Real Property)", 
+      subtext: "(As found in the Tax Declaration of Real Property) | At most 2 decimal places", 
       inputName: "AssessedValue",
-      type: "number"
+      type: "text"
     },
     {
       label: "Current Fair Market Value", 
-      subtext: "(As found in the Tax Declaration of Real Property)", 
+      subtext: "(As found in the Tax Declaration of Real Property) | At most 2 decimal places", 
       inputName: "CurrentFairMarketValue",
-      type: "number"
+      type: "text"
     },
     {
       label: "Acquisition Year", 
+      subtext: "YYYY",
       inputName: "AcquisitionYear",
-      type: "number"
+      type: "text"
     },
     {
       label: "Acquisition Mode", 
@@ -72,6 +73,7 @@ export const AssetFields = {
     },
     {
       label: "Acquisition Cost", 
+      subtext: "At most 2 decimal places",
       inputName: "AcquisitionCost",
       type: "number"
     }
@@ -155,6 +157,24 @@ export const AssetFields = {
     }
   ]
 };
+
+export const namePattern = /^[A-Za-z]+(?:\s[A-Za-z])?,\s[A-Za-z]+(?:\s[A-Za-z])?,\s[A-Za-z]\.$/
+
+export const agePattern = /^(0|[1-9][0-9]{0,2})$/
+
+export const costPattern = /^(\d{1,3}(,\d{3})*|\d+)(\.\d{1,2})?$/
+
+export function commaCost(costString: string) {
+  const numericValue = parseFloat(costString.replace(/,/g, ""));
+  if (isNaN(numericValue)) return "";
+
+  return numericValue.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+export const yearPattern = /^\d{4}$/
 
 // Optional utility if you need a list
 export const ASSET_TYPE_LIST = Object.values(AssetTypes);

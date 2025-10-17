@@ -7,9 +7,11 @@ import Connections from "./Connections.marko";
 import Relatives from "./Relatives.marko";
 
 // TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
+// For tmpData, all fields would be strings for readability.
+// But, they will be converted into appropriate data types once stored into the database.
 <let/tmpData = {
   personalInfo: {
-    filingType: 0, // 0: Not Applicable, 1: Joint, 2: Separate
+    filingType: "Not Applicable", // 0: Not Applicable, 1: Joint, 2: Separate
     declarantName: "Guiang, Miguel, A.",
     address: "a",
     position: "a",
@@ -23,8 +25,8 @@ import Relatives from "./Relatives.marko";
   children: [
     {
       Name: "Child1",
-      DoB: '2025-10-16',
-      Age: 20 
+      DoB: '2007-10-16',
+      Age: '18'
     }
   ],
   realProperties: [],
@@ -66,7 +68,16 @@ import Relatives from "./Relatives.marko";
   />
 </else>
 <else if=(currentPage === 3)>
-  <RealProperties />
+  <h1>Real Properties</h1>
+  <RealProperties 
+    realProperties = tmpData.realProperties
+    updateFormData (newPropertyList) {
+      tmpData = {...tmpData, realProperties: newPropertyList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
 </else>
 <else if=(currentPage === 4)>
   <PersonalProperties />
@@ -121,12 +132,18 @@ import Relatives from "./Relatives.marko";
     margin-left: 10%;
   }
 
+  .indicator {
+		text-align: center;
+		margin-left: 0;
+	}
+
   .page-buttons {
     flex-wrap: nowrap;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     width: 85%;
+    margin-bottom: 2vh;
   }
 
   .prevButton, .nextButton {
