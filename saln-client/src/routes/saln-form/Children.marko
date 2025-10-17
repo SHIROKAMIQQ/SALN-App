@@ -23,7 +23,7 @@ export interface Input {
 	const dob = new Date(obj.DoB);
 	let dobage = today.getFullYear() - dob.getFullYear();
 	const m = today.getMonth() - dob.getMonth();
-	if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+	if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) dobage--;
 	console.log(`Age ${dobage}`);
 	if (dobage >= 18 || today < dob) {
 		console.log("DoB fails.");
