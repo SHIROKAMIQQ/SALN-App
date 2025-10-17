@@ -2,7 +2,7 @@ import { AssetTypes } from "../../utils/assetTypes.ts";
 
 export interface Input {
 	children: any[];
-	updateFormData: (newChildren: any) => void;
+	updateFormData: (newChildren: any[]) => void;
 	updateFormValid: (newFormValid: boolean) => void;
 }
 
@@ -101,14 +101,3 @@ export interface Input {
 		}
 	/>
 </if>
-
-<style>
-	.indicator {
-		text-align: center;
-		margin-left: 0;
-	}
-
-	.page-buttons {
-		margin-bottom: 2vh;
-	}
-</style>
