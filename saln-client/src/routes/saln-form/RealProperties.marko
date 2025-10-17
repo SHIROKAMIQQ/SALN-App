@@ -1,0 +1,71 @@
+import { AssetTypes, costPattern, yearPattern } from "../../utils/assetTypes.ts";
+
+export interface Input {
+	realProperties: any[];
+	updateFormData: (newRealProperties: any[]) => void;
+	updateFormValid: (newFormValid: boolean) => void;
+}
+
+<let/showModal = false />
+
+<let/checkData = (obj: any) => {
+    if (!obj.Description) {
+        console.log("Description fail.");
+        return false;
+    }
+
+    if (!obj.Kind) {
+        console.log("Kind fail.");
+        return false;
+    }
+
+    if (!obj.ExactLocation) {
+        console.log("ExactLocation fail.");
+        return false;
+    }
+    
+    if (
+        !obj.AssessedValue || 
+        !costPattern.test(obj.AssessedValue)
+    ) {
+        console.log("AssessedValue fail.");
+        return false; 
+    }
+
+    if (
+        !obj.CurrentFairMarketValue ||
+        !costPattern.test(obj.CurrentFairMarketValue)
+    ) {
+        console.log("CurrentFairMarketValue fail.");
+        return false;
+    }
+
+    if (
+        !obj.AcquisitionYear ||
+        !yearPattern.test(obj.AcquisitionYear)
+    ) {
+        console.log("AcquisitionYear fail.");
+        return false;
+    }
+
+    const today = new Date();
+    const acqyear = new Date(obj.AcquisitionYear);
+    if (acqyear.getFullYear() > today.getFullYear()) {
+        console.log("AquisitionYear fail.");
+    }
+
+    if (!obj.AcquisitionMode) {
+        console.log("AcquisitionMode fail.");
+        return false;
+    }
+
+    if (
+        !obj.AcquisitionCost ||
+        !costPattern.test(obj.AcquisitionCost)
+    ) {
+        console.log("AcquisitionCost fail.");
+        return false;
+    }
+
+    return true;
+} />
