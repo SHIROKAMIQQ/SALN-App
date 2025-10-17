@@ -63,7 +63,7 @@ export const AssetFields = {
     {
       label: "Acquisition Year", 
       inputName: "AcquisitionYear",
-      type: "number"
+      type: "text"
     },
     {
       label: "Acquisition Mode", 
@@ -155,6 +155,10 @@ export const AssetFields = {
     }
   ]
 };
+
+export const namePattern = /^[A-Za-z]+(?:\s[A-Za-z])?,\s[A-Za-z]+(?:\s[A-Za-z])?,\s[A-Za-z]\.$/
+
+export const costPattern = /^(\d{1,3}(,\d{3})*|\d+)(\.\d{1,2})?$/
 
 // Optional utility if you need a list
 export const ASSET_TYPE_LIST = Object.values(AssetTypes);

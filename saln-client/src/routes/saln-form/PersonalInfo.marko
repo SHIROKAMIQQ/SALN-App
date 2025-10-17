@@ -1,3 +1,5 @@
+import { namePattern } from "../../utils/assetTypes.ts";
+
 export interface Input {
 	personalInfo: any;
 	updateFormData: (personalInfo: any) => void;
@@ -6,7 +8,6 @@ export interface Input {
 
 <script>
 	let tmpValid = true;
-	const namePattern = /^[A-Za-z]+(?:\s[A-Za-z])?,\s[A-Za-z]+(?:\s[A-Za-z])?,\s[A-Za-z]\.$/
 
 	if (!([0, 1, 2].includes(filingType))) {
 		tmpValid = false;
