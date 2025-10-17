@@ -50,18 +50,19 @@ export const AssetFields = {
     },
     {
       label: "Assessed Value", 
-      subtext: "(As found in the Tax Declaration of Real Property)", 
+      subtext: "(As found in the Tax Declaration of Real Property) | At most 2 decimal places", 
       inputName: "AssessedValue",
       type: "text"
     },
     {
       label: "Current Fair Market Value", 
-      subtext: "(As found in the Tax Declaration of Real Property)", 
+      subtext: "(As found in the Tax Declaration of Real Property) | At most 2 decimal places", 
       inputName: "CurrentFairMarketValue",
       type: "text"
     },
     {
       label: "Acquisition Year", 
+      subtext: "YYYY",
       inputName: "AcquisitionYear",
       type: "text"
     },
@@ -72,6 +73,7 @@ export const AssetFields = {
     },
     {
       label: "Acquisition Cost", 
+      subtext: "At most 2 decimal places",
       inputName: "AcquisitionCost",
       type: "number"
     }
