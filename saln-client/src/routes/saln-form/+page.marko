@@ -155,7 +155,15 @@ import Relatives from "./Relatives.marko";
     </button>
   </if> 
   <if=(currentPage === 7)>
-    <button class="nextButton" onClick() {console.log("Submit");}>Submit</button>
+    <button class="nextButton" onClick() {
+      console.log("Submit");
+      
+      // TODO: Handle submits via API.
+      // API should store this in tmpData in IndexedDB.
+      // API should send this to Remote Database.
+
+      window.location.href = "/"; // TODO: Send this to Dashboard
+    }>Submit</button>
   </if>
 </div>
 
