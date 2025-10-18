@@ -80,7 +80,15 @@ import Relatives from "./Relatives.marko";
   />
 </else>
 <else if=(currentPage === 4)>
-  <PersonalProperties />
+  <PersonalProperties 
+    personalProperties = tmpData.personalProperties
+    updateFormData (newPropertyList) {
+      tmpData = {...tmpData, personalProperties: newPropertyList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
 </else>
 <else if=(currentPage === 5)>
   <Liabilities />
