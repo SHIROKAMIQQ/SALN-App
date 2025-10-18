@@ -91,7 +91,15 @@ import Relatives from "./Relatives.marko";
   />
 </else>
 <else if=(currentPage === 5)>
-  <Liabilities />
+  <Liabilities 
+    liabilities = tmpData.liabilities
+    updateFormData (newLiabilityList) {
+      tmpData = {...tmpData, liabilities: newLiabilityList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
 </else>
 <else if=(currentPage === 6)>
   <Connections />

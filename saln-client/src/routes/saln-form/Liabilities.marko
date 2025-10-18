@@ -1,4 +1,4 @@
-import { AssetTypes, costPattern, yearPattern, commaCost } from "../../utils/assetTypes.ts";
+import { AssetTypes, costPattern, commaCost } from "../../utils/assetTypes.ts";
 
 export interface Input {
 	liabilities: any[];
@@ -9,7 +9,26 @@ export interface Input {
 <let/showModal = false />
 
 <let/checkData = (obj: any) => {
-	
+	if (!obj.Nature) {
+		console.log("Nature fail.");
+		return false;
+	}
+
+	if (!obj.Creditors) {
+		console.log("Creditors fail.");
+		return false;
+	}
+
+	if (
+		!obj.OutstandingBalance ||
+		!costPattern.test(obj.OutstandingBalance)
+	) {
+		console.log("OutstandingBalance fail.");
+		return false;
+	}
+	obj.OutstandingBalance = commaCost(obj.OutstandingBalance);
+
+	return true;
 } />
 
 <script>
