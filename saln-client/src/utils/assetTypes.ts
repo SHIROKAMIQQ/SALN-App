@@ -19,12 +19,14 @@ export const AssetFields = {
     {
       label: "Date of Birth", 
       subtext: "Must be less than 18 years ago",
-      inputName: "DoB", 
+      inputName: "DoB",
+      placeholder: "YYYY-MM-DD",
     },
     {
       label: "Age", 
       subtext: "Must match Date of Birth",
-      inputName: "Age", 
+      inputName: "Age",
+      placeholder: "17",
     }
   ],
   [AssetTypes.REAL_PROPERTY]: [
@@ -44,18 +46,20 @@ export const AssetFields = {
     },
     {
       label: "Assessed Value", 
-      subtext: "(As found in the Tax Declaration of Real Property) | At most 2 decimal places", 
+      subtext: "(As found in the Tax Declaration of Real Property)", 
       inputName: "AssessedValue",
+      placeholder: "X,XXX,XXX.XX",
     },
     {
       label: "Current Fair Market Value", 
-      subtext: "(As found in the Tax Declaration of Real Property) | At most 2 decimal places", 
+      subtext: "(As found in the Tax Declaration of Real Property)",
       inputName: "CurrentFairMarketValue",
+      placeholder: "X,XXX,XXX.XX",
     },
     {
       label: "Acquisition Year", 
-      subtext: "YYYY",
       inputName: "AcquisitionYear",
+      placeholder: "YYYY"
     },
     {
       label: "Acquisition Mode", 
@@ -63,8 +67,8 @@ export const AssetFields = {
     },
     {
       label: "Acquisition Cost", 
-      subtext: "At most 2 decimal places",
       inputName: "AcquisitionCost",
+      placeholder: "X,XXX,XXX.XX",
     }
   ],
   [AssetTypes.PERSONAL_PROPERTY]: [
@@ -75,10 +79,12 @@ export const AssetFields = {
     {
       label: "Year Acquired",
       inputName: "YearAcquired",
+      placeholder: "YYYY",
     },
     {
       label: "Acquisition Cost/Amount",
       inputName: "AcquisitionCost",
+      placeholder: "X,XXX,XXX.XX",
     }
   ],
   [AssetTypes.LIABILITY]: [
@@ -93,6 +99,7 @@ export const AssetFields = {
     {
       label: "Outstanding Balance", 
       inputName: "OutstandingBalance",
+      placeholder: "X,XXX,XXX.XX"
     }
   ],
   [AssetTypes.CONNECTION]: [
@@ -110,8 +117,9 @@ export const AssetFields = {
     },
     {
       label: "Date of Acquisition of Interest or Connection",
-      subtext: "Year YYYY",
+      subtext: "(Year)",
       inputName: "DateOfAcquisition",
+      placeholder: "YYYY",
     }
   ],
   [AssetTypes.RELATIVE]: [

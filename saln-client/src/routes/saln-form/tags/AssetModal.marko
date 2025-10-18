@@ -41,7 +41,7 @@ export interface Input {
             <input class="field-input"
               type="text"
               name=field.inputName
-              placeholder=field.label
+              placeholder=field.placeholder? field.placeholder : field.label
               value=input.attributes? input.attributes[field.inputName] : "" 
             />
           </div>
