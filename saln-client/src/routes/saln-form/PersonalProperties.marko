@@ -1,0 +1,96 @@
+import { AssetTypes, costPattern, yearPattern, commaCost } from "../../utils/assetTypes.ts";
+
+export interface Input {
+	personalProperties: any[];
+	updateFormData: (newPersonalProperties: any[]) => void;
+	updateFormValid: (newFormValid: boolean) => void;
+}
+
+<let/showModal = false />
+
+<let/checkData = (obj: any) => {
+	if (!obj.Description) {
+		console.log("Description fail.");
+		return false;
+	}
+
+	if (
+		!obj.YearAcquired ||
+		!yearPattern.test(obj.YearAcquired)
+	) {
+		console.log("YearAcquired fail.");
+		return false;
+	}
+
+	const today = new Date();
+	const acqyear = new Date(obj.YearAcquired);
+	if (acqyear.getFullYear() > today.getFullYear()) {
+		console.log("YearAcquired fail.");
+	}
+
+	if (
+		!obj.AcquisitionCost ||
+		!costPattern.test(obj.AcquisitionCost)
+	) {
+		console.log("AcquisitionCost fail.");
+		return false;
+	}
+	obj.AcquisitionCost = commaCost(obj.AcquisitionCost);
+
+	return true;
+} />
+
+<script>
+	input.updateFormValid(true);
+</script>
+
+<div class="page-buttons">
+	<button class="nextButton"
+		onClick() {
+			showModal = true;
+		}
+	> 
+		Add Property
+	</button>
+</div>
+
+<if=(input.personalProperties.length > 0)>
+	<for|property, idx| of=input.personalProperties>
+		<DisplayCard 
+			type=AssetTypes.PERSONAL_PROPERTY
+			attributes=property
+			idx=idx
+			editElement (obj, i) {
+				const newPropertyList = input.personalProperties.map((property, idx) => i === idx ? obj : property);
+				input.updateFormData(newPropertyList);
+			}
+			deleteElement (i) {
+				const newPropertyList = input.personalProperties.filter((property, idx) => i !== idx);
+				input.updateFormData(newPropertyList);
+			}
+			validateData (obj) {
+				return checkData(obj);
+			}
+		/>
+	</for>
+</if>
+<else>
+	<h1 class="indicator">No Personal Properties</h1>
+</else>
+
+<if=(showModal)>
+	<AssetModal 
+		type=AssetTypes.PERSONAL_PROPERTY
+		idx=-1
+		mode="Add"
+		closeModal() {
+			showModal = false;
+		}
+		fetchData (obj, i) {
+			input.updateFormData([...input.personalProperties, obj]);
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>

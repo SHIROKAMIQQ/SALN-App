@@ -49,3 +49,15 @@ declare module "../src/routes/uploadJSON/+page.marko" {
     export const route: Run.HandlerTypeFn<Route>;
   }
 }
+
+declare module "../src/routes/+layout.marko" {
+  export interface Input extends Run.LayoutInput<typeof import("../src/routes/+layout.marko")> {}
+  namespace MarkoRun {
+    export { NotHandled, NotMatched, GetPaths, PostPaths, GetablePath, GetableHref, PostablePath, PostableHref, Platform };
+    export type Route = Run.Routes["/" | "/saln-form" | "/uploadJSON"];
+    export type Context = Run.MultiRouteContext<Route> & Marko.Global;
+    export type Handler = Run.HandlerLike<Route>;
+    /** @deprecated use `((context, next) => { ... }) satisfies MarkoRun.Handler` instead */
+    export const route: Run.HandlerTypeFn<Route>;
+  }
+}

@@ -80,16 +80,52 @@ import Relatives from "./Relatives.marko";
   />
 </else>
 <else if=(currentPage === 4)>
-  <PersonalProperties />
+  <h1>Personal Properties</h1>
+  <PersonalProperties 
+    personalProperties = tmpData.personalProperties
+    updateFormData (newPropertyList) {
+      tmpData = {...tmpData, personalProperties: newPropertyList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
 </else>
 <else if=(currentPage === 5)>
-  <Liabilities />
+  <h1>Liabilities</h1>
+  <Liabilities 
+    liabilities = tmpData.liabilities
+    updateFormData (newLiabilityList) {
+      tmpData = {...tmpData, liabilities: newLiabilityList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
 </else>
 <else if=(currentPage === 6)>
-  <Connections />
+  <h1>Business Interests and Financial Connections</h1>
+  <Connections 
+    connections = tmpData.connections
+    updateFormData (newConnectionList) {
+      tmpData = {...tmpData, connections: newConnectionList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
 </else>
 <else if=(currentPage === 7)>
-  <Relatives />
+  <h1>Relatives in the Government Service</h1>
+  <Relatives 
+    relatives = tmpData.relatives
+    updateFormData (newRelativeList) {
+      tmpData = {...tmpData, relatives: newRelativeList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
 </else>
 
 <div class="page-buttons">
@@ -119,7 +155,15 @@ import Relatives from "./Relatives.marko";
     </button>
   </if> 
   <if=(currentPage === 7)>
-    <button class="nextButton" onClick() {console.log("Submit");}>Submit</button>
+    <button class="nextButton" onClick() {
+      console.log("Submit");
+      
+      // TODO: Handle submits via API.
+      // API should store this in tmpData in IndexedDB.
+      // API should send this to Remote Database.
+
+      window.location.href = "/"; // TODO: Send this to Dashboard
+    }>Submit</button>
   </if>
 </div>
 

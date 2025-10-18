@@ -15,19 +15,18 @@ export const AssetFields = {
       label: "Name", 
       subtext: "Unmarried child below eighteen (18) years of age living in declarant's household", 
       inputName: "Name", 
-      type: "text"
     },
     {
       label: "Date of Birth", 
       subtext: "Must be less than 18 years ago",
-      inputName: "DoB", 
-      type: "date"
+      inputName: "DoB",
+      placeholder: "YYYY-MM-DD",
     },
     {
       label: "Age", 
       subtext: "Must match Date of Birth",
-      inputName: "Age", 
-      type:"number"
+      inputName: "Age",
+      placeholder: "17",
     }
   ],
   [AssetTypes.REAL_PROPERTY]: [
@@ -35,125 +34,111 @@ export const AssetFields = {
       label: "Description", 
       subtext: "(e.g. lot, house and lot, condominium, and improvements)", 
       inputName: "Description", 
-      type:"text"
     },
     {
       label: "Kind", 
       subtext: "(e.g. residential, commericial, industrial, agricultural and mixed used)", 
       inputName: "Kind",
-      type:"text"
     },
     {
       label: "Exact Location", 
       inputName: "ExactLocation",
-      type: "text"
     },
     {
       label: "Assessed Value", 
-      subtext: "(As found in the Tax Declaration of Real Property) | At most 2 decimal places", 
+      subtext: "(As found in the Tax Declaration of Real Property)", 
       inputName: "AssessedValue",
-      type: "text"
+      placeholder: "X,XXX,XXX.XX",
     },
     {
       label: "Current Fair Market Value", 
-      subtext: "(As found in the Tax Declaration of Real Property) | At most 2 decimal places", 
+      subtext: "(As found in the Tax Declaration of Real Property)",
       inputName: "CurrentFairMarketValue",
-      type: "text"
+      placeholder: "X,XXX,XXX.XX",
     },
     {
       label: "Acquisition Year", 
-      subtext: "YYYY",
       inputName: "AcquisitionYear",
-      type: "text"
+      placeholder: "YYYY"
     },
     {
       label: "Acquisition Mode", 
       inputName: "AcquisitionMode",
-      type: "text"
     },
     {
       label: "Acquisition Cost", 
-      subtext: "At most 2 decimal places",
       inputName: "AcquisitionCost",
-      type: "number"
+      placeholder: "X,XXX,XXX.XX",
     }
   ],
   [AssetTypes.PERSONAL_PROPERTY]: [
     {
       label: "Description", 
       inputName: "Description",
-      type: "text"
     },
     {
       label: "Year Acquired",
       inputName: "YearAcquired",
-      type: "number"
+      placeholder: "YYYY",
     },
     {
       label: "Acquisition Cost/Amount",
-      inputName: "AcqusitionCost",
-      type: "number"
+      inputName: "AcquisitionCost",
+      placeholder: "X,XXX,XXX.XX",
     }
   ],
   [AssetTypes.LIABILITY]: [
     {
       label: "Nature", 
       inputName: "Nature",
-      type: "text"
     },
     {
       label: "Name of Creditors", 
       inputName: "Creditors",
-      type: "text"
     },
     {
       label: "Outstanding Balance", 
       inputName: "OutstandingBalance",
-      type: "number"
+      placeholder: "X,XXX,XXX.XX"
     }
   ],
   [AssetTypes.CONNECTION]: [
     {
       label: "Name of Entity/Business Enterprise", 
       inputName: "Name",
-      type: "text"
     },
     {
       label: "Business Address", 
       inputName: "BusinessAddress",
-      type: "text"
     },
     {
       label: "Nature of Business Interest & / or Financial Connection", 
       inputName: "Nature",
-      type: "text"
     },
     {
-      label: "Date of Acquisition of Interest or Connection", 
+      label: "Date of Acquisition of Interest or Connection",
+      subtext: "(Year)",
       inputName: "DateOfAcquisition",
-      type: "number"
+      placeholder: "YYYY",
     }
   ],
   [AssetTypes.RELATIVE]: [
     {
-      label: "Name of Relative", 
+      label: "Name of Relative",
+      subtext: "in the government service",
       inputName: "Name",
-      type: "text"
     },
     {
       label: "Relationship", 
       inputName: "Relationship",
-      type: "text"
     },
     {
       label: "Position", 
       inputName: "Position",
-      type: "text"
     },
     {
       label: "Name of Agency/Office and Address", 
       inputName: "Agency",
-      type: "text"
     }
   ]
 };
