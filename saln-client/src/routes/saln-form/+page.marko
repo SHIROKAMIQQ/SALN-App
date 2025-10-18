@@ -102,7 +102,16 @@ import Relatives from "./Relatives.marko";
   />
 </else>
 <else if=(currentPage === 6)>
-  <Connections />
+  <h1>Business Interests and Financial Connections</h1>
+  <Connections 
+    connections = tmpData.connections
+    updateFormData (newConnectionList) {
+      tmpData = {...tmpData, connections: newConnectionList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
 </else>
 <else if=(currentPage === 7)>
   <Relatives />
