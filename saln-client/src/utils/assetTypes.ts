@@ -109,7 +109,8 @@ export const AssetFields = {
       inputName: "Nature",
     },
     {
-      label: "Date of Acquisition of Interest or Connection", 
+      label: "Date of Acquisition of Interest or Connection",
+      subtext: "Year YYYY",
       inputName: "DateOfAcquisition",
     }
   ],
