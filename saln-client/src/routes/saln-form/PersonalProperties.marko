@@ -9,7 +9,35 @@ export interface Input {
 <let/showModal = false />
 
 <let/checkData = (obj: any) => {
-	
+	if (!obj.Description) {
+		console.log("Description fail.");
+		return false;
+	}
+
+	if (
+		!obj.YearAcquired ||
+		!yearPattern.test(obj.YearAcquired)
+	) {
+		console.log("YearAcquired fail.");
+		return false;
+	}
+
+	const today = new Date();
+	const acqyear = new Date(obj.YearAcquired);
+	if (acqyear.getFullYear() > today.getFullYear()) {
+		console.log("YearAcquired fail.");
+	}
+
+	if (
+		!obj.AcquisitionCost ||
+		!costPattern.test(obj.AcquisitionCost)
+	) {
+		console.log("AcquisitionCost fail.");
+		return false;
+	}
+	obj.AcquisitionCost = commaCost(obj.AcquisitionCost);
+
+	return true;
 } />
 
 <script>
