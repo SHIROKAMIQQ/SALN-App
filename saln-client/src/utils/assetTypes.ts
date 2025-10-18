@@ -116,7 +116,8 @@ export const AssetFields = {
   ],
   [AssetTypes.RELATIVE]: [
     {
-      label: "Name of Relative", 
+      label: "Name of Relative",
+      subtext: "in the government service",
       inputName: "Name",
     },
     {

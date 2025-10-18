@@ -116,7 +116,16 @@ import Relatives from "./Relatives.marko";
   />
 </else>
 <else if=(currentPage === 7)>
-  <Relatives />
+  <h1>Relatives in the Government Service</h1>
+  <Relatives 
+    relatives = tmpData.relatives
+    updateFormData (newRelativeList) {
+      tmpData = {...tmpData, relatives: newRelativeList};
+    }
+    updateFormValid (newFormValid) {
+      formValid = newFormValid;
+    }
+  />
 </else>
 
 <div class="page-buttons">
