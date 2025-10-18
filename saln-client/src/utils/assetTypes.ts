@@ -78,7 +78,7 @@ export const AssetFields = {
     },
     {
       label: "Acquisition Cost/Amount",
-      inputName: "AcqusitionCost",
+      inputName: "AcquisitionCost",
     }
   ],
   [AssetTypes.LIABILITY]: [
