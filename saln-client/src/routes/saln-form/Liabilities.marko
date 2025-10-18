@@ -1,0 +1,68 @@
+import { AssetTypes, costPattern, yearPattern, commaCost } from "../../utils/assetTypes.ts";
+
+export interface Input {
+	liabilities: any[];
+	updateFormData: (newPersonalProperties: any[]) => void;
+	updateFormValid: (newFormValid: boolean) => void;
+}
+
+<let/showModal = false />
+
+<let/checkData = (obj: any) => {
+	
+} />
+
+<script>
+	input.updateFormValid(true);
+</script>
+
+<div class="page-buttons">
+	<button class="nextButton"
+		onClick() {
+			showModal = true;
+		}
+	> 
+		Add Liabilty
+	</button>
+</div>
+
+<if=(input.liabilities.length > 0)>
+	<for|liability, idx| of=input.liabilities>
+		<DisplayCard 
+			type=AssetTypes.LIABILITY
+			attributes=liability
+			idx=idx
+			editElement (obj, i) {
+				const newLiabilityList = input.liabilities.map((liability, idx) => i === idx ? obj : liability);
+				input.updateFormData(newLiabilityList);
+			}
+			deleteElement (i) {
+				const newLiabilityList = input.liabilities.filter((liability, idx) => i !== idx);
+				input.updateFormData(newLiabilityList);
+			}
+			validateData (obj) {
+				return checkData(obj);
+			}
+		/>
+	</for>
+</if>
+<else>
+	<h1 class="indicator">No Liabilities</h1>
+</else>
+
+<if=(showModal)>
+	<AssetModal 
+		type=AssetTypes.LIABILITY
+		idx=-1
+		mode="Add"
+		closeModal() {
+			showModal = false;
+		}
+		fetchData (obj, i) {
+			input.updateFormData([...input.liabilities, obj]);
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>
