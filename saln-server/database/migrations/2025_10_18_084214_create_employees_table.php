@@ -12,7 +12,7 @@ return new class extends Migration
 	public function up(): void
 	{
 		Schema::create('employees', function (Blueprint $table) {
-			$table->uuid('employeeID')->primary_key();
+			$table->uuid('employeeID')->primary();
 			$table->string('email')->unique();
 			$table->text('encryption_key'); // ENCRYPTED
 		});
