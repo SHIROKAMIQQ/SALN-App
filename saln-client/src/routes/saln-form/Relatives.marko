@@ -9,22 +9,22 @@ export interface Input {
 <let/showModal = false />
 
 <let/checkData = (obj: any) => {
-	if (!obj.Name) {
+	if (!obj.name) {
 		console.log("Name fail.");
 		return false;
 	}
 
-	if (!obj.Relationship) {
+	if (!obj.relationship) {
 		console.log("Relationship fail.");
 		return false;
 	}
 
-	if (!obj.Position) {
+	if (!obj.position) {
 		console.log("Position fail.");
 		return false;
 	}
 
-	if (!obj.Agency) {
+	if (!obj.agency) {
 		console.log("Agency fail.");
 		return false;
 	}
