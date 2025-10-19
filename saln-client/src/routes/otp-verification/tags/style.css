@@ -1,0 +1,42 @@
+  html,
+  body {
+  font-family: inter;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  background: #E5E5E0;
+  }
+  .container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1em, 2vw, 2em);
+    padding:1em;
+    top: 100px;
+    width: 40vw;
+    height: 50vh;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    border: 10px solid #0D9488;
+  }
+  .enterOTP{
+    border-radius: 20px;
+    padding: 0 10px;
+    background-color:#161619;
+    color: #F9FAFB;
+    text-align: left;
+    width: 70vh;
+    height: 10vh;
+    font-size: 5vh;
+  }
+  .submitOTP{
+    border-radius: 50px;
+    padding: 1em 2em;
+    background-color: #0D9488;
+    font-size: 2vh;
+    color:#000000;
+    font-weight: bold;
+  }
