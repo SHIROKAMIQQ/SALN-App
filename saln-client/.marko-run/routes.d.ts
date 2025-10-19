@@ -12,6 +12,7 @@ declare module "@marko/run" {
 		routes: {
 			"/": { verb: "get"; meta: typeof import("../src/routes/+meta.json"); };
 			"/login": { verb: "get"; };
+			"/otp-verification": { verb: "get"; };
 			"/registration": { verb: "get"; };
 			"/saln-form": { verb: "get"; };
 			"/": { verb: "get"; meta: typeof import("../src/routes/+meta.json"); };
@@ -40,6 +41,17 @@ declare module "../src/routes/login/+page.marko" {
   namespace MarkoRun {
     export { NotHandled, NotMatched, GetPaths, PostPaths, GetablePath, GetableHref, PostablePath, PostableHref, Platform };
     export type Route = Run.Routes["/login"];
+    export type Context = Run.MultiRouteContext<Route> & Marko.Global;
+    export type Handler = Run.HandlerLike<Route>;
+    /** @deprecated use `((context, next) => { ... }) satisfies MarkoRun.Handler` instead */
+    export const route: Run.HandlerTypeFn<Route>;
+  }
+}
+
+declare module "../src/routes/otp-verification/+page.marko" {
+  namespace MarkoRun {
+    export { NotHandled, NotMatched, GetPaths, PostPaths, GetablePath, GetableHref, PostablePath, PostableHref, Platform };
+    export type Route = Run.Routes["/otp-verification"];
     export type Context = Run.MultiRouteContext<Route> & Marko.Global;
     export type Handler = Run.HandlerLike<Route>;
     /** @deprecated use `((context, next) => { ... }) satisfies MarkoRun.Handler` instead */
@@ -138,7 +150,7 @@ declare module "../src/routes/+layout.marko" {
   export interface Input extends Run.LayoutInput<typeof import("../src/routes/+layout.marko")> {}
   namespace MarkoRun {
     export { NotHandled, NotMatched, GetPaths, PostPaths, GetablePath, GetableHref, PostablePath, PostableHref, Platform };
-    export type Route = Run.Routes["/" | "/dashboard" | "/login" | "/registration" | "/saln-form"];
+    export type Route = Run.Routes["/" | "/dashboard" | "/login" | "/otp-verification" | "/registration" | "/saln-form"];
     export type Context = Run.MultiRouteContext<Route> & Marko.Global;
     export type Handler = Run.HandlerLike<Route>;
     /** @deprecated use `((context, next) => { ... }) satisfies MarkoRun.Handler` instead */
