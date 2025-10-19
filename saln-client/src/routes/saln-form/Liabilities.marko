@@ -9,24 +9,24 @@ export interface Input {
 <let/showModal = false />
 
 <let/checkData = (obj: any) => {
-	if (!obj.Nature) {
+	if (!obj.nature) {
 		console.log("Nature fail.");
 		return false;
 	}
 
-	if (!obj.Creditors) {
+	if (!obj.creditors) {
 		console.log("Creditors fail.");
 		return false;
 	}
 
 	if (
-		!obj.OutstandingBalance ||
-		!costPattern.test(obj.OutstandingBalance)
+		!obj.outstandingBalance ||
+		!costPattern.test(obj.outstandingBalance)
 	) {
 		console.log("OutstandingBalance fail.");
 		return false;
 	}
-	obj.OutstandingBalance = commaCost(obj.OutstandingBalance);
+	obj.outstandingBalance = commaCost(obj.outstandingBalance);
 
 	return true;
 } />

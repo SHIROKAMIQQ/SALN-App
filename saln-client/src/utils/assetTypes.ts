@@ -14,18 +14,18 @@ export const AssetFields = {
     {
       label: "Name", 
       subtext: "Unmarried child below eighteen (18) years of age living in declarant's household", 
-      inputName: "Name", 
+      inputName: "name", 
     },
     {
       label: "Date of Birth", 
       subtext: "Must be less than 18 years ago",
-      inputName: "DoB",
+      inputName: "dob",
       placeholder: "YYYY-MM-DD",
     },
     {
       label: "Age", 
       subtext: "Must match Date of Birth",
-      inputName: "Age",
+      inputName: "age",
       placeholder: "17",
     }
   ],
@@ -33,92 +33,92 @@ export const AssetFields = {
     {
       label: "Description", 
       subtext: "(e.g. lot, house and lot, condominium, and improvements)", 
-      inputName: "Description", 
+      inputName: "description", 
     },
     {
       label: "Kind", 
       subtext: "(e.g. residential, commericial, industrial, agricultural and mixed used)", 
-      inputName: "Kind",
+      inputName: "kind",
     },
     {
       label: "Exact Location", 
-      inputName: "ExactLocation",
+      inputName: "exactLocation",
     },
     {
       label: "Assessed Value", 
       subtext: "(As found in the Tax Declaration of Real Property)", 
-      inputName: "AssessedValue",
+      inputName: "assessedValue",
       placeholder: "X,XXX,XXX.XX",
     },
     {
       label: "Current Fair Market Value", 
       subtext: "(As found in the Tax Declaration of Real Property)",
-      inputName: "CurrentFairMarketValue",
+      inputName: "currentFairMarketValue",
       placeholder: "X,XXX,XXX.XX",
     },
     {
       label: "Acquisition Year", 
-      inputName: "AcquisitionYear",
+      inputName: "acquisitionYear",
       placeholder: "YYYY"
     },
     {
       label: "Acquisition Mode", 
-      inputName: "AcquisitionMode",
+      inputName: "acquisitionMode",
     },
     {
       label: "Acquisition Cost", 
-      inputName: "AcquisitionCost",
+      inputName: "acquisitionCost",
       placeholder: "X,XXX,XXX.XX",
     }
   ],
   [AssetTypes.PERSONAL_PROPERTY]: [
     {
       label: "Description", 
-      inputName: "Description",
+      inputName: "description",
     },
     {
       label: "Year Acquired",
-      inputName: "YearAcquired",
+      inputName: "yearAcquired",
       placeholder: "YYYY",
     },
     {
       label: "Acquisition Cost/Amount",
-      inputName: "AcquisitionCost",
+      inputName: "acquisitionCost",
       placeholder: "X,XXX,XXX.XX",
     }
   ],
   [AssetTypes.LIABILITY]: [
     {
       label: "Nature", 
-      inputName: "Nature",
+      inputName: "nature",
     },
     {
       label: "Name of Creditors", 
-      inputName: "Creditors",
+      inputName: "creditors",
     },
     {
       label: "Outstanding Balance", 
-      inputName: "OutstandingBalance",
+      inputName: "outstandingBalance",
       placeholder: "X,XXX,XXX.XX"
     }
   ],
   [AssetTypes.CONNECTION]: [
     {
       label: "Name of Entity/Business Enterprise", 
-      inputName: "Name",
+      inputName: "name",
     },
     {
       label: "Business Address", 
-      inputName: "BusinessAddress",
+      inputName: "businessAddress",
     },
     {
       label: "Nature of Business Interest & / or Financial Connection", 
-      inputName: "Nature",
+      inputName: "nature",
     },
     {
       label: "Date of Acquisition of Interest or Connection",
       subtext: "(Year)",
-      inputName: "DateOfAcquisition",
+      inputName: "dateOfAcquisition",
       placeholder: "YYYY",
     }
   ],
@@ -126,19 +126,19 @@ export const AssetFields = {
     {
       label: "Name of Relative",
       subtext: "in the government service",
-      inputName: "Name",
+      inputName: "name",
     },
     {
       label: "Relationship", 
-      inputName: "Relationship",
+      inputName: "relationship",
     },
     {
       label: "Position", 
-      inputName: "Position",
+      inputName: "position",
     },
     {
       label: "Name of Agency/Office and Address", 
-      inputName: "Agency",
+      inputName: "agency",
     }
   ]
 };

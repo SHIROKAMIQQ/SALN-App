@@ -90,8 +90,19 @@ DB_PASSWORD=saln_password
 
 Then on Linux, run
 ```
-php artisan migrate
+php artisan migrate:fresh
 ```
+
+This part sets up the cron job for scheduled tasks (like deleting 5-day old SALN Forms). \
+On WSL run this to open up a text editor in your shell which will edit the cron job file:
+```
+crontab -e
+```
+Then put on the bottom of the file
+```
+* * * * * cd /Path/to/saln-app/saln-server && php artisan schedule:run >> /dev/null 2>&1
+```
+Then to exit: `Ctrl+O`, `ENTER`, `CtrlX`. To test if the scheduler works, run `php artisan schdule:run`, or more specifically, `php artisan saln:cleanup`.  
 
 # Run Server
 `php artisan serve` must be run inside the `saln-server` folder using a Linux shell.

@@ -9,18 +9,18 @@ export interface Input {
 <let/showModal = false />
 
 <let/checkData = (obj: any) => {
-	if (!obj.Name) {
+	if (!obj.name) {
 		console.log("Name fails.");
 		return false;
 	}
 
-	if (!obj.DoB) {
+	if (!obj.dob) {
 		console.log("DoB fails.");
 		return false;
 	}
 
 	const today = new Date();
-	const dob = new Date(obj.DoB);
+	const dob = new Date(obj.dob);
 	let dobage = today.getFullYear() - dob.getFullYear();
 	const m = today.getMonth() - dob.getMonth();
 	if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) dobage--;
@@ -31,14 +31,14 @@ export interface Input {
 	}
 
 	if (
-		!obj.Age ||
-		!agePattern.test(obj.Age)
+		!obj.age ||
+		!agePattern.test(obj.age)
 	) {
 		console.log("Age fail.");
 		return false;
 	}
 
-	const age = Number(obj.Age);
+	const age = Number(obj.age);
 	if (
 		age >= 18 ||
 		age !== age

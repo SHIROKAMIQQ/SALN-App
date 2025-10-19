@@ -9,66 +9,66 @@ export interface Input {
 <let/showModal = false />
 
 <let/checkData = (obj: any) => {
-	if (!obj.Description) {
+	if (!obj.description) {
 		console.log("Description fail.");
 		return false;
 	}
 
-	if (!obj.Kind) {
+	if (!obj.kind) {
 		console.log("Kind fail.");
 		return false;
 	}
 
-	if (!obj.ExactLocation) {
+	if (!obj.exactLocation) {
 		console.log("ExactLocation fail.");
 		return false;
 	}
 	
 	if (
-		!obj.AssessedValue || 
-		!costPattern.test(obj.AssessedValue)
+		!obj.assessedValue || 
+		!costPattern.test(obj.assessedValue)
 	) {
 		console.log("AssessedValue fail.");
 		return false; 
 	}
-	obj.AssessedValue = commaCost(obj.AssessedValue);
+	obj.assessedValue = commaCost(obj.assessedValue);
 
 	if (
-		!obj.CurrentFairMarketValue ||
-		!costPattern.test(obj.CurrentFairMarketValue)
+		!obj.currentFairMarketValue ||
+		!costPattern.test(obj.currentFairMarketValue)
 	) {
 		console.log("CurrentFairMarketValue fail.");
 		return false;
 	}
-	obj.CurrentFairMarketValue = commaCost(obj.CurrentFairMarketValue);
+	obj.currentFairMarketValue = commaCost(obj.currentFairMarketValue);
 
 	if (
-		!obj.AcquisitionYear ||
-		!yearPattern.test(obj.AcquisitionYear)
+		!obj.acquisitionYear ||
+		!yearPattern.test(obj.acquisitionYear)
 	) {
 		console.log("AcquisitionYear fail.");
 		return false;
 	}
 
 	const today = new Date();
-	const acqyear = new Date(obj.AcquisitionYear);
+	const acqyear = new Date(obj.acquisitionYear);
 	if (acqyear.getFullYear() > today.getFullYear()) {
 		console.log("AquisitionYear fail.");
 	}
 
-	if (!obj.AcquisitionMode) {
+	if (!obj.acquisitionMode) {
 		console.log("AcquisitionMode fail.");
 		return false;
 	}
 
 	if (
-		!obj.AcquisitionCost ||
-		!costPattern.test(obj.AcquisitionCost)
+		!obj.acquisitionCost ||
+		!costPattern.test(obj.acquisitionCost)
 	) {
 		console.log("AcquisitionCost fail.");
 		return false;
 	}
-	obj.AcquisitionCost = commaCost(obj.AcquisitionCost);
+	obj.acquisitionCost = commaCost(obj.acquisitionCost);
 
 	return true;
 } />

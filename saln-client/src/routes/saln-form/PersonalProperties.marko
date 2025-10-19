@@ -9,33 +9,33 @@ export interface Input {
 <let/showModal = false />
 
 <let/checkData = (obj: any) => {
-	if (!obj.Description) {
+	if (!obj.description) {
 		console.log("Description fail.");
 		return false;
 	}
 
 	if (
-		!obj.YearAcquired ||
-		!yearPattern.test(obj.YearAcquired)
+		!obj.yearAcquired ||
+		!yearPattern.test(obj.yearAcquired)
 	) {
 		console.log("YearAcquired fail.");
 		return false;
 	}
 
 	const today = new Date();
-	const acqyear = new Date(obj.YearAcquired);
+	const acqyear = new Date(obj.yearAcquired);
 	if (acqyear.getFullYear() > today.getFullYear()) {
 		console.log("YearAcquired fail.");
 	}
 
 	if (
-		!obj.AcquisitionCost ||
-		!costPattern.test(obj.AcquisitionCost)
+		!obj.acquisitionCost ||
+		!costPattern.test(obj.acquisitionCost)
 	) {
 		console.log("AcquisitionCost fail.");
 		return false;
 	}
-	obj.AcquisitionCost = commaCost(obj.AcquisitionCost);
+	obj.acquisitionCost = commaCost(obj.acquisitionCost);
 
 	return true;
 } />
