@@ -29,7 +29,4 @@ class Employee extends Authenticable {
 	public function otps() {
 		return $this->hasMany(OTP::class, 'employeeID', 'employeeID');
 	}
-
-
-
 }
