@@ -1,11 +1,19 @@
 import BaseCard from "./BaseCard.marko";
+import DeleteAssetModal from "./DeleteAssetModal.marko";
 import "./style.css";
 import { AssetTypes } from "../../../utils/assetTypes.js";
 
 export interface Input {
     type: AssetTypes;
-    attributes: Record<String, String>;
+    attributes: any;
+		idx: number;
+		editElement: (obj: any, i: number) => void;
+		deleteElement: (i: number) => void;
+		validateData: (obj: any) => boolean;
 }
+
+<let/showModal = false />
+<let/showDeleteModal = false />
 
 <BaseCard>
     <div class="display-card">
@@ -16,9 +24,49 @@ export interface Input {
         </div> 
         <div class="card-actions">
             <span>
-                <button class="editButton">Edit</button>
-                <button class="deleteButton">Delete</button>
+                <button class="editButton"
+									onClick() {
+										showModal = true;
+									}
+								>Edit</button>
+                <button class="deleteButton"
+									onClick() {
+										showDeleteModal = true;
+									}
+								>Delete</button>
             </span>
         </div>
     </div>
 </BaseCard>
+
+<if=(showModal)>
+	<AssetModal
+		type=input.type
+		attributes=input.attributes
+		idx=input.idx
+		mode="Edit"
+		closeModal() {
+			showModal = false;
+		}
+		fetchData (obj, i) {
+			input.editElement(obj, i);
+		}
+		validateData (obj) {
+			return input.validateData(obj);
+		}
+	/>
+</if>
+
+<if=(showDeleteModal)>
+	<DeleteAssetModal
+		type=input.type
+		attributes=input.attributes
+		idx=input.idx
+		closeModal() {
+			showDeleteModal = false;
+		}
+		deleteElement() {
+			input.deleteElement(input.idx)
+		}
+	/>
+</if>

@@ -1,0 +1,37 @@
+import "./style.css";
+import { AssetTypes } from "../../../utils/assetTypes.js";
+
+export interface Input {
+	type: AssetTypes;
+	attributes: any;
+	closeModal: () => void;
+	deleteElement: () => void;
+}
+
+<div class="modal-overlay">
+	<div class="delete-modal">
+		<div class="attributes dictionary">
+			<p>Are you sure you want to delete:</p>
+			<for|key, value| in=input.attributes>
+				<p class="attribute-item">
+					<b class="attribute-key">${key}: </b>
+					${value}
+				</p>
+			</for>
+		</div>
+		<div class="asset-modal-buttons">
+			<button class="cancelDeleteButton"
+				onClick() {
+					input.closeModal();
+				}
+			> Cancel
+			</button>
+			<button class="deleteModalButton"
+				onClick() {
+					input.deleteElement();
+					input.closeModal();
+				}
+			> Delete </button>
+		</div>
+	</div>
+</div>

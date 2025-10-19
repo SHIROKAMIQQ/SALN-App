@@ -2,29 +2,46 @@ import BaseCard from "./BaseCard.marko";
 import "./style.css";
 
 export interface Input {
-    label: String;
-    subtext?: String;
-    name: String;
-    options: String[];
+    label: string;
+    subtext?: string;
+    name: string;
+    options: string[];
+	value: string;
+    updateAnswer: (answer: number) => void;
 }
-
 <BaseCard>
-    <div class="card-header">
-        <span class="card-label">${input.label}</span>
-        <span class="card-subtext"> ${input.subtext}</span>
-    </div>
-    <div class="choice-container">
-        <for|option| of=input.options>
-            <div>
-                <label style="margin-right: 1rem;">
-                    <input
-                    type="radio"
-                    name=input.name
-                    value=option
-                    />
-                    ${option}
-                </label>
-            </div>
-        </for>
-    </div>
+	<div class="card-header">
+		<span class="card-label">${input.label}</span>
+		<span class="card-subtext"> ${input.subtext}</span>
+	</div>
+	<div class="choice-container">
+		<for|option| of=input.options>
+			<div>
+				<label style="margin-right: 1rem;">
+					<if=(input.value === option)>
+						<input
+						type="radio"
+						name=input.name
+						value=option
+						onInput(event) {
+							input.updateAnswer(event.target?.value);
+						}
+						checked
+						/>
+					</if>
+					<else>
+						<input
+						type="radio"
+						name=input.name
+						value=option
+						onInput(event) {
+							input.updateAnswer(event.target?.value);
+						}
+						/>
+					</else>
+					${option}
+				</label>
+			</div>
+		</for>
+	</div>
 </BaseCard>

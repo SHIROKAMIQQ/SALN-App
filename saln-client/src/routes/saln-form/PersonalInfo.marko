@@ -1,0 +1,163 @@
+import { namePattern } from "../../utils/assetTypes.ts";
+
+export interface Input {
+	personalInfo: any;
+	updateFormData: (personalInfo: any) => void;
+	updateFormValid: (newFormValid: boolean) => void;
+}
+
+<script>
+	let tmpValid = true;
+
+	if (!(["Not Applicable", "Joint Filing", "Separate Filing"].includes(filingType))) {
+		tmpValid = false;
+		console.log("filingType failed.");
+	}
+	if (
+		(!declarantName) ||
+		(!namePattern.test(declarantName))
+	) {
+		tmpValid = false;
+		console.log("declarantName failed.");
+	}
+	if (!address) {
+		tmpValid = false;
+		console.log("address failed.");
+	}
+	if (!position) {
+		tmpValid = false;
+		console.log("position failed.");
+	}
+	if (!agency) {
+		tmpValid = false;
+		console.log("agency failed.");
+	}
+	if (!officeAddress) {
+		tmpValid = false;
+		console.log("officeAddress failed.");
+	}
+
+	if (!(
+		(!spouseName && !spousePosition && !spouseAgency && !spouseOfficeAddress) ||
+		(spouseName && spousePosition && spouseAgency && spouseOfficeAddress)
+	)) {
+		tmpValid = false;
+		console.log("spouse failed.");
+	}
+	if (spouseName && !namePattern.test(spouseName)) {
+		tmpValid = false;
+		console.log("spouseName failed.");
+	}
+
+	input.updateFormValid(tmpValid); // TODO have more specific error handling messages. 
+</script>
+
+<div>
+	<let/filingType = input.personalInfo.filingType />
+	<ChoiceCard 
+		label="Filing Type"
+		subtext="Husband and wife who are both public officials and employees may file the required statements jointly or sepatately."
+		name="FilingType"
+		options=["Joint Filing", "Separate Filing", "Not Applicable"]
+		value=filingType
+		updateAnswer(answer) {
+			filingType = answer;
+			input.updateFormData({...input.personalInfo, filingType: answer});
+		}
+	/>
+	<let/declarantName = input.personalInfo.declarantName />
+	<TextCard
+		label="Declarant"
+		subtext="Last Name, First Name, M.I."
+		placeholder="Last Name, First Name, M.I."
+		value=declarantName
+		updateAnswer(answer) {
+			declarantName = answer;
+			input.updateFormData({...input.personalInfo, declarantName: answer});
+		}
+	/>
+	<let/address = input.personalInfo.address />
+	<TextCard
+		label="Address"
+		placeholder="Address"
+		value=address
+		updateAnswer(answer) {
+			address = answer;
+			input.updateFormData({...input.personalInfo, address: answer});
+		}
+	/>
+	<let/position = input.personalInfo.position />
+	<TextCard
+		label="Position"
+		placeholder="Position"
+		value=position
+		updateAnswer(answer) {
+			position = answer;
+			input.updateFormData({...input.personalInfo, position: answer});
+		}
+	/>
+	<let/agency = input.personalInfo.agency />
+	<TextCard 
+		label="Agency/Office"
+		placeholder="Agency/Office"
+		value=agency
+		updateAnswer(answer) {
+			agency = answer;
+			input.updateFormData({...input.personalInfo, agency: answer});
+		}
+	/>
+	<let/officeAddress = input.personalInfo.officeAddress />
+	<TextCard 
+		label="Office Address"
+		placeholder="Office Address"
+		value=officeAddress
+		updateAnswer(answer) {
+			officeAddress = answer;
+			input.updateFormData({...input.personalInfo, officeAddress: answer});
+		}
+	/> 
+	<let/spouseName = input.personalInfo.spouseName />
+	<TextCard 
+		label="Spouse"
+		subtext="Last Name, First Name, M.I. | Leave BLANK if unapplicable."
+		placeholder="Last Name, First Name, M.I."
+		value=spouseName
+		updateAnswer(answer) {
+			spouseName = answer;
+			input.updateFormData({...input.personalInfo, spouseName: answer});
+		}
+	/>
+	<let/spousePosition = input.personalInfo.spousePosition />
+	<TextCard 
+		label="Position"
+		subtext="of Spouse | Leave BLANK if unapplicable"
+		placeholder="Position of Spouse"
+		value=spousePosition
+		updateAnswer(answer) {
+			spousePosition = answer;
+			input.updateFormData({...input.personalInfo, spousePosition: answer});
+		}
+	/>
+	<let/spouseAgency = input.personalInfo.spouseAgency />
+	<TextCard 
+		label="Agency/Office"
+		subtext="of Spouse | Leave BLANK if unapplicable"
+		placeholder="Agency/Office of Spouse"
+		value=spouseAgency
+		updateAnswer(answer) {
+			spouseAgency = answer;
+			input.updateFormData({...input.personalInfo, spouseAgency: answer});
+		}
+	/>
+	<let/spouseOfficeAddress = input.personalInfo.spouseOfficeAddress />
+	<TextCard 
+		label="Office Address"
+		subtext="of Spouse | Leave BLANK if unapplicable"
+		placeholder="Office Address of Spouse"
+		value=spouseOfficeAddress
+		updateAnswer(answer) {
+			spouseOfficeAddress = answer;
+			input.updateFormData({...input.personalInfo, spouseOfficeAddress: answer});
+		}
+	/>
+</div>

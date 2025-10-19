@@ -1,0 +1,25 @@
+import "./tags/style.css";
+
+
+<let/openModal = false> 
+<let/helpModal = false>
+<body>
+<div class="container">
+    <button class = "uploadJSON" onClick() { openModal = true }>
+      Upload JSON File Here
+    </button>
+    <if=openModal>
+      <uploadModal showModal:=openModal/> 
+    </if>
+    <button class = "help" onClick() { helpModal = true }>
+      Help
+    </button>
+    <if = helpModal>
+      <helpModal showModal:=helpModal/> 
+    </if>
+    <div class="button-bar">
+        <button class="cancel">Cancel</button>
+        <button class="upload">Upload</button>
+    </div>
+</div>
+</body>

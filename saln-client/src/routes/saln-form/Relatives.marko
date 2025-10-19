@@ -1,0 +1,88 @@
+import { AssetTypes } from "../../utils/assetTypes.ts";
+
+export interface Input {
+	relatives: any[];
+	updateFormData: (newPersonalProperties: any[]) => void;
+	updateFormValid: (newFormValid: boolean) => void;
+}
+
+<let/showModal = false />
+
+<let/checkData = (obj: any) => {
+	if (!obj.name) {
+		console.log("Name fail.");
+		return false;
+	}
+
+	if (!obj.relationship) {
+		console.log("Relationship fail.");
+		return false;
+	}
+
+	if (!obj.position) {
+		console.log("Position fail.");
+		return false;
+	}
+
+	if (!obj.agency) {
+		console.log("Agency fail.");
+		return false;
+	}
+
+	return true;
+} />
+
+<script>
+	input.updateFormValid(true);
+</script>
+
+<div class="page-buttons">
+	<button class="nextButton"
+		onClick() {
+			showModal = true;
+		}
+	> 
+		Add Relative
+	</button>
+</div>
+
+<if=(input.relatives.length > 0)>
+	<for|relative, idx| of=input.relatives>
+		<DisplayCard 
+			type=AssetTypes.RELATIVE
+			attributes=relative
+			idx=idx
+			editElement (obj, i) {
+				const newRelativeList = input.relatives.map((relative, idx) => i === idx ? obj : relative);
+				input.updateFormData(newRelativeList);
+			}
+			deleteElement (i) {
+				const newRelativeList = input.relatives.filter((relative, idx) => i !== idx);
+				input.updateFormData(newRelativeList);
+			}
+			validateData (obj) {
+				return checkData(obj);
+			}
+		/>
+	</for>
+</if>
+<else>
+	<h1 class="indicator">No Relatives in the Government Service</h1>
+</else>
+
+<if=(showModal)>
+	<AssetModal 
+		type=AssetTypes.RELATIVE
+		idx=-1
+		mode="Add"
+		closeModal() {
+			showModal = false;
+		}
+		fetchData (obj, i) {
+			input.updateFormData([...input.relatives, obj]);
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>

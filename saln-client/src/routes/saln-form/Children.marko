@@ -1,0 +1,106 @@
+import { AssetTypes, agePattern } from "../../utils/assetTypes.ts";
+
+export interface Input {
+	children: any[];
+	updateFormData: (newChildren: any[]) => void;
+	updateFormValid: (newFormValid: boolean) => void;
+}
+
+<let/showModal = false />
+
+<let/checkData = (obj: any) => {
+	if (!obj.name) {
+		console.log("Name fails.");
+		return false;
+	}
+
+	if (!obj.dob) {
+		console.log("DoB fails.");
+		return false;
+	}
+
+	const today = new Date();
+	const dob = new Date(obj.dob);
+	let dobage = today.getFullYear() - dob.getFullYear();
+	const m = today.getMonth() - dob.getMonth();
+	if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) dobage--;
+	console.log(`Age ${dobage}`);
+	if (dobage >= 18 || today < dob) {
+		console.log("DoB fails.");
+		return false;
+	}
+
+	if (
+		!obj.age ||
+		!agePattern.test(obj.age)
+	) {
+		console.log("Age fail.");
+		return false;
+	}
+
+	const age = Number(obj.age);
+	if (
+		age >= 18 ||
+		age !== age
+	) {
+		console.log("Age fails.");
+		return false;
+	}
+
+	return true;
+} />
+
+<script>
+	input.updateFormValid(true);
+</script>
+
+<div class="page-buttons">
+	<button class="nextButton" 
+		onClick() {
+			showModal = true;
+		}
+	>
+			Add Child
+	</button>
+</div>
+
+<if=(input.children.length > 0)>
+	<for|child, idx| of=input.children>
+		<DisplayCard 
+			type=AssetTypes.UNMARRIED_CHILDREN
+			attributes=child
+			idx=idx
+			editElement (obj, i) {
+				const newChildrenList = input.children.map((child, idx) => i === idx ? obj : child ); 
+				input.updateFormData(newChildrenList);
+			}
+			deleteElement (i) {
+				const newChildrenList = input.children.filter((child, idx) => i !== idx); 
+				input.updateFormData(newChildrenList);
+			}
+			validateData (obj) {
+				return checkData(obj);
+			}
+		/>
+	</for>
+</if>
+<else>
+	<h1 class="indicator">No children</h1>
+</else>
+
+<if=(showModal)>
+	<AssetModal
+		type=AssetTypes.UNMARRIED_CHILDREN
+		idx=-1
+		mode="Add"
+		closeModal() {
+			showModal = false;
+		}
+		fetchData (obj, i) {
+			input.updateFormData([...input.children, obj]);
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>

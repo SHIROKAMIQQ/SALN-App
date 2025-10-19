@@ -1,0 +1,98 @@
+import { AssetTypes, yearPattern } from "../../utils/assetTypes.ts";
+
+export interface Input {
+	connections: any[];
+	updateFormData: (newPersonalProperties: any[]) => void;
+	updateFormValid: (newFormValid: boolean) => void;
+}
+
+<let/showModal = false />
+
+<let/checkData = (obj: any) => {
+	if (!obj.name) {
+		console.log("Name fail.");
+		return false;
+	}
+
+	if (!obj.businessAddress) {
+		console.log("BusinessAddress fail.");
+		return false;
+	}
+
+	if (!obj.nature) {
+		console.log("Nature fail.");
+		return false;
+	}
+	
+	if(
+			!obj.dateOfAcquisition ||
+			!yearPattern.test(obj.dateOfAcquisition)
+	) {
+		console.log("DateOfAcquisition fail.");
+		return false;
+	}
+
+	const today = new Date();
+	const acqyear = new Date(obj.dateOfAcquisition);
+	if (acqyear.getFullYear() > today.getFullYear()) {
+		console.log("YearAcquired fail.");
+		return false;
+	}
+
+	return true;
+} />
+
+<script>
+	input.updateFormValid(true);
+</script>
+
+<div class="page-buttons">
+	<button class="nextButton"
+		onClick() {
+			showModal = true;
+		}
+	> 
+		Add Connection
+	</button>
+</div>
+
+<if=(input.connections.length > 0)>
+	<for|connection, idx| of=input.connections>
+		<DisplayCard 
+			type=AssetTypes.CONNECTION
+			attributes=connection
+			idx=idx
+			editElement (obj, i) {
+				const newConnectionList = input.connections.map((connection, idx) => i === idx ? obj : connection);
+				input.updateFormData(newConnectionList);
+			}
+			deleteElement (i) {
+				const newConnectionList = input.connections.filter((connection, idx) => i !== idx);
+				input.updateFormData(newConnectionList);
+			}
+			validateData (obj) {
+				return checkData(obj);
+			}
+		/>
+	</for>
+</if>
+<else>
+	<h1 class="indicator">No Business Interests and Financial Connections</h1>
+</else>
+
+<if=(showModal)>
+	<AssetModal 
+		type=AssetTypes.CONNECTION
+		idx=-1
+		mode="Add"
+		closeModal() {
+			showModal = false;
+		}
+		fetchData (obj, i) {
+			input.updateFormData([...input.connections, obj]);
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>
