@@ -90,7 +90,7 @@ DB_PASSWORD=saln_password
 
 Then on Linux, run
 ```
-php artisan migrate
+php artisan migrate:fresh
 ```
 
 This part sets up the cron job for scheduled tasks (like deleting 5-day old SALN Forms). \
