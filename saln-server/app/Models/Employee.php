@@ -13,7 +13,8 @@ class Employee extends Authenticable {
 	protected $table = 'employees';
 	protected $primaryKey = 'employeeID';
 	public $incrementing = false;
-	protected $keyType = 'string'
+	protected $keyType = 'string';
+	public $timestamps = false;
 
 	protected $fillable = [
 		'employeeID',
