@@ -13,18 +13,14 @@ class Employee extends Authenticable {
 	protected $table = 'employees';
 	protected $primaryKey = 'employeeID';
 	public $incrementing = false;
-	protected $keyType = 'string'
+	protected $keyType = 'string';
+	public $timestamps = false;
 
 	protected $fillable = [
+		'employeeID',
 		'email', 
 		'encryption_key'
 	];
-
-	protected static function booted() {
-		static::creating(function ($employee) {
-			$employee->employeeID = (string)Str::uuid();
-		});
-	}
 
 	public function otps() {
 		return $this->hasMany(OTP::class, 'employeeID', 'employeeID');
