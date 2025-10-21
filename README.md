@@ -15,6 +15,13 @@ cd saln-client
 npm install
 ```
 
+## Local Configurations
+Create `saln-client/.env` and put this line inside.
+```
+VITE_API_BASE_URL=http://localhost:8000/api
+```
+This acts as the base URL for API calls to the server. This will be changed for production.
+
 ## Run Client
 `npm run dev` must be run in the `saln-client` directory.
 
