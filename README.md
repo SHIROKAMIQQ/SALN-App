@@ -97,6 +97,7 @@ DB_PASSWORD=saln_password
 
 Then on Linux, run
 ```
+php artisan key:generate
 php artisan migrate:fresh
 ```
 
