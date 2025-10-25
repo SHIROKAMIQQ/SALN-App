@@ -143,6 +143,7 @@ declare module "../src/routes/+layout.marko" {
     /** @deprecated use `((context, next) => { ... }) satisfies MarkoRun.Handler` instead */
     export const route: Run.HandlerTypeFn<Route>;
   }
+}
 declare module "../src/routes/+layout.marko" {
   export interface Input extends Run.LayoutInput<typeof import("../src/routes/+layout.marko")> {}
   namespace MarkoRun {
