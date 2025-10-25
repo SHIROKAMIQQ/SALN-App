@@ -1,11 +1,22 @@
   html,
   body {
     font-family: inter;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #000;
     background: #E5E5E0;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  .header-title {
+    color: #000;
+  }
+  .header-button-container {
+    display: flex;
+    gap: 0.5rem;
   }
   .container {
     position: absolute;
@@ -22,21 +33,3 @@
     background-color: #FFFFFF;
     border: 10px solid #0D9488;
   }
-  .enterEmail{
-    border-radius: 20px;
-    padding: 0 10px;
-    background-color:#161619;
-    color: #F9FAFB;
-    text-align: left;
-    width: 70vh;
-    height: 10vh;
-    font-size: 5vh;
-  }
-  .confirmLogin{
-    border-radius: 50px;
-    padding: 1em 2em;
-    background-color: #0D9488;
-    font-size: 2vh;
-    color:#000000;
-    font-weight: bold;
-    }
