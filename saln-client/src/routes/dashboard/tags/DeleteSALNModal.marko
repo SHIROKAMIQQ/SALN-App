@@ -1,0 +1,59 @@
+import "./style.css";
+
+export interface Input{
+    salnID: String;
+    dateFilled: String;
+    name: String;
+    position: String;
+    agencyorOffice: String;
+    officeAddress: String;
+    deleteElement: () => void; 
+	toggleModal: () => void; 
+}
+
+
+<div class = "modal-overlay">
+    <div class = "modal">
+	<div class = "formInfo">
+		<h1>Are you sure you want to delete?</h1>
+
+		<p class="attribute-item">
+			<b class="attribute-key">SALN_ID: </b>
+			${input.salnID}
+		</p>
+		<p class="attribute-item">
+			<b class="attribute-key">Date Filled: </b>
+			${input.dateFilled}
+		</p>
+		<br>
+		<p class="attribute-item">
+			<b class="attribute-key">Name: </b> ${input.name}
+		</p>
+		<p class="attribute-item">
+			<b>Position: </b> ${input.position}
+		</p>
+		<p class="attribute-item">
+			<b>Agency/Office: </b> ${input.agencyorOffice}
+		</p>
+		<p class="attribute-item">
+			<b>Office Address: </b> ${input.officeAddress}
+		</p>
+	</div>
+	<br>
+
+    <div class = "button-bar">
+        <button class="otherButton modal-button" onClick() {
+				input.toggleModal();
+			}>No
+		</button>
+        <button class="deleteButton modal-button" onClick() {
+				input.toggleModal();
+				input.deleteElement();
+			}>
+			Yes
+		</button>
+    </div>
+    </div>
+
+</div>
+

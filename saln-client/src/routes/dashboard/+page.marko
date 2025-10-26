@@ -1,0 +1,92 @@
+import "./tags/style.css";
+
+// TODO: get from indexedDB
+// only relevant fields are in tmpData for purposes of testing
+// but all of the form info will be loaded in the actual implementation
+<let/tmpData = {
+  salns: [
+    {
+      salnID: "00000003",
+      updatedAt: "2000-12-25", // TODO: turn into timestamp
+      personalInfo: {
+        name: "Agcaoili, Lucas, V.",
+        position: "Teacher",
+        agency: "Department of Education",
+        officeAddress: "DepEd Complex, Meralco Avenue, Pasig City",
+      }
+    },
+    {
+      salnID: "00000004",
+      updatedAt: "2005-10-31", // TODO: turn into timestamp
+      personalInfo: {
+        name: "Peñaflorida, Aeron, D.",
+        position: "Scientist",
+        agency: "Department of Science and Technology",
+        officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
+      }
+    },
+  ]
+}/>
+
+<let/showDeleteAcctModal = false>
+
+<body>
+    <div class="header">
+        <h1 class="header-title">Dashboard</h1>
+
+        <div class="header-button-container">
+            <button class="deleteButton" onClick() {
+              showDeleteAcctModal = true;
+            }>
+              Delete Account
+            </button>
+            <button class="otherButton" onClick() {
+              location.href = "saln-form";
+            }> // TODO: load saln-form with all fields blank
+              Accomplish new SALN
+            </button>
+            <button class="otherButton" onClick() {
+              location.href = "uploadJSON";
+            }>
+              Upload SALN JSON
+            </button>
+            <button class="otherButton" onClick() {
+              location.href = "login";
+            }> // TODO: handle log out
+              Log out
+            </button>
+        </div>
+    </div>
+    <if=(tmpData.salns.length > 0)>
+      <for|saln, idx| of=tmpData.salns>
+        <DashboardCard
+          salnID=saln.salnID,
+          dateFilled=saln.updatedAt,
+          name=saln.personalInfo.name,
+          position=saln.personalInfo.position,
+          agency=saln.personalInfo.agency,
+          officeAddress=saln.personalInfo.officeAddress,
+
+          idx=idx,
+          deleteElement(i) {
+            const newFormList = tmpData.salns.filter((_, idx) => i !== idx); 
+				    tmpData = {...tmpData, salns: newFormList};
+          },
+        /> // TODO: pass an update function, handle invalid/incomplete
+      </for>
+    </if>
+    <else>
+      <h1 class="header-title">No forms</h1>
+    </else>
+</body>
+
+<if=showDeleteAcctModal>
+  <DeleteAcctModal
+    deleteAccount() { // TODO: Actually delete account
+      location.href = "login";
+    },
+    toggleModal() {
+      showDeleteAcctModal = !showDeleteAcctModal;
+    },
+  />
+</if>
