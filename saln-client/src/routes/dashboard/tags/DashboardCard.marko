@@ -1,0 +1,34 @@
+import BaseCard from "./BaseCard.marko";
+
+export interface Input {
+    salnID: string;
+    dateFilled: string;
+
+    name: string;
+    position: string;
+    agency: string;
+    officeAddress: string;
+    idx: number;
+}
+
+<let/deleteModal = false> 
+<BaseCard>
+    <div class="container">
+        <div class="cardInfo">
+            <p class="cardInfoEntry"><b>SALN_ID:</b> ${input.salnID}</p>
+            <p class="cardInfoEntry"><b>Date Filled:</b> ${input.dateFilled}</p>
+            <br>
+            <p class="cardInfoEntry"><b>Name:</b> ${input.name}</p>
+            <p class="cardInfoEntry"><b>Position:</b> ${input.position}</p>
+            <p class="cardInfoEntry"><b>Agency/Office:</b> ${input.agency}</p>
+            <p class="cardInfoEntry"><b>Office Address:</b> ${input.officeAddress}</p>
+        </div>
+
+        <div class="button-grid">
+            <button class="exportButton">PDF</button>
+            <button class="exportButton">JSON</button>
+            <button class="otherButton">EDIT</button>
+            <button class="deleteButton"  onClick() {deleteModal = true }>DEL</button>
+        </div>
+    </div>
+</BaseCard>

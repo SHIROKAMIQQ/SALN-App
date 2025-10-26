@@ -1,35 +1,77 @@
-  html,
-  body {
-    font-family: inter;
-    background: #E5E5E0;
-  }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    padding: 1rem;
-  }
-  .header-title {
-    color: #000;
-  }
-  .header-button-container {
-    display: flex;
-    gap: 0.5rem;
-  }
-  .container {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(1em, 2vw, 2em);
-    padding:1em;
-    top: 100px;
-    width: 40vw;
-    height: 50vh;
-    border-radius: 20px;
-    background-color: #FFFFFF;
-    border: 10px solid #0D9488;
-  }
+html,
+body {
+  font-family: inter;
+  background: #E5E5E0;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+.header-title {
+  color: #000;
+}
+.header-button-container {
+  display: flex;
+  gap: 0.5rem;
+}
+.container {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+
+  color: black;
+  padding: 1em;
+  border-radius: 20px;
+  background-color: #FFFFFF;
+  border: 10px solid #0D9488;
+  margin-bottom: 20px; 
+}
+.cardInfoEntry {
+  margin-bottom: 0; 
+  margin-top: 0; 
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.exportButton{
+  background-color: #0D9488;
+  border: 7px solid #0D9488;
+}
+.exportButton:hover{
+  background-color: #14B8A6;
+  border: 7px solid #14B8A6;
+}
+
+.deleteButton{
+  background-color: #B22222;
+  border: 7px solid #B22222;
+}
+.deleteButton:hover{
+  background-color: #E03A3A;
+  border: 7px solid #E03A3A;
+}
+
+.otherButton{
+  background-color: #1F3B4D;
+  border: 7px solid #1F3B4D;
+}
+.otherButton:hover {
+  background-color: #1C4963; 
+  border: 7px solid #1C4963; 
+}
+
+.exportButton, .deleteButton, .otherButton {
+  font-weight: bold;
+  border-radius: 1em;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}

@@ -1,21 +1,49 @@
 import "./tags/style.css";
 
 // TODO: get from indexedDB
+// only relevant fields are in tmpData for purposes of testing
+// but all of the form info will be loaded in the actual implementation
 <let/tmpData = {
   salns: [
     {
-        saln_id: "00000003",
-        date_filled: "2000-12-25",
+      salnID: "00000003",
+      updatedAt: "2000-12-25", // TODO: turn into timestamp
+      personalInfo: {
         name: "Agcaoili, Lucas, V.",
-        agency_office: "Department of Education",
-        office_address: "DepEd Complex, Meralco Avenue, Pasig City",
+        position: "Teacher",
+        agency: "Department of Education",
+        officeAddress: "DepEd Complex, Meralco Avenue, Pasig City",
+      }
     },
     {
-        saln_id: "00000004",
-        date_filled: "2005-10-31",
+      salnID: "00000004",
+      updatedAt: "2005-10-31", // TODO: turn into timestamp
+      personalInfo: {
         name: "Peñaflorida, Aeron, D.",
-        agency_office: "Department of Science and Technology",
-        office_address: "DOST Main Building, General Santos Avenue, Pasig City",
+        position: "Scientist",
+        agency: "Department of Science and Technology",
+        officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
+      }
+    },
+    {
+      salnID: "00000004",
+      updatedAt: "2005-10-31", // TODO: turn into timestamp
+      personalInfo: {
+        name: "Peñaflorida, Aeron, D.",
+        position: "Scientist",
+        agency: "Department of Science and Technology",
+        officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
+      }
+    },
+    {
+      salnID: "00000004",
+      updatedAt: "2005-10-31", // TODO: turn into timestamp
+      personalInfo: {
+        name: "Peñaflorida, Aeron, D.",
+        position: "Scientist",
+        agency: "Department of Science and Technology",
+        officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
+      }
     },
   ]
 }/>
@@ -29,11 +57,31 @@ import "./tags/style.css";
         <h1 class="header-title">Dashboard</h1>
 
         <div class="header-button-container">
-            <button>Delete Account</button>
-            <button>Accomplish new SALN</button>
-            <button>Upload SALN JSON</button>
-            <button>Log out</button>
+            <button class="deleteButton">
+              Delete Account
+            </button>
+            <button class="otherButton">
+              Accomplish new SALN
+            </button>
+            <button class="otherButton">
+              Upload SALN JSON
+            </button>
+            <button class="otherButton">
+              Log out
+            </button>
         </div>
     </div>
-    <p> Test </p>
+    <if=(tmpData.salns.length > 0)>
+      <for|saln, idx| of=tmpData.salns>
+        <DashboardCard
+          salnID=saln.salnID,
+          dateFilled=saln.updatedAt,
+          name=saln.personalInfo.name,
+          position=saln.personalInfo.position,
+          agency=saln.personalInfo.agency,
+          officeAddress=saln.personalInfo.officeAddress,
+          idx=idx
+        /> // TODO: pass an update function, handle invalid/incomplete
+      </for>
+    </if>
 </body>
