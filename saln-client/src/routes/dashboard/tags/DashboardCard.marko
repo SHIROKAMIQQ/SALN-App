@@ -41,14 +41,17 @@ export interface Input {
         </div>
 
         <div class="button-grid">
-            <button class="exportButton">PDF</button>
-            <button class="exportButton">JSON</button>
-            <button class="otherButton">EDIT</button>
-            <button class="deleteButton" 
-                            onClick() {
-                                showDeleteModal = true
-                            }
-                        >DEL</button>
+            <button class="exportButton" onClick() {
+                console.log("exported form %d to PDF", input.idx);
+            }>PDF</button> // TODO: export to PDF
+            <button class="exportButton" onClick() {
+                console.log("exported form %d to JSON", input.idx);
+            }>JSON</button> // TODO: export to JSON
+            
+            <button class="otherButton" onClick(){location.href = "saln-form"}>EDIT</button>
+            //TODO: pass correct saln info into saln-form
+
+            <button class="deleteButton" onClick() {showDeleteModal = true}>DEL</button>
         </div>
     </div>
 </BaseCard>
@@ -63,6 +66,9 @@ export interface Input {
         officeAddress = input.officeAddress,
         deleteElement() {
             input.deleteElement(input.idx);
+        },
+        toggleModal() {
+            showDeleteModal = !showDeleteModal;
         }
     />
 </if>

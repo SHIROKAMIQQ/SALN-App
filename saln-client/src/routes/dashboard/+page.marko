@@ -28,25 +28,31 @@ import "./tags/style.css";
   ]
 }/>
 
-<script>
-  console.log(tmpData);
-</script>
+<let/showDeleteAcctModal = false>
 
 <body>
     <div class="header">
         <h1 class="header-title">Dashboard</h1>
 
         <div class="header-button-container">
-            <button class="deleteButton">
+            <button class="deleteButton" onClick() {
+              showDeleteAcctModal = true;
+            }>
               Delete Account
             </button>
-            <button class="otherButton">
+            <button class="otherButton" onClick() {
+              location.href = "saln-form";
+            }> // TODO: load saln-form with all fields blank
               Accomplish new SALN
             </button>
-            <button class="otherButton">
+            <button class="otherButton" onClick() {
+              location.href = "uploadJSON";
+            }>
               Upload SALN JSON
             </button>
-            <button class="otherButton">
+            <button class="otherButton" onClick() {
+              location.href = "login";
+            }> // TODO: handle log out
               Log out
             </button>
         </div>
@@ -70,6 +76,17 @@ import "./tags/style.css";
       </for>
     </if>
     <else>
-      <h1>No forms</h1>
+      <h1 class="header-title">No forms</h1>
     </else>
 </body>
+
+<if=showDeleteAcctModal>
+  <DeleteAcctModal
+    deleteAccount() { // TODO: Actually delete account
+      location.href = "login";
+    },
+    toggleModal() {
+      showDeleteAcctModal = !showDeleteAcctModal;
+    },
+  />
+</if>

@@ -1,0 +1,32 @@
+import "./style.css";
+
+export interface Input{
+    deleteAccount: () => void; 
+	toggleModal: () => void; 
+}
+
+<div class = "modal-overlay">
+    <div class = "modal">
+	<div class = "formInfo">
+		<h1>Are you sure you want to delete your account?</h1>
+
+        <p>This will delete <b>all</b> forms stored in this account.</p>
+	</div>
+	<br>
+
+    <div class = "button-bar">
+        <button class="otherButton modal-button" onClick() {
+				input.toggleModal();
+			}>No
+		</button>
+        <button class="deleteButton modal-button" onClick() {
+				input.toggleModal();
+				location.href = "login"; // TODO: Handle API for deleting account
+			}>
+			Yes
+		</button>
+    </div>
+    </div>
+
+</div>
+
