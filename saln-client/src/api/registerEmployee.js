@@ -38,6 +38,6 @@ export async function registerEmployee(email) {
   });
 
   const data = await response.json();
-  console.log("Server resposne:", data);
+  console.log("Server response:", data);
   return data;
 }

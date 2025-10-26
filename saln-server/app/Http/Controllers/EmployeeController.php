@@ -19,18 +19,21 @@ class EmployeeController extends Controller
     // Encrypt the encryption key using APP_KEY
     $encryptedKey = Crypt::encryptString($validated['encryption_key']);
 
+    // TODO: Check if email already exists
+    // If so, return a failed response. 
+
     // Save to database
     $employee = Employee::create([
       'employeeID' => $validated['employeeID'],
       'email' => $validated['email'],
       'encryption_key' => $encryptedKey
     ]);
-    
-    // TODO: Create OTP, Save OTP to otps table, Email OTP to Employee.email
 
     return response()->json([
       'success' => true,
       'message' => "Employee registered to database.",
     ], 201);
   }
+
+  // TODO: Create OTP, Save OTP to otps table, Email OTP to Employee.email
 }

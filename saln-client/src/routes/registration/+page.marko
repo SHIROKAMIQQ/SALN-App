@@ -1,5 +1,6 @@
 import "./tags/style.css";
 import { registerEmployee } from "../../api/registerEmployee.js";
+import { otpRequest } from "../../api/otpRequest.js";
 
 <let/email="" />
 
@@ -10,10 +11,21 @@ import { registerEmployee } from "../../api/registerEmployee.js";
   }
   
   try {
+    console.log("Attempting to save employee to database.");
     const result = await registerEmployee(email);
     if (result.success) {
-      window.location.href = "/otp-verification";
-    }
+      console.log("Email saved to database.");
+      sessionStorage.setItem("tmpEmail", email);
+      
+      console.log("Requesting OTP to be created.");
+      const otprequest = await otpRequest(email);
+      if (otprequest.success) {
+        console.log("OTP Request successfully sent.");
+        window.location.href = "/otp-verification";
+      }
+    }    
+    // TODO: add case where email already exists;
+    // If so, alert.
   } catch (err) {
     console.error(err);
   }

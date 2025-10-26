@@ -1,20 +1,52 @@
 import "./tags/style.css";
+import { otpRequest } from "../../api/otpRequest.js";
 
+<let/email="" />
+
+<let/confirmLogin = async (email: string) => {
+	if (!email) {
+		alert("Enter an email first");
+		return;
+	}
+
+	try {
+		console.log("Requesting OTP to be created.");
+		const result = await otpRequest(email);
+		if (result.success) {
+			console.log("OTP Request successfully sent.");
+			sessionStorage.setItem("tmpEmail", email);
+			window.location.href = "/otp-verification";
+		}
+	} catch (err) {
+		console.error(err);
+	}
+} />
 
 <body>
 <div class="container">
-    <h1>
-      SALN APP
-    </h1>
+	<h1>
+		SALN APP
+	</h1>
 
-    <input type="text" class="enterEmail" placeholder="Email">
-    <br>
-    <button onclick="location.href='otp-verification'" class="confirmLogin"> //TODO: handle log-in via API call here
-      Log in with Email
-    </button>
-    <br>
-    <a href="registration" style="font-size: 15px;">
-      Don't have an account? Register here
-    </a>
+	<input 
+		type="text" 
+		class="enterEmail" 
+		placeholder="Email"
+		onInput(event) {
+			email = event.target.value.trim();
+		}
+	/>
+	<br>
+	<button class="confirmLogin"
+		onClick() {
+			confirmLogin(email);
+		}
+	>
+		Log in with Email
+	</button>
+	<br>
+	<a href="registration" style="font-size: 15px;">
+		Don't have an account? Register here
+	</a>
 </div>
 </body>

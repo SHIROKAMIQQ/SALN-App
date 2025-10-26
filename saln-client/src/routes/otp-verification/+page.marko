@@ -1,8 +1,10 @@
 import "./tags/style.css";
 
+<let/tmpEmail = "" />
+
 <script>
     // localStorage.setItem("tmpEmail", "email@domain.com");
-    const tmpEmail = localStorage.getItem("tmpEmail");
+    tmpEmail = sessionStorage.getItem("tmpEmail");
 
     if (!tmpEmail) {
         window.location.href = "/";
