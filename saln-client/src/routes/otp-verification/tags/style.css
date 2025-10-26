@@ -21,6 +21,7 @@
     border-radius: 20px;
     background-color: #FFFFFF;
     border: 10px solid #0D9488;
+    overflow:scroll;
   }
   .enterOTP{
     border-radius: 20px;
@@ -28,7 +29,7 @@
     background-color:#161619;
     color: #F9FAFB;
     text-align: left;
-    width: 70vh;
+    width: 38vw;
     height: 10vh;
     font-size: 5vh;
   }
@@ -39,4 +40,7 @@
     font-size: 2vh;
     color:#000000;
     font-weight: bold;
+  }
+  .wrongOTP{
+    color: red;
   }

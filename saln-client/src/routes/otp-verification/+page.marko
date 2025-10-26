@@ -2,17 +2,34 @@ import "./tags/style.css";
 
 // TODO: resend/create new OTP when user requests one
 
+<let/showWrongOTP = false>
+<let/OTP = "screen-ring-pen-king"> //TODO: retrieve correct OTP
+
 <body>
 <div class="container">
-    <p> // The backend will concatenate the words na (ex: sreen-ring-pen-king)
+    <p> // The backend will concatenate the words already, ex: screen-ring-pen-king
         An OTP was sent to your email address. Please enter it here to log in.
     </p>
 
-    <input type="text" class="enterOTP" placeholder="Enter OTP">
+    <if=showWrongOTP>
+        <p class="wrongOTP">Sorry, the OTP inputted is incorrect.</p>
+    </if>
+
+    <input type="text" id="OTPInput" class="enterOTP" placeholder="Enter OTP" required>
     <br>
-    <button class="submitOTP"> // TODO: handle API call for OTP verification
+    <button class="submitOTP" onClick() { // TODO: handle API call for OTP verification
+        const inputElement = document.getElementById("OTPInput")! as HTMLInputElement;
+        const userInput = inputElement.value;
+        console.log(userInput);
+        if (OTP == userInput) {
+            location.href="dashboard";
+        } else {
+            showWrongOTP = true;
+        }
+    }> 
         Submit
     </button>
+
     <br>
 
     <a href="login" style="font-size: 15px;">
@@ -20,4 +37,5 @@ import "./tags/style.css";
     </a>
 </div>
 </body>
+
 
