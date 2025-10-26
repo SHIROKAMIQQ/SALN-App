@@ -1,5 +1,14 @@
 import "./tags/style.css";
 
+<script>
+    // localStorage.setItem("tmpEmail", "email@domain.com");
+    const tmpEmail = localStorage.getItem("tmpEmail");
+
+    if (!tmpEmail) {
+        window.location.href = "/";
+    }
+</script>
+
 // TODO: resend/create new OTP when user requests one
 
 <body>
