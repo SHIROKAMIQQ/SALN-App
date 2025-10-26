@@ -25,26 +25,6 @@ import "./tags/style.css";
         officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
       }
     },
-    {
-      salnID: "00000004",
-      updatedAt: "2005-10-31", // TODO: turn into timestamp
-      personalInfo: {
-        name: "Peñaflorida, Aeron, D.",
-        position: "Scientist",
-        agency: "Department of Science and Technology",
-        officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
-      }
-    },
-    {
-      salnID: "00000004",
-      updatedAt: "2005-10-31", // TODO: turn into timestamp
-      personalInfo: {
-        name: "Peñaflorida, Aeron, D.",
-        position: "Scientist",
-        agency: "Department of Science and Technology",
-        officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
-      }
-    },
   ]
 }/>
 
@@ -80,8 +60,16 @@ import "./tags/style.css";
           position=saln.personalInfo.position,
           agency=saln.personalInfo.agency,
           officeAddress=saln.personalInfo.officeAddress,
-          idx=idx
+
+          idx=idx,
+          deleteElement(i) {
+            const newFormList = tmpData.salns.filter((_, idx) => i !== idx); 
+				    tmpData = {...tmpData, salns: newFormList};
+          },
         /> // TODO: pass an update function, handle invalid/incomplete
       </for>
     </if>
+    <else>
+      <h1>No forms</h1>
+    </else>
 </body>

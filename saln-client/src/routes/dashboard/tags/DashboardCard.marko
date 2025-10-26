@@ -1,34 +1,68 @@
 import BaseCard from "./BaseCard.marko";
 
 export interface Input {
-    salnID: string;
-    dateFilled: string;
+    salnID: String;
+    dateFilled: String;
 
-    name: string;
-    position: string;
-    agency: string;
-    officeAddress: string;
-    idx: number;
+    name: String;
+    position: String;
+    agency: String;
+    officeAddress: String;
+
+    idx: Number;
+    deleteElement: (i: Number) => void;
 }
 
-<let/deleteModal = false> 
+<let/showDeleteModal = false>
 <BaseCard>
     <div class="container">
         <div class="cardInfo">
-            <p class="cardInfoEntry"><b>SALN_ID:</b> ${input.salnID}</p>
-            <p class="cardInfoEntry"><b>Date Filled:</b> ${input.dateFilled}</p>
+            <p class="attribute-item">
+                <b class="attribute-key">SALN_ID: </b>
+                ${input.salnID}
+            </p>
+            <p class="attribute-item">
+                <b class="attribute-key">Date Filled: </b>
+                ${input.dateFilled}
+            </p>
             <br>
-            <p class="cardInfoEntry"><b>Name:</b> ${input.name}</p>
-            <p class="cardInfoEntry"><b>Position:</b> ${input.position}</p>
-            <p class="cardInfoEntry"><b>Agency/Office:</b> ${input.agency}</p>
-            <p class="cardInfoEntry"><b>Office Address:</b> ${input.officeAddress}</p>
+            <p class="attribute-item">
+                <b class="attribute-key">Name: </b> ${input.name}
+            </p>
+            <p class="attribute-item">
+                <b>Position: </b> ${input.position}
+            </p>
+            <p class="attribute-item">
+                <b>Agency/Office: </b> ${input.agency}
+            </p>
+            <p class="attribute-item">
+                <b>Office Address: </b> ${input.officeAddress}
+            </p>
         </div>
 
         <div class="button-grid">
             <button class="exportButton">PDF</button>
             <button class="exportButton">JSON</button>
             <button class="otherButton">EDIT</button>
-            <button class="deleteButton"  onClick() {deleteModal = true }>DEL</button>
+            <button class="deleteButton" 
+                            onClick() {
+                                showDeleteModal = true
+                            }
+                        >DEL</button>
         </div>
     </div>
 </BaseCard>
+
+<if = showDeleteModal>
+    <DeleteSALNModal 
+        salnID = input.salnID,
+        dateFilled = input.dateFilled,
+        name = input.name,
+        position = input.position,
+        agencyorOffice = input.agency,
+        officeAddress = input.officeAddress,
+        deleteElement() {
+            input.deleteElement(input.idx);
+        }
+    />
+</if>
