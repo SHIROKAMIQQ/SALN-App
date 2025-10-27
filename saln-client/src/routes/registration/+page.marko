@@ -1,5 +1,23 @@
 import "./tags/style.css";
+import { registerEmployee } from "../../api/registerEmployee.js";
 
+<let/email="" />
+
+<let/confirmRegistration = async (email: string) => {
+  if (!email) {
+    alert("Enter an email first.");
+    return;
+  }
+  
+  try {
+    const result = await registerEmployee(email);
+    if (result.success) {
+      window.location.href = "/otp-verification";
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}/>
 
 <body>
 <div class="container">
@@ -7,9 +25,18 @@ import "./tags/style.css";
       SALN APP
     </h1>
 
-    <input type="text" class="enterEmail" placeholder="Email">
+    <input 
+      type="text" 
+      class="enterEmail" 
+      placeholder="Email" 
+      onInput(event) {
+        email = event.target.value.trim();
+      }
+    />
     <br>
-    <button onclick="location.href='otp-verification'" class="confirmRegistration"> //TODO: handle registration via API call here
+    <button class="confirmRegistration" onClick() {
+      confirmRegistration(email);
+    }>
       Register with Email
     </button>
     <br>
