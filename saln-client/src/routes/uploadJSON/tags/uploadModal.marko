@@ -1,20 +1,70 @@
 import "./style.css";
-
+import { handleClick , handleDragOver, handleDragEnter, handleDragLeave, handleDrop  } from "./script.js";
 
 export interface Input {
     showModalChange: (showModal: boolean) => void; 
+    onFilesUploaded?: (files: File[]) => void;
 }
 <let/showModal:=input.showModal>
+<let/selectedFiles=[]>
+<let/isDragging=false>
 
 <div class="modal-overlay">
     <div class = "modal">
         <div class = "uploadTitle">Upload File</div>
-        <div class = "dragandDrop">
-            Drag and Drop JSON File here
+        <div class = "dragandDrop ${isDragging ? 'dragging' : ''}" onClick() { handleClick((files) => {
+                selectedFiles = files;
+            })} onDragOver(e) {
+                handleDragOver(e);
+                isDragging = true;
+            }
+            onDragEnter(e) {
+                handleDragEnter(e);
+                isDragging = true;
+            }
+            onDragLeave(e) {
+                handleDragLeave(e);
+                isDragging = false;
+            }
+            onDrop(e) {
+                handleDrop(e, (files) => {
+                    selectedFiles = files;
+                });
+                isDragging = false;
+            }>
+            <if=(selectedFiles.length === 0)>
+                Drag and Drop JSON File here
+            </if>
+            <else>
+                <div class="file-list">
+                    <for|file| of=selectedFiles>
+                        <div class="file-item">
+                            <div class="file-icon">📄</div>
+                            <div class="file-info">
+                                <div class="file-name">${file.name}</div>
+                                <div class="file-date">${new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}, ${new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+                            </div>
+                        </div>
+                    </for>
+                </div>
+            </else>
         </div>
         <div class = "button-bar">
-        <button class="cancelUpload" onClick() {input.showModalChange?.(false)}>Cancel</button>
-        <button class="submitUpload" onClick() {input.showModalChange?.(false)}>Submit</button>
+        <button class="cancelUpload" onClick() {selectedFiles = []; input.showModalChange?.(false)}>Cancel</button>
+        <button class="submitUpload" onClick() {if (selectedFiles.length == 1) {
+                    const file = selectedFiles[0];
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        sessionStorage.setItem('uploadedFile', JSON.stringify({
+                            name: file.name,
+                            content: e.target.result,
+                            type: file.type,
+                            size: file.size
+                        }));
+                        input.onFilesUploaded?.(selectedFiles);
+                    };
+                    reader.readAsText(file); // Since you're uploading JSON
+                } }>Submit</button>
         </div>
     </div>
 </div>

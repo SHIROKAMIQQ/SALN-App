@@ -6,36 +6,123 @@ export interface Input {
 <let/showModal:=input.showModal>
 
 
-<div class = "modal-overlay">
-    <div class = "help-modal">
-    <div class = "title">Sample JSON file format</div>
-    <button class="help-back" onClick() {input.showModalChange?.(false)}>Back</button>
-    <pre class="json">
-    {
+<div class="modal-overlay">
+    <div class="help-modal">
+        <div class="title">Sample JSON file format</div>
+        <button class="help-back" onClick() {input.showModalChange?.(false)}>Back</button>
+        <pre class="json">{
   <span class="key">"personalInfo"</span>: {
-    <span class="key">"filingType"</span>: <span class="number">0</span>, <span class="comment">// 0 for Joint Filing,1 for Separate Filing</span> 
-    <span class="key">"familyName"</span>: <span class="string">""</span>,
-    <span class="key">"firstName"</span>: <span class="string">""</span>,
-    <span class="key">"mi"</span>: <span class="string">""</span>,
-    <span class="key">"address"</span>: <span class="string">""</span>,
-    <span class="key">"position"</span>: <span class="string">""</span>,
-    <span class="key">"agency"</span>: <span class="string">""</span>,
-    <span class="key">"officeAddress"</span>: <span class="string">""</span>,
-    <span class="key">"spouseFamilyName"</span>: <span class="string">""</span>,
-    <span class="key">"spouseFirstName"</span>: <span class="string">""</span>,
-    <span class="key">"spouseMI"</span>: <span class="string">""</span>,
-    <span class="key">"spousePosition"</span>: <span class="string">""</span>,
-    <span class="key">"spouseAgency"</span>: <span class="string">""</span>,
-    <span class="key">"spouseOfficeAddress"</span>: <span class="string">""</span>
+    <span class="key">"filingType"</span>: <span class="number">1</span>, <span class="comment">// 0: Not Applicable, 1: Joint, 2: Separate</span>
+    <span class="key">"familyName"</span>: <span class="string">"Dela Cruz"</span>,
+    <span class="key">"firstName"</span>: <span class="string">"Juan"</span>,
+    <span class="key">"mi"</span>: <span class="string">"P"</span>,
+    <span class="key">"address"</span>: <span class="string">"123 Rizal Street, Quezon City, Metro Manila"</span>,
+    <span class="key">"position"</span>: <span class="string">"Administrative Officer IV"</span>,
+    <span class="key">"agency"</span>: <span class="string">"Department of Education"</span>,
+    <span class="key">"officeAddress"</span>: <span class="string">"DepEd Complex, Meralco Avenue, Pasig City"</span>,
+    <span class="key">"spousefamilyName"</span>: <span class="string">"Santos"</span>,
+    <span class="key">"spousefirstName"</span>: <span class="string">"Maria"</span>,
+    <span class="key">"spouseMI"</span>: <span class="string">"L"</span>,
+    <span class="key">"spousePosition"</span>: <span class="string">"Teacher III"</span>,
+    <span class="key">"spouseAgency"</span>: <span class="string">"Department of Education"</span>,
+    <span class="key">"spouseofficeAddress"</span>: <span class="string">"Quezon City High School, Quezon City"</span>
   },
-  <span class="key">"children"</span>: [],
-  <span class="key">"realProperties"</span>: [],
-  <span class="key">"personalProperties"</span>: [],
-  <span class="key">"liabilities"</span>: [],
-  <span class="key">"connections"</span>: [],
-  <span class="key">"relatives"</span>: []
+  <span class="key">"children"</span>: [
+    {
+      <span class="key">"name"</span>: <span class="string">"Pedro Dela Cruz"</span>,
+      <span class="key">"dateOfBirth"</span>: <span class="string">"2010-05-15"</span>,
+      <span class="key">"age"</span>: <span class="number">14</span>
+    },
+    {
+      <span class="key">"name"</span>: <span class="string">"Ana Dela Cruz"</span>,
+      <span class="key">"dateOfBirth"</span>: <span class="string">"2015-08-22"</span>,
+      <span class="key">"age"</span>: <span class="number">9</span>
     }
-        </pre>
-  
+  ],
+  <span class="key">"realProperties"</span>: [
+    {
+      <span class="key">"description"</span>: <span class="string">"Residential House and Lot"</span>,
+      <span class="key">"kind"</span>: <span class="string">"House"</span>,
+      <span class="key">"exactLocation"</span>: <span class="string">"456 Luna Street, Marikina City"</span>,
+      <span class="key">"assessedValue"</span>: <span class="number">1500000</span>,
+      <span class="key">"marketValue"</span>: <span class="number">3000000</span>,
+      <span class="key">"yearAcquired"</span>: <span class="number">2015</span>,
+      <span class="key">"modeOfAcquisition"</span>: <span class="string">"Purchase"</span>,
+      <span class="key">"cost"</span>: <span class="number">2800000</span>
+    },
+    {
+      <span class="key">"description"</span>: <span class="string">"Agricultural Land"</span>,
+      <span class="key">"kind"</span>: <span class="string">"Land"</span>,
+      <span class="key">"exactLocation"</span>: <span class="string">"Barangay San Jose, Batangas"</span>,
+      <span class="key">"assessedValue"</span>: <span class="number">500000</span>,
+      <span class="key">"marketValue"</span>: <span class="number">800000</span>,
+      <span class="key">"yearAcquired"</span>: <span class="number">2018</span>,
+      <span class="key">"modeOfAcquisition"</span>: <span class="string">"Inheritance"</span>,
+      <span class="key">"cost"</span>: <span class="number">0</span>
+    }
+  ],
+  <span class="key">"personalProperties"</span>: [
+    {
+      <span class="key">"description"</span>: <span class="string">"Toyota Vios 2020"</span>,
+      <span class="key">"yearAcquired"</span>: <span class="number">2020</span>,
+      <span class="key">"acquisitionCost"</span>: <span class="number">850000</span>
+    },
+    {
+      <span class="key">"description"</span>: <span class="string">"Jewelry and Watches"</span>,
+      <span class="key">"yearAcquired"</span>: <span class="number">2019</span>,
+      <span class="key">"acquisitionCost"</span>: <span class="number">150000</span>
+    },
+    {
+      <span class="key">"description"</span>: <span class="string">"Furniture and Appliances"</span>,
+      <span class="key">"yearAcquired"</span>: <span class="number">2015</span>,
+      <span class="key">"acquisitionCost"</span>: <span class="number">300000</span>
+    }
+  ],
+  <span class="key">"liabilities"</span>: [
+    {
+      <span class="key">"nature"</span>: <span class="string">"Housing Loan"</span>,
+      <span class="key">"creditor"</span>: <span class="string">"Pag-IBIG Fund"</span>,
+      <span class="key">"outstandingBalance"</span>: <span class="number">1200000</span>
+    },
+    {
+      <span class="key">"nature"</span>: <span class="string">"Car Loan"</span>,
+      <span class="key">"creditor"</span>: <span class="string">"BDO Auto Loan"</span>,
+      <span class="key">"outstandingBalance"</span>: <span class="number">450000</span>
+    },
+    {
+      <span class="key">"nature"</span>: <span class="string">"Credit Card"</span>,
+      <span class="key">"creditor"</span>: <span class="string">"BPI Credit Card"</span>,
+      <span class="key">"outstandingBalance"</span>: <span class="number">85000</span>
+    }
+  ],
+  <span class="key">"connections"</span>: [
+    {
+      <span class="key">"entityName"</span>: <span class="string">"ABC Trading Corporation"</span>,
+      <span class="key">"businessAddress"</span>: <span class="string">"789 Makati Avenue, Makati City, Metro Manila"</span>,
+      <span class="key">"natureOfConnection"</span>: <span class="string">"Stockholder - 15% equity ownership"</span>,
+      <span class="key">"dateAcquired"</span>: <span class="string">"2020-03-15"</span>
+    },
+    {
+      <span class="key">"entityName"</span>: <span class="string">"Green Valley Agricultural Supplies"</span>,
+      <span class="key">"businessAddress"</span>: <span class="string">"456 Rizal Street, Calamba, Laguna"</span>,
+      <span class="key">"natureOfConnection"</span>: <span class="string">"Board Member and Consultant"</span>,
+      <span class="key">"dateAcquired"</span>: <span class="string">"2019-06-01"</span>
+    }
+  ],
+  <span class="key">"relatives"</span>: [
+    {
+      <span class="key">"name"</span>: <span class="string">"Jose Dela Cruz"</span>,
+      <span class="key">"relationship"</span>: <span class="string">"Brother"</span>,
+      <span class="key">"position"</span>: <span class="string">"Project Engineer"</span>,
+      <span class="key">"agency"</span>: <span class="string">"Department of Public Works and Highways"</span>
+    },
+    {
+      <span class="key">"name"</span>: <span class="string">"Rosa Dela Cruz-Garcia"</span>,
+      <span class="key">"relationship"</span>: <span class="string">"Sister"</span>,
+      <span class="key">"position"</span>: <span class="string">"None"</span>,
+      <span class="key">"agency"</span>: <span class="string">"Private Sector"</span>
+    }
+  ]
+}</pre>
     </div>
 </div>

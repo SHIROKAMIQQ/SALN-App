@@ -1,16 +1,44 @@
 import "./tags/style.css";
 
-
 <let/openModal = false> 
 <let/helpModal = false>
+
+<let/uploadedFiles=[]>
+
 <body>
 <div class="container">
     <button class = "uploadJSON" onClick() { openModal = true }>
       Upload JSON File Here
     </button>
     <if=openModal>
-      <uploadModal showModal:=openModal/> 
+        <uploadModal
+        showModal:=openModal
+        onFilesUploaded=(files) => {
+            // File handling is done in the modal
+            // Just close the modal here if needed
+            uploadedFiles = [...uploadedFiles, ...files];
+            openModal = false;      
+        }
+    />
     </if>
+    <ul class ="filelist">
+      <if=(uploadedFiles.length > 0)>
+            <for|file| of=uploadedFiles>
+                <li class="file-item">
+                    <div class="file-icon">📄</div>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${(file.size / 1024).toFixed(2)} KB</div>
+                        <div class="file-date">${new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                    </div>
+                    <button class="remove-file" onClick() {
+                        uploadedFiles = uploadedFiles.remove;
+                    }>×</button>
+                </li>
+            </for>
+        </if>
+      
+    </ul>
     <button class = "help" onClick() { helpModal = true }>
       Help
     </button>
