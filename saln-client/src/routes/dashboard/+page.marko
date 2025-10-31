@@ -37,6 +37,9 @@ import "./tags/style.css";
         <div class="header-button-container">
             <button class="deleteButton" onClick() {
               showDeleteAcctModal = true;
+              // TODO: API call to delete employee on remote database 
+              // It should cascade and delete saln data.
+              // Clear IndexedDB SALN data, Pending API calls, and localStorage and sessionStorage
             }>
               Delete Account
             </button>
@@ -52,6 +55,7 @@ import "./tags/style.css";
             </button>
             <button class="otherButton" onClick() {
               location.href = "login";
+              // TODO: Clear IndexedDB SALN data, and localStorage and sessionStorage
             }> // TODO: handle log out
               Log out
             </button>
