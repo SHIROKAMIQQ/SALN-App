@@ -12,6 +12,32 @@
   </body>
 </html>
 
+<script>
+  console.log("HELLO FROM MAIN");
+  // localStorage.setItem("employeeID", "1234");
+  const employeeID = localStorage.getItem("employeeID");
+  const currentPath = window.location.pathname;
+
+  if (!employeeID) {
+    if (
+      currentPath !== "/login" &&
+      currentPath !== "/registration" &&
+      currentPath !== "/otp-verification"
+    ) {
+      window.location.href = "/login";
+    }
+  } else {
+    if (
+      currentPath === "/" || 
+      currentPath === "/login" || 
+      currentPath === "/registration" ||
+      currentPath === "/otp-verification"
+    ) {
+      window.location.href = "/dashboard";
+    }
+  }
+</script>
+
 <style>
   html,
   body {
