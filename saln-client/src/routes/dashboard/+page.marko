@@ -1,32 +1,59 @@
 import "./tags/style.css";
+import { redirect } from "../../utils/redirect.ts";
 
-// TODO: get from indexedDB
-// only relevant fields are in tmpData for purposes of testing
-// but all of the form info will be loaded in the actual implementation
-<let/tmpData = {
-  salns: [
-    {
-      salnID: "00000003",
-      updatedAt: "2000-12-25", // TODO: turn into timestamp
-      personalInfo: {
-        name: "Agcaoili, Lucas, V.",
-        position: "Teacher",
-        agency: "Department of Education",
-        officeAddress: "DepEd Complex, Meralco Avenue, Pasig City",
-      }
-    },
-    {
-      salnID: "00000004",
-      updatedAt: "2005-10-31", // TODO: turn into timestamp
-      personalInfo: {
-        name: "Peñaflorida, Aeron, D.",
-        position: "Scientist",
-        agency: "Department of Science and Technology",
-        officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
-      }
-    },
-  ]
-}/>
+<let/tmpData = null/>
+<let/formsFetched = false/>
+<let/loaded = false/>
+
+<script>
+  if (!loaded) {
+    tmpData = { // TODO : These should be fetched from IndexedDB
+      salns: [
+        {
+          salnID: "00000001",
+          updatedAt: "2005-10-31",
+          personalInfo: {
+            filingType: "Not Applicable", // 0: Not Applicable, 1: Joint, 2: Separate
+            declarantName: "Guiang, Miguel, A.",
+            address: "a",
+            position: "a",
+            agency: "a",
+            officeAddress: "a",
+            spouseName: "",
+            spousePosition: "",
+            spouseAgency: "",
+            spouseOfficeAddress: "",
+          },
+          children: [
+            {
+              name: "Child1",
+              dob: '2007-10-16',
+              age: '18'
+            }
+          ],
+          realProperties: [],
+          personalProperties: [],
+          liabilities: [],
+          connections: [],
+          relatives: []
+        },
+        {
+          salnID: "00000004",
+          updatedAt: "2005-10-31", // TODO: turn into timestamp
+          personalInfo: {
+            name: "Peñaflorida, Aeron, D.",
+            position: "Scientist",
+            agency: "Department of Science and Technology",
+            officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
+          }
+        },
+      ]
+    }
+    console.log(tmpData);
+    loaded = true;
+    formsFetched = true;
+  }
+</script>
 
 <let/showDeleteAcctModal = false>
 
@@ -44,7 +71,9 @@ import "./tags/style.css";
               Delete Account
             </button>
             <button class="otherButton" onClick() {
-              location.href = "saln-form";
+              sessionStorage.setItem("tmpSalnID", "1");
+              // setCurrentSaln(tmpData.salns[0]);
+              redirect("/saln-form");
             }> // TODO: load saln-form with all fields blank
               Accomplish new SALN
             </button>
@@ -61,7 +90,7 @@ import "./tags/style.css";
             </button>
         </div>
     </div>
-    <if=(tmpData.salns.length > 0)>
+    <if=(formsFetched && tmpData.salns.length > 0)>
       <for|saln, idx| of=tmpData.salns>
         <DashboardCard
           salnID=saln.salnID,

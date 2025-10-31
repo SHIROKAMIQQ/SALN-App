@@ -5,42 +5,74 @@ import PersonalProperties from "./PersonalProperties.marko";
 import Liabilities from "./Liabilities.marko";
 import Connections from "./Connections.marko";
 import Relatives from "./Relatives.marko";
+import { getCurrentSaln } from "../../utils/salnGetters.ts";
 
 // TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
 // For tmpData, all fields would be strings for readability.
 // But, they will be converted into appropriate data types once stored into the database.
-<let/tmpData = {
-  personalInfo: {
-    filingType: "Not Applicable", // 0: Not Applicable, 1: Joint, 2: Separate
-    declarantName: "Guiang, Miguel, A.",
-    address: "a",
-    position: "a",
-    agency: "a",
-    officeAddress: "a",
-    spouseName: "",
-    spousePosition: "",
-    spouseAgency: "",
-    spouseOfficeAddress: "",
-  },
-  children: [
-    {
-      name: "Child1",
-      dob: '2007-10-16',
-      age: '18'
-    }
-  ],
-  realProperties: [],
-  personalProperties: [],
-  liabilities: [],
-  connections: [],
-  relatives: []
-}/>
+<let/tmpData = null/>
 
-<let/currentPage = 1 />
+<let/currentPage = 0 />
 <let/formValid = false />
+<let/loaded = false />
 
 <script>
-  console.log(tmpData);
+  if (!loaded) {
+    const salnID = sessionStorage.getItem("tmpSalnID");
+    // TODO: To be loaded from IndexedDB.
+    tmpData = (salnID != null ) ? {
+      salnID: "00000001",
+      updatedAt: "2005-10-31",
+      personalInfo: {
+        filingType: "Not Applicable",
+        declarantName: "Guiang, Miguel, A.",
+        address: "a",
+        position: "a",
+        agency: "a",
+        officeAddress: "a",
+        spouseName: "",
+        spousePosition: "",
+        spouseAgency: "",
+        spouseOfficeAddress: "",
+      },
+      children: [
+        {
+          name: "Child1",
+          dob: '2007-10-16',
+          age: '18'
+        }
+      ],
+      realProperties: [],
+      personalProperties: [],
+      liabilities: [],
+      connections: [],
+      relatives: []
+    } : {
+      salnID: "",
+      updatedAt: "",
+      personalInfo: {
+        filingType: "", 
+        declarantName: "",
+        address: "",
+        position: "",
+        agency: "",
+        officeAddress: "",
+        spouseName: "",
+        spousePosition: "",
+        spouseAgency: "",
+        spouseOfficeAddress: "",
+      },
+      children: [],
+      realProperties: [],
+      personalProperties: [],
+      liabilities: [],
+      connections: [],
+      relatives: []
+    };
+    console.log(tmpData);
+    loaded = true;
+    currentPage = 1;
+  }
 </script>
 
 <if=(currentPage === 1)>
@@ -141,7 +173,7 @@ import Relatives from "./Relatives.marko";
       <button class="prevButton"> Cancel </button>
     </a>
   </else>
-
+  <p style="color: black"> PAGE:${currentPage} </p>
   <if=(currentPage < 7)>
     <button class="nextButton" onClick() {
       if(formValid) {
