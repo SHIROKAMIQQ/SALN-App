@@ -4,6 +4,7 @@ import { registerEmployee } from "../../api/registerEmployee.js";
 <let/email="" />
 
 <let/confirmRegistration = async (email: string) => {
+  console.log("registration button clicked");
   if (!email) {
     alert("Enter an email first.");
     return;
@@ -11,9 +12,12 @@ import { registerEmployee } from "../../api/registerEmployee.js";
   
   try {
     const result = await registerEmployee(email);
+    console.log("API call finished");
     if (result.success) {
       window.location.href = "/otp-verification";
     }
+
+    // TODO: Add alert case where email already exists
   } catch (err) {
     console.error(err);
   }
