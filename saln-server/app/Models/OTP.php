@@ -13,9 +13,10 @@ class OTP extends Model {
 	protected $primaryKey = 'otpID';
 	public $incrementing = true;
 	protected $keyType = 'int';
+	public $timestamps = false;
 
 	protected $fillable = [
-		'employeeID',
+		'email',
 		'otp_code',
 		'expires_at'
 	];
