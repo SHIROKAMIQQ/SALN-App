@@ -1,12 +1,15 @@
 import { API_BASE_URL } from "./config";
 
+// probably will get email from cache?
 /**
  * Verify the OTP matches the OTP in the database
- * @param {string} guess
+ * @param {string} email
+ * @param {string} otp
  */
-export async function verifyOTP(otp) {
+export async function verifyOTP(email, otp) {
     console.log("call to verifyOTP");
 
+    if (!email) throw new Error("Please enter an Email.");
     if (!otp) throw new Error("Please enter an OTP.");
 
     const response = await fetch(`${API_BASE_URL}/verify-otp`, {
@@ -15,19 +18,12 @@ export async function verifyOTP(otp) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            otp: otp
+            email: email,
+            otp: otp,
         }),
     });
 
-    if (!response.ok) {
-        //
-    }
-
-    /*
-
-    email = sessionStorage.get("tmpEmail");
-    if (!email) throw new Error("Email not found in storage.");
-    */
-
-
+    const result = await response.json();
+    console.log("server response: ", result);
+    return result;
 }
