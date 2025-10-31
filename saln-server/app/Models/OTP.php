@@ -20,4 +20,15 @@ class OTP extends Model {
 		'otp_code',
 		'expires_at'
 	];
+
+	protected static function boot()
+	{
+		parent::boot();
+		
+		static::creating(function ($otp) {
+			if (!otp->expires_at) {
+				$otp->expires_at = now()->addMinutes(10);
+			}
+		});
+	}
 }
