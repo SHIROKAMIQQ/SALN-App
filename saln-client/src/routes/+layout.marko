@@ -1,3 +1,5 @@
+import { redirect } from "../utils/redirect.ts";
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,6 +15,7 @@
 </html>
 
 <script>
+
   console.log("HELLO FROM MAIN");
   // localStorage.setItem("employeeID", "1234");
   const employeeID = localStorage.getItem("employeeID");
@@ -24,7 +27,8 @@
       currentPath !== "/registration" &&
       currentPath !== "/otp-verification"
     ) {
-      window.location.href = "/login";
+      // window.location.href = "/login";
+      redirect("/login");
     }
   } else {
     if (
@@ -33,7 +37,8 @@
       currentPath === "/registration" ||
       currentPath === "/otp-verification"
     ) {
-      window.location.href = "/dashboard";
+      // window.location.href = "/dashboard";
+      redirect("/dashboard");
     }
   }
 </script>
