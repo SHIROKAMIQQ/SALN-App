@@ -49,7 +49,24 @@ class EmployeeController extends Controller
 
   public function login(Request $request)
   {
-    // TODO
+    $validated = $request->validate([
+      'employeeID' => 'required|uuid|unique:employees,employeeID',
+      'email' => 'required|email|unique:employees,email',
+      'encryption_key' => 'required|string'
+    ]);
+
+    $employee = Employee::where('email', $request->email)->first();
+
+    if (!$employee) {
+        return response()->json(['message' => 'Account not found.'], 404);
+    }
+
+    $this->otpService->generateAndSend($employee->email);
+
+    return response()->json([
+      'success' => true,
+      'message' => "OTP is sent.",
+    ], 201);
   }
 
   public function verifyOTP(Request $request)
