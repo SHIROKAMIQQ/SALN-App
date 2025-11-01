@@ -13,10 +13,22 @@ class OTP extends Model {
 	protected $primaryKey = 'otpID';
 	public $incrementing = true;
 	protected $keyType = 'int';
+	public $timestamps = false;
 
 	protected $fillable = [
-		'employeeID',
+		'email',
 		'otp_code',
 		'expires_at'
 	];
+
+	protected static function boot()
+	{
+		parent::boot();
+		
+		static::creating(function ($otp) {
+			if (!otp->expires_at) {
+				$otp->expires_at = now()->addMinutes(10);
+			}
+		});
+	}
 }
