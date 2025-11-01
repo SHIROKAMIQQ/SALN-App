@@ -67,14 +67,13 @@ export async function getCryptoKeyFromBase64(keyBase64) {
 // encrypt a UTF-8 string and return base64(iv + ciphertext)
 /**
  * 
- * @param { string } keyBase64 
+ * @param { CryptoKey } key 
  * @param { string } plaintext 
  * @returns { string } encryptedInBase64 
  */
-export async function encryptStringWithBase64Key(keyBase64, plaintext) {
-  if (!keyBase64) throw new Error("No base64 key provided");
+export async function encryptStringWithCryptoKey(key, plaintext) {
+  if (!key) throw new Error("No CryptoKey provided");
 
-  const key = await getCryptoKeyFromBase64(keyBase64);
   const enc = new TextEncoder();
   const data = enc.encode(plaintext);
 
@@ -98,14 +97,13 @@ export async function encryptStringWithBase64Key(keyBase64, plaintext) {
 // decrypt base64(iv + ciphertext) -> plaintext string
 /**
  * 
- * @param { string } keyBase64 
+ * @param { CryptoKey } key
  * @param { string } ivCipherBase64 
  * @returns { string } plaintext
  */
-export async function decryptStringWithBase64Key(keyBase64, ivCipherBase64) {
-  if (!keyBase64) throw new Error("No base64 key provided");
+export async function decryptStringWithCryptoKey(key, ivCipherBase64) {
+  if (!key) throw new Error("No base64 key provided");
 
-  const key = await getCryptoKeyFromBase64(keyBase64);
   const combinedBuf = base64ToArrayBuffer(ivCipherBase64);
   const combined = new Uint8Array(combinedBuf);
 
