@@ -25,9 +25,19 @@ class EmployeeController extends Controller
       'email' => $validated['email'],
       'encryption_key' => $encryptedKey
     ]);
+
+    $email = $validated['email'];
     
     // TODO: Create OTP, Save OTP to otps table, Email OTP to Employee.email
     $otp = createOTP();
+
+    Otp::create([
+      'email' => $email,
+      'otp' => bcrypt($otp),
+      'expires_at' => Carbon::now()->addMinutes(5),
+    ]);
+
+    emailOTP();
 
     return response()->json([
       'success' => true,
@@ -35,14 +45,39 @@ class EmployeeController extends Controller
     ], 201);
   }
 
-  public function requestOTP(Request $request)
+  public function login(Request $request)
   {
-    //
+    // TODO
   }
 
   public function verifyOTP(Request $request)
   {
-    //
+    $validated = $request->validate([
+      'email' => 'required|email|unique:employees,email',
+      'otp' => 'required|string'
+    ]);
+
+    $otpRecord = Otp::where('email', $validated['email'])
+                    ->latest()
+                    ->first();
+
+    if (!$otpRecord) {
+        return response()->json(['message' => 'No OTP found.'], 404);
+    }
+
+    if (Carbon::parse($otpRecord->expires_at)->isPast()) {
+        return response()->json(['message' => 'OTP has expired.'], 400);
+    }
+
+    if (!Hash::check($validated['otp'], $otpRecord->otp)) {
+        return response()->json(['message' => 'Invalid OTP.'], 400);
+    }
+
+    // OTP is valid – delete it
+    $otpRecord->delete();
+
+    // You can now mark user as verified, log them in, etc.
+    return response()->json(['message' => 'OTP verified successfully!']);
   }
 }
 
