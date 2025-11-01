@@ -5,19 +5,19 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class otpReceived extends Mailable
+class OtpReceived extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    protected $otp;
-    public function __construct($otp)
+    public function __construct(private $otp)
     {
         $this->otp = $otp;
     }
@@ -28,7 +28,6 @@ class otpReceived extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('salnapp@donotreply.com', 'Juan dela Cruz'),
             subject: 'Your OTP',
         );
     }
@@ -39,7 +38,8 @@ class otpReceived extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.otp-email',
+            with: ['otp' => $this->otp]
         );
     }
 
