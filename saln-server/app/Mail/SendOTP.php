@@ -5,12 +5,11 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OtpReceived extends Mailable
+class SendOTP extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,7 +18,7 @@ class OtpReceived extends Mailable
      */
     public function __construct(private $otp)
     {
-        $this->otp = $otp;
+        //
     }
 
     /**
@@ -38,7 +37,7 @@ class OtpReceived extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.otp-email',
+            view: 'mail.send-otp',
             with: ['otp' => $this->otp]
         );
     }

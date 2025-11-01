@@ -31,13 +31,14 @@ class EmployeeController extends Controller
     // TODO: Create OTP, Save OTP to otps table, Email OTP to Employee.email
     $otp = createOTP();
 
+    
     Otp::create([
       'email' => $email,
       'otp' => bcrypt($otp),
       'expires_at' => Carbon::now()->addMinutes(5),
     ]);
 
-    emailOTP();
+    emailOTP($email, $otp);
 
     return response()->json([
       'success' => true,
@@ -83,12 +84,7 @@ class EmployeeController extends Controller
 
 function emailOTP(String $email, String $otp)
 {
-  $details = [
-      'title' => 'Your OTP for the SALN App.',
-      'body' => 'Hello. Your OTP is ' . ($otp)
-  ];
-
-  Mail::to($email)->send(new TestEmail($details));
+  Mail::to($email)->send(new SendOTP($otp));
 }
 
 $WORD_BANK = null;
