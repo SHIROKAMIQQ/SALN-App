@@ -9,6 +9,8 @@ class EmployeeController extends Controller
 {
   public function register(Request $request)
   {
+    echo "request: " . $request;
+
     $validated = $request->validate([
       'employeeID' => 'required|uuid|unique:employees,employeeID',
       'email' => 'required|email|unique:employees,email',
@@ -47,6 +49,8 @@ class EmployeeController extends Controller
     ], 201);
   }
 
+  /*
+
   public function login(Request $request)
   {
     // TODO
@@ -81,6 +85,7 @@ class EmployeeController extends Controller
     // You can now mark user as verified, log them in, etc.
     return response()->json(['message' => 'OTP verified successfully!']);
   }
+  */
 }
 
 function emailOTP(String $email, String $otp)

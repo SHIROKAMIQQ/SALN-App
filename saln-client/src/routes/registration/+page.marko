@@ -9,6 +9,8 @@ import { registerEmployee } from "../../api/registerEmployee.js";
     alert("Enter an email first.");
     return;
   }
+
+  console.log(`recieved email: ${email}`);
   
   try {
     const result = await registerEmployee(email);
