@@ -26,7 +26,7 @@ class OTP extends Model {
 		parent::boot();
 		
 		static::creating(function ($otp) {
-			if (!otp->expires_at) {
+			if (!$otp->expires_at) {
 				$otp->expires_at = now()->addMinutes(10);
 			}
 		});

@@ -3,19 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\OtpService;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Crypt;
+
 class EmployeeController extends Controller
 {
+  protected $otpService;
+
+  public function __construct(OtpService $otpService)
+  {
+      $this->otpService = $otpService;
+  }
+
   public function register(Request $request)
   {
-    echo "request: " . $request;
-
     $validated = $request->validate([
       'employeeID' => 'required|uuid|unique:employees,employeeID',
       'email' => 'required|email|unique:employees,email',
       'encryption_key' => 'required|string'
     ]);
+
+    $email = $validated['email'];
+
+    // TODO: return an error if the email already exists
 
     // Encrypt the encryption key using APP_KEY
     $encryptedKey = Crypt::encryptString($validated['encryption_key']);
@@ -26,30 +37,15 @@ class EmployeeController extends Controller
       'email' => $validated['email'],
       'encryption_key' => $encryptedKey
     ]);
-
-    $email = $validated['email'];
     
     // TODO: Create OTP, Save OTP to otps table, Email OTP to Employee.email
-    /*
-    $otp = createOTP();
-
-    
-    Otp::create([
-      'email' => $email,
-      'otp' => bcrypt($otp),
-      'expires_at' => Carbon::now()->addMinutes(5),
-    ]);
-
-    emailOTP($email, $otp);
-    */
+    $this->otpService->generateAndSend($email);
 
     return response()->json([
       'success' => true,
-      'message' => "Employee registered to database.",
+      'message' => "Employee registered to database, OTP is sent.",
     ], 201);
   }
-
-  /*
 
   public function login(Request $request)
   {
@@ -85,32 +81,4 @@ class EmployeeController extends Controller
     // You can now mark user as verified, log them in, etc.
     return response()->json(['message' => 'OTP verified successfully!']);
   }
-  */
-}
-
-function emailOTP(String $email, String $otp)
-{
-  Mail::to($email)->send(new SendOTP($otp));
-}
-
-$WORD_BANK = null;
-function loadWordBank(): array {
-  global $WORD_BANK;
-  if ($WORD_BANK === null) { //TODO: Store word directory somewhere
-    $WORD_BANK = file(__DIR__ . '/eff-short_word_list.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-  }
-  return $WORD_BANK;
-}
-
-function createOTP(): string {
-  $words = [];
-  $word_bank = loadWordBank();
-  $word_bank_size = count($word_bank);
-
-  for ($i = 0; $i < 4; $i++) {
-    $word_idx = random_int(0, $word_bank_size);
-    $words[] = $word_bank[$word_idx];
-  }
-
-  return implode('-', $words);
 }
