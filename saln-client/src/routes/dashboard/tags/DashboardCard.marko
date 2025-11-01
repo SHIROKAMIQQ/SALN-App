@@ -13,6 +13,127 @@ export interface Input {
     deleteElement: (i: Number) => void;
 }
 
+<let/sampleSALNData = {
+  "personalInfo": {
+    "filingType": 1,
+    "familyName": "Dela Cruz",
+    "firstName": "Juan",
+    "mi": "P",
+    "address": "123 Rizal Street, Quezon City, Metro Manila",
+    "position": "Administrative Officer IV",
+    "agency": "Department of Education",
+    "officeAddress": "DepEd Complex, Meralco Avenue, Pasig City",
+    "spousefamilyName": "Santos",
+    "spousefirstName": "Maria",
+    "spouseMI": "L",
+    "spousePosition": "Teacher III",
+    "spouseAgency": "Department of Education",
+    "spouseofficeAddress": "Quezon City High School, Quezon City"
+  },
+  "children": [
+    {
+      "name": "Pedro Dela Cruz",
+      "dateOfBirth": "2010-05-15",
+      "age": 14
+    },
+    {
+      "name": "Ana Dela Cruz",
+      "dateOfBirth": "2015-08-22",
+      "age": 9
+    }
+  ],
+  "realProperties": [
+    {
+      "description": "Residential House and Lot",
+      "kind": "House",
+      "exactLocation": "456 Luna Street, Marikina City",
+      "assessedValue": 1500000,
+      "marketValue": 3000000,
+      "yearAcquired": 2015,
+      "modeOfAcquisition": "Purchase",
+      "cost": 2800000
+    },
+    {
+      "description": "Agricultural Land",
+      "kind": "Land",
+      "exactLocation": "Barangay San Jose, Batangas",
+      "assessedValue": 500000,
+      "marketValue": 800000,
+      "yearAcquired": 2018,
+      "modeOfAcquisition": "Inheritance",
+      "cost": 0
+    }
+  ],
+  "personalProperties": [
+    {
+      "description": "Toyota Vios 2020",
+      "yearAcquired": 2020,
+      "acquisitionCost": 850000
+    },
+    {
+      "description": "Jewelry and Watches",
+      "yearAcquired": 2019,
+      "acquisitionCost": 150000
+    },
+    {
+      "description": "Furniture and Appliances",
+      "yearAcquired": 2015,
+      "acquisitionCost": 300000
+    }
+  ],
+  "liabilities": [
+    {
+      "nature": "Housing Loan",
+      "creditor": "Pag-IBIG Fund",
+      "outstandingBalance": 1200000
+    },
+    {
+      "nature": "Car Loan",
+      "creditor": "BDO Auto Loan",
+      "outstandingBalance": 450000
+    },
+    {
+      "nature": "Credit Card",
+      "creditor": "BPI Credit Card",
+      "outstandingBalance": 85000
+    }
+  ],
+  "connections": [
+    {
+      "entityName": "ABC Trading Corporation",
+      "businessAddress": "789 Makati Avenue, Makati City, Metro Manila",
+      "natureOfConnection": "Stockholder - 15% equity ownership",
+      "dateAcquired": "2020-03-15"
+    },
+    {
+      "entityName": "Green Valley Agricultural Supplies",
+      "businessAddress": "456 Rizal Street, Calamba, Laguna",
+      "natureOfConnection": "Board Member and Consultant",
+      "dateAcquired": "2019-06-01"
+    },
+    {
+      "entityName": "Metro Manila Water Services Co-op",
+      "businessAddress": "123 Commonwealth Avenue, Quezon City",
+      "natureOfConnection": "Member - Shares worth 50,000 pesos",
+      "dateAcquired": "2018-11-20"
+    }
+  ],
+  "relatives": [
+    {
+      "name": "Jose Dela Cruz",
+      "relationship": "Brother",
+      "position": "Project Engineer",
+      "agency": "Department of Public Works and Highways"
+    },
+    {
+      "name": "Rosa Dela Cruz-Garcia",
+      "relationship": "Sister",
+      "position": "None",
+      "agency": "Private Sector"
+    }
+  ]
+}/>
+
 <let/showDeleteModal = false>
 <BaseCard>
     <div class="container">
@@ -41,9 +162,7 @@ export interface Input {
         </div>
 
         <div class="button-grid">
-            <button class="exportButton" onClick() {
-                console.log("exported form %d to PDF", input.idx);
-            }>PDF</button> // TODO: export to PDF
+            <PDFExportButton salnData=sampleSALNData idx=input.idx/> // TODO: actually get SALNData from IndexedDb
             <button class="exportButton" onClick() {
                 console.log("exported form %d to JSON", input.idx);
             }>JSON</button> // TODO: export to JSON
