@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Crypt;
-
 class EmployeeController extends Controller
 {
   public function register(Request $request)
@@ -29,6 +28,7 @@ class EmployeeController extends Controller
     $email = $validated['email'];
     
     // TODO: Create OTP, Save OTP to otps table, Email OTP to Employee.email
+    /*
     $otp = createOTP();
 
     
@@ -39,6 +39,7 @@ class EmployeeController extends Controller
     ]);
 
     emailOTP($email, $otp);
+    */
 
     return response()->json([
       'success' => true,
