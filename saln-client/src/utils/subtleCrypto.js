@@ -55,13 +55,14 @@ function base64ToArrayBuffer(base64) {
  */
 export async function getCryptoKeyFromBase64(keyBase64) {
   const raw = base64ToArrayBuffer(keyBase64);
-  return crypto.subtle.importKey(
+  const key = await crypto.subtle.importKey(
     "raw",
     raw,
     { name: "AES-GCM" },
     false, // not extractable after import (we keep it non-extractable)
     ["encrypt", "decrypt"]
   );
+  return key;
 }
 
 // encrypt a UTF-8 string and return base64(iv + ciphertext)
@@ -71,7 +72,7 @@ export async function getCryptoKeyFromBase64(keyBase64) {
  * @param { string } plaintext 
  * @returns { string } encryptedInBase64 
  */
-export async function encryptStringWithCryptoKey(key, plaintext) {
+export async function encryptStringWithCryptoKey(plaintext, key) {
   if (!key) throw new Error("No CryptoKey provided");
 
   const enc = new TextEncoder();
@@ -101,7 +102,7 @@ export async function encryptStringWithCryptoKey(key, plaintext) {
  * @param { string } ivCipherBase64 
  * @returns { string } plaintext
  */
-export async function decryptStringWithCryptoKey(key, ivCipherBase64) {
+export async function decryptStringWithCryptoKey(ivCipherBase64, key) {
   if (!key) throw new Error("No base64 key provided");
 
   const combinedBuf = base64ToArrayBuffer(ivCipherBase64);
