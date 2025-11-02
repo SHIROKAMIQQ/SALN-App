@@ -7,6 +7,8 @@ import Connections from "./Connections.marko";
 import Relatives from "./Relatives.marko";
 import { v4 as uuidv4 } from "uuid";
 import { saveFormToIDB } from "../../utils/idb.js";
+import { encryptSalnForm } from "../../utils/salnEncryption.js";
+import { submitSALN } from "../../api/saln.js";
 
 
 // TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
@@ -27,7 +29,28 @@ import { saveFormToIDB } from "../../utils/idb.js";
   formData.updatedAt = new Date().toISOString();
 
   // Store in IndexedDB
-  saveFormToIDB(formData);
+  console.log("Saving to IndexedDB");
+  await saveFormToIDB(formData);
+  console.log("Finished saving to IndexedDB");
+
+  try {
+    // Encrypt formData
+    console.log("Encrypting formData");
+    const keyBase64 = localStorage.getItem("encryptionKey");
+    const encryptedFormData = await encryptSalnForm(formData, keyBase64);
+    console.log("Finished encrypting formData");
+
+    // Send to Server Database
+    console.log("Saving to Server");
+    const employeeID = localStorage
+    const result = await submitSALN(encryptedFormData, employeeID);
+    console.log("Finished saving to server");
+
+    window.location.href = "/dashboard";
+
+  } catch (error) {
+    console.error(error);
+  }
 } />
 
 <script>
@@ -35,7 +58,7 @@ import { saveFormToIDB } from "../../utils/idb.js";
     const salnID = sessionStorage.getItem("tmpSalnID");
     // TODO: To be loaded from IndexedDB.
     tmpData = (salnID != null ) ? {
-      salnID: "00000001",
+      salnID: uuidv4(),
       updatedAt: "2005-10-31",
       personalInfo: {
         filingType: "Not Applicable",
@@ -51,6 +74,7 @@ import { saveFormToIDB } from "../../utils/idb.js";
       },
       children: [
         {
+          unmarriedChildID: uuidv4(),
           name: "Child1",
           dob: '2007-10-16',
           age: '18'
@@ -204,7 +228,6 @@ import { saveFormToIDB } from "../../utils/idb.js";
   <if=(currentPage === 7)>
     <button class="nextButton" onClick() {
       clickSubmit(tmpData);
-      window.location.href = "/dashboard";
     }>Submit</button>
   </if>
 </div>

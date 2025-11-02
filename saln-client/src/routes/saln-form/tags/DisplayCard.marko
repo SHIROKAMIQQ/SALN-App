@@ -19,7 +19,9 @@ export interface Input {
     <div class="display-card">
         <div class="attributes-dictionary">
             <for|key, value| in=input.attributes>
-                <p class="attribute-item"><b class="attribute-key">${key}:</b> ${value}</p>
+								<if=(!key.endsWith("ID"))>
+                	<p class="attribute-item"><b class="attribute-key">${key}:</b> ${value}</p>
+								</if>
             </for>
         </div> 
         <div class="card-actions">

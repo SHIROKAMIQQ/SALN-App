@@ -1,4 +1,5 @@
 import { AssetTypes, costPattern, commaCost } from "../../utils/assetTypes.ts";
+import { v4 as uuidv4 } from "uuid";
 
 export interface Input {
 	liabilities: any[];
@@ -52,7 +53,8 @@ export interface Input {
 			attributes=liability
 			idx=idx
 			editElement (obj, i) {
-				const newLiabilityList = input.liabilities.map((liability, idx) => i === idx ? obj : liability);
+				const newLiability = {...obj, liabilityID: liability.liabilityID};
+				const newLiabilityList = input.liabilities.map((liability, idx) => i === idx ? newLiability : liability);
 				input.updateFormData(newLiabilityList);
 			}
 			deleteElement (i) {
@@ -78,7 +80,8 @@ export interface Input {
 			showModal = false;
 		}
 		fetchData (obj, i) {
-			input.updateFormData([...input.liabilities, obj]);
+			const newLiability = {...obj, liabilityID: uuidv4()};
+			input.updateFormData([...input.liabilities, newLiability]);
 		}
 		validateData (obj) {
 			return checkData(obj);
