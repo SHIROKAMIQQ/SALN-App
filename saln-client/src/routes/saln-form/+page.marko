@@ -5,41 +5,88 @@ import PersonalProperties from "./PersonalProperties.marko";
 import Liabilities from "./Liabilities.marko";
 import Connections from "./Connections.marko";
 import Relatives from "./Relatives.marko";
+import { v4 as uuidv4 } from "uuid";
+import { saveFormToIDB } from "../../utils/idb.js";
+
 
 // TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
 // For tmpData, all fields would be strings for readability.
 // But, they will be converted into appropriate data types once stored into the database.
-<let/tmpData = {
-  personalInfo: {
-    filingType: "Not Applicable", // 0: Not Applicable, 1: Joint, 2: Separate
-    declarantName: "Guiang, Miguel, A.",
-    address: "a",
-    position: "a",
-    agency: "a",
-    officeAddress: "a",
-    spouseName: "",
-    spousePosition: "",
-    spouseAgency: "",
-    spouseOfficeAddress: "",
-  },
-  children: [
-    {
-      name: "Child1",
-      dob: '2007-10-16',
-      age: '18'
-    }
-  ],
-  realProperties: [],
-  personalProperties: [],
-  liabilities: [],
-  connections: [],
-  relatives: []
-}/>
+<let/tmpData = null/>
 
-<let/currentPage = 1 />
+<let/currentPage = 0 />
 <let/formValid = false />
+<let/loaded = false />
+
+<let/clickSubmit = async(formData) => {
+  // This assumes salnID and asset IDs are already given.
+  console.log("Submit button clicked.");
+  console.log("FormData:", formData);
+
+  // Update updatedAt field
+  formData.updatedAt = new Date().toISOString();
+
+  // Store in IndexedDB
+  saveFormToIDB(formData);
+} />
 
 <script>
+  if (!loaded) {
+    const salnID = sessionStorage.getItem("tmpSalnID");
+    // TODO: To be loaded from IndexedDB.
+    tmpData = (salnID != null ) ? {
+      salnID: "00000001",
+      updatedAt: "2005-10-31",
+      personalInfo: {
+        filingType: "Not Applicable",
+        declarantName: "Guiang, Miguel, A.",
+        address: "a",
+        position: "a",
+        agency: "a",
+        officeAddress: "a",
+        spouseName: "",
+        spousePosition: "",
+        spouseAgency: "",
+        spouseOfficeAddress: "",
+      },
+      children: [
+        {
+          name: "Child1",
+          dob: '2007-10-16',
+          age: '18'
+        }
+      ],
+      realProperties: [],
+      personalProperties: [],
+      liabilities: [],
+      connections: [],
+      relatives: []
+    } : {
+      salnID: uuidv4(),
+      updatedAt: "",
+      personalInfo: {
+        filingType: "", 
+        declarantName: "",
+        address: "",
+        position: "",
+        agency: "",
+        officeAddress: "",
+        spouseName: "",
+        spousePosition: "",
+        spouseAgency: "",
+        spouseOfficeAddress: "",
+      },
+      children: [],
+      realProperties: [],
+      personalProperties: [],
+      liabilities: [],
+      connections: [],
+      relatives: []
+    };
+    console.log(tmpData);
+    loaded = true;
+    currentPage = 1;
+  }
   console.log(tmpData);
 </script>
 
@@ -141,7 +188,7 @@ import Relatives from "./Relatives.marko";
       <button class="prevButton"> Cancel </button>
     </a>
   </else>
-
+  <p style="color: black"> PAGE:${currentPage} </p>
   <if=(currentPage < 7)>
     <button class="nextButton" onClick() {
       if(formValid) {
@@ -156,12 +203,7 @@ import Relatives from "./Relatives.marko";
   </if> 
   <if=(currentPage === 7)>
     <button class="nextButton" onClick() {
-      console.log("Submit");
-      
-      // TODO: Handle submits via API.
-      // API should store this in tmpData in IndexedDB.
-      // API should send this to Remote Database.
-
+      clickSubmit(tmpData);
       window.location.href = "/dashboard";
     }>Submit</button>
   </if>

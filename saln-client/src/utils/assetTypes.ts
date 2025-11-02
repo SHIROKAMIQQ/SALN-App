@@ -163,3 +163,77 @@ export const yearPattern = /^\d{4}$/
 
 // Optional utility if you need a list
 export const ASSET_TYPE_LIST = Object.values(AssetTypes);
+
+export interface salnFormData {
+  salnID: string;
+  updatedAt: string;
+  personalInfo: personalInfo;
+  children: child[];
+  realProperties: realProperty[];
+  personalProperties: personalProperty[];
+  liabilities: liability[];
+  connections: connection[];
+  relatives: relative[];
+}
+
+export interface personalInfo {
+  filingType: string;
+  declarantName: string;
+  address: string;
+  position: string;
+  agency: string;
+  officeAddress: string;
+  spouseName: string;
+  spousePosition: string;
+  spouseAgency: string;
+  spouseOfficeAddress: string;
+}
+
+export interface child {
+  unmarriedChildID: string;
+  name: string;
+  dob: string;
+  age: string;
+}
+
+export interface realProperty {
+  realPropertyID: string;
+  description: string;
+  kind: string;
+  exactLocation: string;
+  assessedValue: string;
+  currentFairMarketValue: string;
+  acquisitionYear: string;
+  acquisitionMode: string;
+  acquisitionCost: string;
+}
+
+export interface personalProperty {
+  personalPropertyID: string;
+  description: string;
+  yearAcquired: string;
+  acquisitionCost: string;
+}
+
+export interface liability {
+  liabilityID: string;
+  nature: string;
+  creditors: string;
+  outstandingBalance: string;
+}
+
+export interface connection {
+  connectionID: string;
+  name: string;
+  businessAddress: string;
+  nature: string;
+  dateOfAcquisition: string;
+}
+
+export interface relative {
+  relativeID: string;
+  name: string;
+  relationship: string;
+  position: string;
+  agency: string;
+}
