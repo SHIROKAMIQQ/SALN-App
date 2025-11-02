@@ -1,5 +1,6 @@
 import "./tags/style.css";
 import { redirect } from "../../utils/redirect.ts";
+import { getAllFormsFromIDB } from "../../utils/idb.js";
 
 <let/tmpData = null/>
 <let/formsFetched = false/>
@@ -7,48 +8,7 @@ import { redirect } from "../../utils/redirect.ts";
 
 <script>
   if (!loaded) {
-    tmpData = { // TODO : These should be fetched from IndexedDB
-      salns: [
-        {
-          salnID: "00000001",
-          updatedAt: "2005-10-31",
-          personalInfo: {
-            filingType: "Not Applicable", // 0: Not Applicable, 1: Joint, 2: Separate
-            declarantName: "Guiang, Miguel, A.",
-            address: "a",
-            position: "a",
-            agency: "a",
-            officeAddress: "a",
-            spouseName: "",
-            spousePosition: "",
-            spouseAgency: "",
-            spouseOfficeAddress: "",
-          },
-          children: [
-            {
-              name: "Child1",
-              dob: '2007-10-16',
-              age: '18'
-            }
-          ],
-          realProperties: [],
-          personalProperties: [],
-          liabilities: [],
-          connections: [],
-          relatives: []
-        },
-        {
-          salnID: "00000004",
-          updatedAt: "2005-10-31", // TODO: turn into timestamp
-          personalInfo: {
-            name: "Peñaflorida, Aeron, D.",
-            position: "Scientist",
-            agency: "Department of Science and Technology",
-            officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
-          }
-        },
-      ]
-    }
+    tmpData = { salns: await getAllFormsFromIDB() };
     console.log(tmpData);
     loaded = true;
     formsFetched = true;
@@ -92,8 +52,8 @@ import { redirect } from "../../utils/redirect.ts";
       <for|saln, idx| of=tmpData.salns>
         <DashboardCard
           salnID=saln.salnID,
-          dateFilled=saln.updatedAt,
-          name=saln.personalInfo.name,
+          dateFilled=saln.updatedAt.replace('T', ' ').replace('Z', '').split('.')[0],
+          name=saln.personalInfo.declarantName,
           position=saln.personalInfo.position,
           agency=saln.personalInfo.agency,
           officeAddress=saln.personalInfo.officeAddress,
