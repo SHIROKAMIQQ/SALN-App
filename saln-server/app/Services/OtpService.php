@@ -90,5 +90,6 @@ class OtpService
         }
 
         $otpRecord->delete();
+        return response()->json(['message' => 'OTP verification success!', 200]);
     }
 }
