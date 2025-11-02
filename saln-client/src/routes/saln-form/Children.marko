@@ -1,4 +1,5 @@
 import { AssetTypes, agePattern } from "../../utils/assetTypes.ts";
+import { v4 as uuidv4 } from "uuid";
 
 export interface Input {
 	children: any[];
@@ -71,7 +72,8 @@ export interface Input {
 			attributes=child
 			idx=idx
 			editElement (obj, i) {
-				const newChildrenList = input.children.map((child, idx) => i === idx ? obj : child ); 
+				const newChild = {...obj, unmarriedChildID: child.unmarriedChildID};
+				const newChildrenList = input.children.map((child, idx) => i === idx ? newChild : child ); 
 				input.updateFormData(newChildrenList);
 			}
 			deleteElement (i) {
@@ -97,7 +99,8 @@ export interface Input {
 			showModal = false;
 		}
 		fetchData (obj, i) {
-			input.updateFormData([...input.children, obj]);
+			const newChild = {...obj, unmarriedChildID: uuidv4()}
+			input.updateFormData([...input.children, newChild]);
 		}
 		validateData (obj) {
 			return checkData(obj);

@@ -9,9 +9,11 @@ class Relative extends Model
 {
 	use HasFactory;
 
+	protected $table = 'relatives';
 	protected $primaryKey = 'relativeID';
 	public $incrementing = false;
 	protected $keyType = 'string';
+	public $timestamps = false;
 
 	protected $fillable = [
 		'relativeID', 'salnID',

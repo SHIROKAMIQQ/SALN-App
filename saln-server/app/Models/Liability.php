@@ -9,9 +9,12 @@ class Liability extends Model
 {
 	use HasFactory;
 
+	protected $table = 'liabilities';
 	protected $primaryKey = 'liabilityID';
 	public $incrementing = false;
 	protected $keyType = 'string';
+	public $timestamps = false;
+
 
 	protected $fillable = [
 		'liabilityID', 'salnID',

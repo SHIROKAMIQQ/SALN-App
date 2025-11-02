@@ -9,9 +9,12 @@ class PersonalProperty extends Model
 {
 	use HasFactory;
 
+	protected $table = 'personalProperties';
 	protected $primaryKey = 'personalPropertyID';
 	public $incrementing = false;
 	protected $keyType = 'string';
+	public $timestamps = false;
+
 
 	protected $fillable = [
 		'personalPropertyID', 'salnID',

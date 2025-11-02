@@ -1,4 +1,5 @@
 import { AssetTypes, costPattern, yearPattern, commaCost } from "../../utils/assetTypes.ts";
+import { v4 as uuidv4 } from "uuid";
 
 export interface Input {
 	personalProperties: any[];
@@ -61,7 +62,8 @@ export interface Input {
 			attributes=property
 			idx=idx
 			editElement (obj, i) {
-				const newPropertyList = input.personalProperties.map((property, idx) => i === idx ? obj : property);
+				const newProperty =  {...obj, personalPropertyID: property.personalPropertyID};
+				const newPropertyList = input.personalProperties.map((property, idx) => i === idx ? newProperty : property);
 				input.updateFormData(newPropertyList);
 			}
 			deleteElement (i) {
@@ -87,7 +89,8 @@ export interface Input {
 			showModal = false;
 		}
 		fetchData (obj, i) {
-			input.updateFormData([...input.personalProperties, obj]);
+			const newProperty = {...obj, personalPropertyID: uuidv4()};
+			input.updateFormData([...input.personalProperties, newProperty]);
 		}
 		validateData (obj) {
 			return checkData(obj);

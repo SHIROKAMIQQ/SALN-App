@@ -71,10 +71,8 @@ import { redirect } from "../../utils/redirect.ts";
               Delete Account
             </button>
             <button class="otherButton" onClick() {
-              sessionStorage.setItem("tmpSalnID", "1");
-              // setCurrentSaln(tmpData.salns[0]);
               redirect("/saln-form");
-            }> // TODO: load saln-form with all fields blank
+            }>
               Accomplish new SALN
             </button>
             <button class="otherButton" onClick() {

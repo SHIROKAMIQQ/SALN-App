@@ -9,9 +9,11 @@ class UnmarriedChild extends Model
 {
 	use HasFactory;
 
+	protected $table = 'unmarriedChildren';
 	protected $primaryKey = 'unmarriedChildID';
 	public $incrementing = false;
 	protected $keyType = 'string';
+	public $timestamps = false;
 
 	protected $fillable = [
 		'unmarriedChildID', 'salnID',
