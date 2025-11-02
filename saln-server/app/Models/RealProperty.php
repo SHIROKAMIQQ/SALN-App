@@ -9,9 +9,11 @@ class RealProperty extends Model
 {
 	use HasFactory;
 
+	protected $table = 'realProperties';
 	protected $primaryKey = 'realPropertyID';
 	public $incrementing = false;
 	protected $keyType = 'string';
+	public $timestamps = false;
 
 	protected $fillable = [
 		'realPropertyID', 'salnID',

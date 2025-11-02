@@ -9,9 +9,11 @@ class SALNForm extends Model
 {
 	use HasFactory;
 
+	protected $table = 'salnForms';
 	protected $primaryKey = 'salnID';
 	public $incrementing = false;
 	protected $keyType = 'string';
+	public $timestamps = false;
 
 	protected $fillable = [
 		'salnID', 'employeeID',

@@ -9,9 +9,11 @@ class Connection extends Model
 {
 	use HasFactory;
 
+	protected $table = 'connections';
 	protected $primaryKey = 'connectionID';
 	public $incrementing = false;
 	protected $keyType = 'string';
+	public $timestamps = false;
 
 	protected $fillable = [
 		'connectionID', 'salnID',
