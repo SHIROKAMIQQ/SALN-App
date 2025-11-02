@@ -42,7 +42,7 @@ import { submitSALN } from "../../api/saln.js";
 
     // Send to Server Database
     console.log("Saving to Server");
-    const employeeID = localStorage
+    const employeeID = localStorage.getItem("employeeID");
     const result = await submitSALN(encryptedFormData, employeeID);
     console.log("Finished saving to server");
 
