@@ -24,6 +24,8 @@ export async function registerEmployee(email) {
   const exportedKey = await crypto.subtle.exportKey("raw", cryptoKey);
   const exportedKeyBase64 = btoa(String.fromCharCode(...new Uint8Array(exportedKey)));
 
+  console.log(`attempting to fetch from ${API_BASE_URL}/register-employee`);
+
   // Send to server
   const response = await fetch(`${API_BASE_URL}/register-employee`, {
     method: "POST",
@@ -38,6 +40,8 @@ export async function registerEmployee(email) {
   });
 
   const data = await response.json();
-  console.log("Server resposne:", data);
+  console.log("Server response:", data);
+
+  sessionStorage.setItem("email", email);
   return data;
 }

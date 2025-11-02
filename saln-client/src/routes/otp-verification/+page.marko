@@ -1,9 +1,27 @@
 import "./tags/style.css";
+import { verifyOTP } from "../../api/verifyOTP.js";
 
 // TODO: resend/create new OTP when user requests one
 
 <let/showWrongOTP = false>
-<let/OTP = "screen-ring-pen-king"> //TODO: retrieve correct OTP
+
+<let/submitOTP = async (email: string, otp: string) => {
+    console.log("verify OTP button clicked");
+
+    try {
+        const result = await verifyOTP(email, otp);
+        console.log("API call finished");
+        if (result.success) {
+            window.location.href = "/dashboard";
+        } else {
+            showWrongOTP = true;
+        }
+
+        // TODO: Add alert case where email already exists
+    } catch (err) {
+        console.error(err);
+    }
+}>
 
 <body>
 <div class="container">
@@ -21,11 +39,9 @@ import "./tags/style.css";
         const inputElement = document.getElementById("OTPInput")! as HTMLInputElement;
         const userInput = inputElement.value;
         console.log(userInput);
-        if (OTP == userInput) {
-            location.href="dashboard";
-        } else {
-            showWrongOTP = true;
-        }
+        
+        const email = sessionStorage.getItem("email")!;
+        submitOTP(email, userInput);
     }> 
         Submit
     </button>

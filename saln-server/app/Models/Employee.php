@@ -14,15 +14,15 @@ class Employee extends Authenticable {
 	protected $primaryKey = 'employeeID';
 	public $incrementing = false;
 	protected $keyType = 'string';
-	public $timestamps = false;
+	public $timestamps = false; // TODO: add timestamps
 
 	protected $fillable = [
 		'employeeID',
 		'email', 
-		'encryption_key'
+		'encryption_key',
 	];
 
 	public function otps() {
 		return $this->hasMany(OTP::class, 'employeeID', 'employeeID');
 	}
-}
+} // TODO: add verified column
