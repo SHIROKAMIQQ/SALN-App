@@ -5,7 +5,9 @@ import PersonalProperties from "./PersonalProperties.marko";
 import Liabilities from "./Liabilities.marko";
 import Connections from "./Connections.marko";
 import Relatives from "./Relatives.marko";
-import { getCurrentSaln } from "../../utils/salnGetters.ts";
+import { v4 as uuidv4 } from "uuid";
+import { saveFormToIDB } from "../../utils/idb.js";
+
 
 // TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
 // For tmpData, all fields would be strings for readability.
@@ -15,6 +17,18 @@ import { getCurrentSaln } from "../../utils/salnGetters.ts";
 <let/currentPage = 0 />
 <let/formValid = false />
 <let/loaded = false />
+
+<let/clickSubmit = async(formData) => {
+  // This assumes salnID and asset IDs are already given.
+  console.log("Submit button clicked.");
+  console.log("FormData:", formData);
+
+  // Update updatedAt field
+  formData.updatedAt = new Date().toISOString();
+
+  // Store in IndexedDB
+  saveFormToIDB(formData);
+} />
 
 <script>
   if (!loaded) {
@@ -48,7 +62,7 @@ import { getCurrentSaln } from "../../utils/salnGetters.ts";
       connections: [],
       relatives: []
     } : {
-      salnID: "",
+      salnID: uuidv4(),
       updatedAt: "",
       personalInfo: {
         filingType: "", 
@@ -73,6 +87,7 @@ import { getCurrentSaln } from "../../utils/salnGetters.ts";
     loaded = true;
     currentPage = 1;
   }
+  console.log(tmpData);
 </script>
 
 <if=(currentPage === 1)>
@@ -188,12 +203,7 @@ import { getCurrentSaln } from "../../utils/salnGetters.ts";
   </if> 
   <if=(currentPage === 7)>
     <button class="nextButton" onClick() {
-      console.log("Submit");
-      
-      // TODO: Handle submits via API.
-      // API should store this in tmpData in IndexedDB.
-      // API should send this to Remote Database.
-
+      clickSubmit(tmpData);
       window.location.href = "/dashboard";
     }>Submit</button>
   </if>
