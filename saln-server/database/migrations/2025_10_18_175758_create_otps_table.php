@@ -15,6 +15,8 @@ return new class extends Migration
 			$table->id('otpID')->primary();
 			$table->string('email');
 			$table->string('otp_code');
+			$table->timestamp('created_at');
+			$table->timestamp('updated_at');
 			$table->timestamp('expires_at');
 
 			$table->foreign('email')
