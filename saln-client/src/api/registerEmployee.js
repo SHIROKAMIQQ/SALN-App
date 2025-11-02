@@ -41,5 +41,7 @@ export async function registerEmployee(email) {
 
   const data = await response.json();
   console.log("Server response:", data);
+
+  sessionStorage.setItem("email", email);
   return data;
 }

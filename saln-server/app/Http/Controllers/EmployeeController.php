@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OTP;
 use Illuminate\Http\Request;
 use App\Services\OtpService;
 use App\Models\Employee;
@@ -71,31 +72,11 @@ class EmployeeController extends Controller
 
   public function verifyOTP(Request $request)
   {
-    $validated = $request->validate([
-      'email' => 'required|email|unique:employees,email',
-      'otp' => 'required|string'
-    ]);
+    $this->otpService->verify($request->email, $request->otp);
 
-    $otpRecord = Otp::where('email', $validated['email'])
-                    ->latest()
-                    ->first();
-
-    if (!$otpRecord) {
-        return response()->json(['message' => 'No OTP found.'], 404);
-    }
-
-    if (Carbon::parse($otpRecord->expires_at)->isPast()) {
-        return response()->json(['message' => 'OTP has expired.'], 400);
-    }
-
-    if (!Hash::check($validated['otp'], $otpRecord->otp)) {
-        return response()->json(['message' => 'Invalid OTP.'], 400);
-    }
-
-    // OTP is valid – delete it
-    $otpRecord->delete();
-
-    // You can now mark user as verified, log them in, etc.
-    return response()->json(['message' => 'OTP verified successfully!']);
+    return response()->json([
+      'success' => true,
+      'message' => 'OTP verified successfully!'
+    ], 201);
   }
 }

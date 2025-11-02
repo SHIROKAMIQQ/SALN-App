@@ -12,6 +12,7 @@ export async function verifyOTP(email, otp) {
     if (!email) throw new Error("Please enter an Email.");
     if (!otp) throw new Error("Please enter an OTP.");
 
+    console.log(`attempting to fetch from ${API_BASE_URL}/verify-otp`);
     const response = await fetch(`${API_BASE_URL}/verify-otp`, {
         method: "POST",
         headers: {

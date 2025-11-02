@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Otp;
+use App\Models\OTP;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
@@ -39,7 +39,7 @@ class OtpService
 
         for ($i = 0; $i < 4; $i++) {
             // random_int() is cryptographically secure
-            $wordIdx = random_int(0, $wordCount);
+            $wordIdx = random_int(0, $wordCount - 1);
             $selected[] = self::$wordBank[$wordIdx];
         }
 
@@ -66,5 +66,29 @@ class OtpService
 
         // send OTP
         Mail::to($email)->send(new OtpMail($otp));
+    }
+
+    public function verify(string $email, string $otp)
+    {
+        $otpRecord = OTP::where('email', $email)
+                    ->latest()
+                    ->first();
+
+        if (!$otpRecord) {
+            log::error('no otp found');
+            return response()->json(['message' => 'No OTP found.'], 404);
+        }
+
+        if (Carbon::parse($otpRecord->expires_at)->isPast()) {
+            log::error('otp expired');
+            return response()->json(['message' => 'OTP has expired.'], 400);
+        }
+
+        if (!Hash::check($otp, $otpRecord->otp)) {
+            log::error('invalid otp');
+            return response()->json(['message' => 'Invalid OTP.'], 400);
+        }
+
+        $otpRecord->delete();
     }
 }
