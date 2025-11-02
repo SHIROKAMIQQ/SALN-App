@@ -1,0 +1,43 @@
+import { fillPDFFormFields, prepareSALNData } from '../../../api/pdfExporter.js';
+
+export interface Input {
+  salnData: Object;
+  idx: Number;
+}
+
+static async function handleExportPDF(salnData, idx) {
+  try {
+    console.log("Exporting form %d to PDF", idx);
+    
+    // Prepare SALN data for PDF
+    const preparedData = prepareSALNData(salnData);
+    console.log('Prepared SALN data:', preparedData);
+    
+    // Fill the PDF and trigger download
+    const result = await fillPDFFormFields(preparedData);
+    
+    if (result.success) {
+      console.log('✓ PDF downloaded successfully!');
+    } else {
+      console.error('✗ PDF export failed:', result.message);
+    }
+  } catch (error) {
+    console.error('Error exporting PDF:', error);
+  }
+}
+
+<let/isExporting = false>
+
+<button 
+  class="exportButton"
+  onClick() {
+    if (isExporting) return;
+    isExporting = true;
+    handleExportPDF(input.salnData, input.idx).finally(() => {
+      isExporting = false;
+    });
+  }
+  disabled=isExporting
+>
+  PDF
+</button>
