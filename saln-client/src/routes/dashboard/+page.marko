@@ -1,5 +1,7 @@
 import "./tags/style.css";
 import { redirect } from "../../utils/redirect.ts";
+import { getAllFormsFromIDB, deleteFormFromIDB } from "../../utils/idb.js";
+import { deleteSALN } from "../../api/saln.js";
 
 <let/tmpData = null/>
 <let/formsFetched = false/>
@@ -7,48 +9,7 @@ import { redirect } from "../../utils/redirect.ts";
 
 <script>
   if (!loaded) {
-    tmpData = { // TODO : These should be fetched from IndexedDB
-      salns: [
-        {
-          salnID: "00000001",
-          updatedAt: "2005-10-31",
-          personalInfo: {
-            filingType: "Not Applicable", // 0: Not Applicable, 1: Joint, 2: Separate
-            declarantName: "Guiang, Miguel, A.",
-            address: "a",
-            position: "a",
-            agency: "a",
-            officeAddress: "a",
-            spouseName: "",
-            spousePosition: "",
-            spouseAgency: "",
-            spouseOfficeAddress: "",
-          },
-          children: [
-            {
-              name: "Child1",
-              dob: '2007-10-16',
-              age: '18'
-            }
-          ],
-          realProperties: [],
-          personalProperties: [],
-          liabilities: [],
-          connections: [],
-          relatives: []
-        },
-        {
-          salnID: "00000004",
-          updatedAt: "2005-10-31", // TODO: turn into timestamp
-          personalInfo: {
-            name: "Peñaflorida, Aeron, D.",
-            position: "Scientist",
-            agency: "Department of Science and Technology",
-            officeAddress: "DOST Main Building, General Santos Avenue, Pasig City",
-          }
-        },
-      ]
-    }
+    tmpData = { salns: await getAllFormsFromIDB() };
     console.log(tmpData);
     loaded = true;
     formsFetched = true;
@@ -56,6 +17,25 @@ import { redirect } from "../../utils/redirect.ts";
 </script>
 
 <let/showDeleteAcctModal = false>
+
+<let/clickDeleteForm = async (salnID: string) => {
+  console.log(`Delete button clicked for ${salnID}`);
+
+  // Delete from IndexedDB
+  console.log("Deleting from IndexedDB");
+  await deleteFormFromIDB(salnID);
+  console.log("Deleted from IndexedDB");
+
+  try {
+    // Delete from Server Database
+    console.log("Deleting from Server");
+    const employeeID = localStorage.getItem("employeeID");
+    const result = await deleteSALN(salnID, employeeID);
+    console.log("Finished deleting from Server");
+  } catch (error) {
+    console.error(error);
+  }
+} />
 
 <body>
     <div class="header">
@@ -92,8 +72,8 @@ import { redirect } from "../../utils/redirect.ts";
       <for|saln, idx| of=tmpData.salns>
         <DashboardCard
           salnID=saln.salnID,
-          dateFilled=saln.updatedAt,
-          name=saln.personalInfo.name,
+          dateFilled=saln.updatedAt.replace('T', ' ').replace('Z', '').split('.')[0],
+          name=saln.personalInfo.declarantName,
           position=saln.personalInfo.position,
           agency=saln.personalInfo.agency,
           officeAddress=saln.personalInfo.officeAddress,
@@ -102,8 +82,9 @@ import { redirect } from "../../utils/redirect.ts";
           deleteElement(i) {
             const newFormList = tmpData.salns.filter((_, idx) => i !== idx); 
 				    tmpData = {...tmpData, salns: newFormList};
+            clickDeleteForm(saln.salnID);
           },
-        /> // TODO: pass an update function, handle invalid/incomplete
+        />
       </for>
     </if>
     <else>
