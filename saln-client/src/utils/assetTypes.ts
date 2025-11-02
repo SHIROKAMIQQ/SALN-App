@@ -166,8 +166,8 @@ export const ASSET_TYPE_LIST = Object.values(AssetTypes);
 
 export interface salnFormData {
   salnID: string;
-  updatedAt: string;
-  personalInfo: personalInfo;
+  updatedAt: string; // 2025-11-02T18:10:12.853Z
+  personalInfo: personalInfo; 
   children: child[];
   realProperties: realProperty[];
   personalProperties: personalProperty[];
@@ -177,63 +177,63 @@ export interface salnFormData {
 }
 
 export interface personalInfo {
-  filingType: string;
-  declarantName: string;
-  address: string;
-  position: string;
-  agency: string;
-  officeAddress: string;
-  spouseName: string;
-  spousePosition: string;
-  spouseAgency: string;
-  spouseOfficeAddress: string;
+  filingType: string; // "Not Applicable", "Joint Filing", "Separate Filing"
+  declarantName: string; // "Last Name, First Name, MI." ; take note of commas and period.
+  address: string; // any string
+  position: string; // any string
+  agency: string; // any string
+  officeAddress: string; // any string
+  spouseName: string; // "Last Name, First Name, MI." ; take note of commas and period
+  spousePosition: string; // any string
+  spouseAgency: string; // any string
+  spouseOfficeAddress: string; // any string
 }
 
 export interface child {
   unmarriedChildID: string;
-  name: string;
-  dob: string;
-  age: string;
+  name: string; // any string
+  dob: string; // YYYY-MM-DD
+  age: string; // XX
 }
 
 export interface realProperty {
   realPropertyID: string;
-  description: string;
-  kind: string;
-  exactLocation: string;
-  assessedValue: string;
-  currentFairMarketValue: string;
-  acquisitionYear: string;
-  acquisitionMode: string;
-  acquisitionCost: string;
+  description: string; // any string
+  kind: string; // any string
+  exactLocation: string; // any string
+  assessedValue: string; // X,XXX,XXX.XX ; proper commas on whole number, exactly 2 decimal places
+  currentFairMarketValue: string; // X,XXX,XXX.XX ; proper commas on whole number, exactly 2 decimal places
+  acquisitionYear: string; // YYYY
+  acquisitionMode: string; // any string
+  acquisitionCost: string; // X,XXX,XXX.XX ; proper commas on whole number, exactly 2 decimal places
 }
 
 export interface personalProperty {
   personalPropertyID: string;
-  description: string;
-  yearAcquired: string;
-  acquisitionCost: string;
+  description: string; // any string
+  yearAcquired: string; // YYYY
+  acquisitionCost: string; // X,XXX,XXX.XX ; proper commas on whole number, exactly 2 decimal places
 }
 
 export interface liability {
   liabilityID: string;
-  nature: string;
-  creditors: string;
-  outstandingBalance: string;
+  nature: string; // any string
+  creditors: string; // any string
+  outstandingBalance: string; // X,XXX,XXX.XX ; proper commas on whole number, exactly 2 decimal places 
 }
 
 export interface connection {
   connectionID: string;
-  name: string;
-  businessAddress: string;
-  nature: string;
-  dateOfAcquisition: string;
+  name: string; // any string
+  businessAddress: string; // any string
+  nature: string; // any string
+  dateOfAcquisition: string; // YYYY
 }
 
 export interface relative {
   relativeID: string;
-  name: string;
-  relationship: string;
-  position: string;
-  agency: string;
+  name: string; // any string
+  relationship: string; // any string
+  position: string; // any string
+  agency: string; // any string
 }
