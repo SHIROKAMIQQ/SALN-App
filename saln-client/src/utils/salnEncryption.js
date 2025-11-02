@@ -25,7 +25,7 @@ async function encryptPersonalInfo(personalInfo, key) {
  * @param { CryptoKey } key
  * @returns { child } encryptedChild 
  */
-async function encryptChildren(child, key) {
+async function encryptChild(child, key) {
   const out = {...child};
   out.name = encryptStringWithCryptoKey(out.name, key);
   out.dob = encryptStringWithCryptoKey(out.dob, key);
@@ -180,7 +180,7 @@ async function decryptPersonalInfo(personalInfo, key) {
  * @param { CryptoKey } key
  * @returns { child } decryptedChild 
  */
-async function decryptChildren(child, key) {
+async function decryptChild(child, key) {
   const out = {...child};
   out.name = decryptStringWithCryptoKey(out.name, key);
   out.dob = decryptStringWithCryptoKey(out.dob, key);
