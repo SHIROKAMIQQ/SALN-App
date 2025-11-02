@@ -1,6 +1,7 @@
 import "./tags/style.css";
 import { redirect } from "../../utils/redirect.ts";
-import { getAllFormsFromIDB } from "../../utils/idb.js";
+import { getAllFormsFromIDB, deleteFormFromIDB } from "../../utils/idb.js";
+import { deleteSALN } from "../../api/saln.js";
 
 <let/tmpData = null/>
 <let/formsFetched = false/>
@@ -16,6 +17,25 @@ import { getAllFormsFromIDB } from "../../utils/idb.js";
 </script>
 
 <let/showDeleteAcctModal = false>
+
+<let/clickDeleteForm = async (salnID: string) => {
+  console.log(`Delete button clicked for ${salnID}`);
+
+  // Delete from IndexedDB
+  console.log("Deleting from IndexedDB");
+  await deleteFormFromIDB(salnID);
+  console.log("Deleted from IndexedDB");
+
+  try {
+    // Delete from Server Database
+    console.log("Deleting from Server");
+    const employeeID = localStorage.getItem("employeeID");
+    const result = await deleteSALN(salnID, employeeID);
+    console.log("Finished deleting from Server");
+  } catch (error) {
+    console.error(error);
+  }
+} />
 
 <body>
     <div class="header">
@@ -62,8 +82,9 @@ import { getAllFormsFromIDB } from "../../utils/idb.js";
           deleteElement(i) {
             const newFormList = tmpData.salns.filter((_, idx) => i !== idx); 
 				    tmpData = {...tmpData, salns: newFormList};
+            clickDeleteForm(saln.salnID);
           },
-        /> // TODO: pass an update function, handle invalid/incomplete
+        />
       </for>
     </if>
     <else>

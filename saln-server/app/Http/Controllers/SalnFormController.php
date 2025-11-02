@@ -137,4 +137,42 @@ class SalnFormController extends Controller
 			], 500);
 		}
 	}
+
+	public function deleteSaln(Request $request)
+	{
+		$validated = $request->validate([
+			'salnID' => 'required|string',
+			'employeeID' => 'required|string',
+		]);
+
+		$salnID = $validated['salnID'];
+		$employeeID = $validated['employeeID'];
+
+		DB::beginTransaction();
+		try {
+			$saln = SALNForm::where('salnID', $salnID)
+				->where('employeeID', $employeeID)
+				->first();
+
+			if (!$saln) {
+				return response()->json([
+					'status' => 'not_found'
+				], 404);
+			}
+
+			$saln->delete(); // Should cascade into assets
+
+			DB::commit();
+
+			return response()->json([
+				'status' => 'success'
+			], 200);
+		} catch (\Exception $e) {
+			DB::rollBack();
+			return response()->json([
+				'status' => 'error',
+				'message' => $e->getMessage(),
+			], 500);
+		}
+	}
 }
