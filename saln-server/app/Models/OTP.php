@@ -13,7 +13,7 @@ class OTP extends Model {
 	protected $primaryKey = 'otpID';
 	public $incrementing = true;
 	protected $keyType = 'int';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $fillable = [
 		'email',
