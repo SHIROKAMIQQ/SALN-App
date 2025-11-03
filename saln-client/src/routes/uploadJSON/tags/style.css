@@ -20,15 +20,34 @@
     border-radius: 20px;
     border: 10px solid #0D9488;
   }
-  .uploadJSON{
+  .file-upload-box{
+    border: 2px dashed #ccc;
     border-radius: 20px;
     background-color:#161619;
-    color: #F9FAFB;
+    color: black;
     text-align: center;
-    width: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 10vh;
     font-size: 5vh;
+    padding: 20px;
+    color: white;
+    transition: background-color 0.2s;
+    transition: color 0.2s;
+    cursor: pointer;
+
   }
+
+  .file-upload-box:hover {
+    background-color: #f0f0f0;
+    color:black;
+  }
+
+  .file-info {
+    color: black;
+  }
+
   .help{
     position: absolute; 
     border-radius: 50px;
