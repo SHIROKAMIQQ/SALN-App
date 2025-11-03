@@ -1,28 +1,61 @@
 import "./tags/style.css";
+import { preprocessJSON } from "../../utils/preprocessSaln.js";
+import { submitSALN } from "../../api/saln.js"; 
+import { saveFormToIDB } from "../../utils/idb.js";
+import { encryptSalnForm } from "../../utils/salnEncryption.js";
 
-<let/helpModal = false>
+<let/helpModal = false />
 <let/uploadedFile = null />
 
-<let/handleUpload = (file: File) => {
-	if (!file) {
-		alert ("Please upload a JSON file first.");
-		return;
-	}
+<let/handleUpload = async (file: File) => {
+    console.log("Upload Button clicked");
 
-	const reader = new FileReader();
-	reader.onload = (e) => {
-		try {
-			const jsonString = e.target.result;
-			const cleaned = jsonString?.replace(/,\s*([}\]])/g, '$1');
-			const json = JSON.parse(cleaned);
-			console.log("Uploaded JSON:", json);
-		} catch (error) {
-			alert("Invalid JSON file. Please click on Help for the proper format."); 
-		}
-	};
-	reader.readAsText(file);
+    if (!file) {
+        alert("Please upload a JSON file first.");
+        return;
+    }
 
-	location.href = "dashboard";
+    try {
+        // Read file as text
+        const jsonString = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.onerror = reject;
+            reader.readAsText(file);
+        });
+
+        // Clean up possible trailing commas
+        const cleaned = jsonString.replace(/,\s*([}\]])/g, '$1');
+        const json = JSON.parse(cleaned);
+        console.log("Uploaded JSON:", json);
+
+        // Preprocess JSON
+        const salnJSON = preprocessJSON(json);
+        const employeeID = localStorage.getItem("employeeID");
+
+        // Save to IndexedDB
+        console.log("Saving to IndexedDB...");
+        await saveFormToIDB(salnJSON);
+        console.log("✅ Saved to IndexedDB");
+
+        // Encrypt
+        console.log("Encrypting SALN...");
+        const keyBase64 = localStorage.getItem("encryptionKey");
+        const encryptedSalnJSON = await encryptSalnForm(salnJSON, keyBase64);
+        console.log("✅ Encrypted SALN");
+
+        // Submit to server
+        console.log("Uploading to server...");
+        const result = await submitSALN(encryptedSalnJSON, employeeID);
+        console.log("✅ Uploaded to server:", result);
+
+        // Redirect after everything finishes
+        window.location.href = "/dashboard";
+
+    } catch (error) {
+        console.error("Upload failed:", error);
+        alert(error.message || error);
+    }
 } />
 
 <body>
