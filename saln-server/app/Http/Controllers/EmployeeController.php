@@ -73,12 +73,7 @@ class EmployeeController extends Controller
 
   public function verifyOTP(Request $request)
   {
-    $this->otpService->verify($request->email, $request->otp);
-
-    return response()->json([
-      'success' => true,
-      'message' => 'OTP verified successfully!'
-    ], 201);
+    return  $this->otpService->verify($request->email, $request->otp);
   }
 
   public function destroy($employeeID)
