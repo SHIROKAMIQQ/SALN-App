@@ -1,4 +1,6 @@
 import BaseCard from "./BaseCard.marko";
+import { downloadSALNAsJSON } from "../../../utils/exportJSON.js";
+import { getFormFromIDB } from "../../../utils/idb.js";
 
 export interface Input {
     salnID: string;
@@ -135,6 +137,12 @@ export interface Input {
 }/>
 
 <let/showDeleteModal = false>
+
+<let/clickExportJSON = async () => {
+  const salnFormData = await getFormFromIDB(input.salnID);
+  downloadSALNAsJSON(salnFormData);
+} />
+
 <BaseCard>
     <div class="container">
         <div class="cardInfo">
@@ -164,7 +172,8 @@ export interface Input {
         <div class="button-grid">
             <PDFExportButton salnData=sampleSALNData idx=input.idx/> // TODO: actually get SALNData from IndexedDb
             <button class="exportButton" onClick() {
-                console.log("exported form %d to JSON", input.idx);
+                console.log("Clicked export JSON");
+                clickExportJSON();
             }>JSON</button> // TODO: export to JSON
             
             <button class="otherButton" onClick(){
