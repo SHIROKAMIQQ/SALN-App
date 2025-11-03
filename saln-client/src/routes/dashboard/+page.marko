@@ -8,6 +8,7 @@ import { deleteSALN } from "../../api/saln.js";
 <let/loaded = false/>
 
 <script>
+  sessionStorage.removeItem("tmpSalnID");
   if (!loaded) {
     tmpData = { salns: await getAllFormsFromIDB() };
     console.log(tmpData);
