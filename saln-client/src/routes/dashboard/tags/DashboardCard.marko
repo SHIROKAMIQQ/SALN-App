@@ -1,13 +1,13 @@
 import BaseCard from "./BaseCard.marko";
 
 export interface Input {
-    salnID: String;
-    dateFilled: String;
+    salnID: string;
+    dateFilled: string;
 
-    name: String;
-    position: String;
-    agency: String;
-    officeAddress: String;
+    name: string;
+    position: string;
+    agency: string;
+    officeAddress: string;
 
     idx: Number;
     deleteElement: (i: Number) => void;
@@ -167,7 +167,10 @@ export interface Input {
                 console.log("exported form %d to JSON", input.idx);
             }>JSON</button> // TODO: export to JSON
             
-            <button class="otherButton" onClick(){location.href = "saln-form"}>EDIT</button>
+            <button class="otherButton" onClick(){
+              sessionStorage.setItem("tmpSalnID", input.salnID);
+              location.href = "saln-form"
+            }>EDIT</button>
             //TODO: pass correct saln info into saln-form
 
             <button class="deleteButton" onClick() {showDeleteModal = true}>DEL</button>

@@ -6,7 +6,7 @@ import Liabilities from "./Liabilities.marko";
 import Connections from "./Connections.marko";
 import Relatives from "./Relatives.marko";
 import { v4 as uuidv4 } from "uuid";
-import { saveFormToIDB } from "../../utils/idb.js";
+import { saveFormToIDB, getFormFromIDB } from "../../utils/idb.js";
 import { encryptSalnForm } from "../../utils/salnEncryption.js";
 import { submitSALN } from "../../api/saln.js";
 
@@ -57,35 +57,7 @@ import { submitSALN } from "../../api/saln.js";
   if (!loaded) {
     const salnID = sessionStorage.getItem("tmpSalnID");
     // TODO: To be loaded from IndexedDB.
-    tmpData = (salnID != null ) ? {
-      salnID: uuidv4(),
-      updatedAt: "2005-10-31",
-      personalInfo: {
-        filingType: "Not Applicable",
-        declarantName: "Guiang, Miguel, A.",
-        address: "a",
-        position: "a",
-        agency: "a",
-        officeAddress: "a",
-        spouseName: "",
-        spousePosition: "",
-        spouseAgency: "",
-        spouseOfficeAddress: "",
-      },
-      children: [
-        {
-          unmarriedChildID: uuidv4(),
-          name: "Child1",
-          dob: '2007-10-16',
-          age: '18'
-        }
-      ],
-      realProperties: [],
-      personalProperties: [],
-      liabilities: [],
-      connections: [],
-      relatives: []
-    } : {
+    tmpData = (salnID != null ) ? await getFormFromIDB(salnID) : {
       salnID: uuidv4(),
       updatedAt: "",
       personalInfo: {
@@ -111,7 +83,6 @@ import { submitSALN } from "../../api/saln.js";
     loaded = true;
     currentPage = 1;
   }
-  console.log(tmpData);
 </script>
 
 <if=(currentPage === 1)>

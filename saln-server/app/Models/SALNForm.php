@@ -15,6 +15,10 @@ class SALNForm extends Model
 	protected $keyType = 'string';
 	public $timestamps = false;
 
+	protected $casts = [
+		'updatedAt' => 'datetime'
+	];
+
 	protected $fillable = [
 		'salnID', 'employeeID',
 		'filingType',
