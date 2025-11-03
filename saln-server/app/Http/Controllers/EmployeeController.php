@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\OtpService;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -78,5 +79,27 @@ class EmployeeController extends Controller
       'success' => true,
       'message' => 'OTP verified successfully!'
     ], 201);
+  }
+
+  public function destroy($employeeID)
+  {
+    DB::beginTransaction();
+    try {
+      $employee = Employee::where('employeeID', $employeeID)->first();
+      if (!$employee) {
+        return response()->json([
+          'status' => 'Employee not found'
+        ], 404);
+      }
+      $employee->delete(); 
+      DB::commit();
+      return response()->json(['status' => 'success'], 200);
+    } catch (Exception $e) {
+      DB::rollBack();
+      return response()->json([
+        'status' => 'error',
+        'message' => $e->getMessage()
+      ], 500);
+    }
   }
 }

@@ -1,7 +1,8 @@
 import "./tags/style.css";
 import { redirect } from "../../utils/redirect.ts";
-import { getAllFormsFromIDB, deleteFormFromIDB } from "../../utils/idb.js";
+import { getAllFormsFromIDB, deleteFormFromIDB, deleteAllFormsFromIDB } from "../../utils/idb.js";
 import { deleteSALN } from "../../api/saln.js";
+import { deleteEmployee } from "../../api/deleteEmployee.js";
 
 <let/tmpData = null/>
 <let/formsFetched = false/>
@@ -38,6 +39,33 @@ import { deleteSALN } from "../../api/saln.js";
   }
 } />
 
+<let/clickDeleteAccount = async () => {
+  console.log("Delete Account button clicked.");
+
+  try {
+    console.log("Deleting account in server");
+    const employeeID = localStorage.getItem("employeeID");
+
+    const result = await deleteEmployee(employeeID);
+    if (result.status === 'success') {
+      // Clear IndexedDB
+      console.log("Clearing IndexedDB");
+      await deleteAllFormsFromIDB();
+      console.log("Finished clearing IndexedDB");
+
+      // Clear localStorage and sessionStorage
+      console.log("Clearing localStorage and sessionStorage");
+      localStorage.clear();
+      sessionStorage.clear();
+      console.log("Cleared localStorage and sessionStorage");
+
+      // window.location.href = "/login";
+    }
+  } catch (error) {
+    console.error(error);
+  }
+} />
+
 <body>
     <div class="header">
         <h1 class="header-title">Dashboard</h1>
@@ -45,9 +73,6 @@ import { deleteSALN } from "../../api/saln.js";
         <div class="header-button-container">
             <button class="deleteButton" onClick() {
               showDeleteAcctModal = true;
-              // TODO: API call to delete employee on remote database 
-              // It should cascade and delete saln data.
-              // Clear IndexedDB SALN data, Pending API calls, and localStorage and sessionStorage
             }>
               Delete Account
             </button>
@@ -95,11 +120,7 @@ import { deleteSALN } from "../../api/saln.js";
 
 <if=showDeleteAcctModal>
   <DeleteAcctModal
-    deleteAccount() { // TODO: Actually delete account
-      location.href = "login";
-    },
-    toggleModal() {
-      showDeleteAcctModal = !showDeleteAcctModal;
-    },
+    deleteAccount() { clickDeleteAccount(); },
+    toggleModal() { showDeleteAcctModal = !showDeleteAcctModal; },
   />
 </if>

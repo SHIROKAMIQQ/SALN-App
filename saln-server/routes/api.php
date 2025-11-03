@@ -13,3 +13,5 @@ Route::post('/verify-otp', [EmployeeController::class, 'verifyOTP']);
 Route::post('/submit-saln', [SalnFormController::class, 'submit']);
 
 Route::post('/delete-saln', [SalnFormController::class, 'deleteSaln']);
+
+Route::delete('/delete-employee/{employeeID}', [EmployeeController::class, 'destroy']);
