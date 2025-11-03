@@ -4,7 +4,7 @@ const STORE_NAME = "salnForms"
 
 export function openIDB() {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, 1);
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
@@ -58,10 +58,36 @@ export async function getFormFromIDB(salnID) {
 export async function deleteFormFromIDB(salnID) {
   const db = await openIDB();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction("salnForms", "readwrite");
-    const store = tx.objectStore("salnForms");
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
     store.delete(salnID);
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function deleteAllFormsFromIDB() {
+  return new Promise((resolve, reject) => {
+    const request = openIDB();
+
+    request.onerror = () => reject("Failed to open IndexedDB");
+
+    request.onsuccess = (event) => {
+      const db = event.target.result;
+      const tx = db.transaction(STORE_NAME, "readwrite");
+      const store = tx.objectStore(STORE_NAME);
+
+      const clearRequest = store.clear();
+
+      clearRequest.onsuccess = () => {
+        console.log("All SALN forms deleted from IndexedDB");
+        resolve();
+      };
+
+      clearRequest.onerror = () => {
+        console.error("Failed to delete SALN forms from IndexedDB");
+        reject(clearRequest.error);
+      };
+    };
   });
 }

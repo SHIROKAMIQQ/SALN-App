@@ -1,7 +1,7 @@
 import "./style.css";
 
 export interface Input{
-    deleteAccount: () => void; 
+	deleteAccount: () => void; 
 	toggleModal: () => void; 
 }
 
@@ -15,16 +15,17 @@ export interface Input{
 	<br>
 
     <div class = "button-bar">
-        <button class="otherButton modal-button" onClick() {
+		<button class="otherButton modal-button" 
+			onClick() {
 				input.toggleModal();
-			}>No
-		</button>
-        <button class="deleteButton modal-button" onClick() {
-				input.toggleModal();
-				location.href = "login"; // TODO: Handle API for deleting account
-			}>
-			Yes
-		</button>
+			}
+		>No</button>
+			<button class="deleteButton modal-button" 
+				onClick() {
+					input.deleteAccount();
+					input.toggleModal();
+				}
+			>Yes</button>
     </div>
     </div>
 
