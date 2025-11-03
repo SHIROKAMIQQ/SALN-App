@@ -1,4 +1,4 @@
-import { AssetTypes, agePattern } from "../../utils/assetTypes.ts";
+import { AssetTypes, agePattern, datePattern } from "../../utils/assetTypes.ts";
 import { v4 as uuidv4 } from "uuid";
 
 export interface Input {
@@ -15,7 +15,7 @@ export interface Input {
 		return false;
 	}
 
-	if (!obj.dob) {
+	if (!obj.dob || !datePattern.test(obj.dob)) {
 		console.log("DoB fails.");
 		return false;
 	}
@@ -40,10 +40,7 @@ export interface Input {
 	}
 
 	const age = Number(obj.age);
-	if (
-		age >= 18 ||
-		age !== age
-	) {
+	if (age >= 18) {
 		console.log("Age fails.");
 		return false;
 	}

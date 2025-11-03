@@ -26,7 +26,7 @@ import { submitSALN } from "../../api/saln.js";
   console.log("FormData:", formData);
 
   // Update updatedAt field
-  formData.updatedAt = new Date().toISOString();
+  formData.updatedAt = new Date().toISOString().replace('T', ' ').replace('Z', '').split('.')[0];
 
   // Store in IndexedDB
   console.log("Saving to IndexedDB");
