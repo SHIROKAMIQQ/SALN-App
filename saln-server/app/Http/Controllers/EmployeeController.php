@@ -51,15 +51,9 @@ class EmployeeController extends Controller
 
   public function login(Request $request)
   {
-    $validated = $request->validate([
-      'employeeID' => 'required|uuid|unique:employees,employeeID',
-      'email' => 'required|email|unique:employees,email',
-      'encryption_key' => 'required|string'
-    ]);
-
-    $employee = Employee::where('email', $request->email)->first();
-
-    if (!$employee) {
+    $employeeRecord = Employee::where('email', $request->email)->first();
+   
+    if (!$employeeRecord) {
         return response()->json(['message' => 'Account not found.'], 404);
     }
 
@@ -71,7 +65,7 @@ class EmployeeController extends Controller
     ], 201);
   }
 
-  public function verifyOTP(Request $request)
+  public function verifyOTP(Request $request) // TODO: set employee to verified upon success
   {
     return  $this->otpService->verify($request->email, $request->otp);
   }
