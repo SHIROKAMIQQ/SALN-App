@@ -66,6 +66,20 @@ import { deleteEmployee } from "../../api/deleteEmployee.js";
   }
 } />
 
+<let/logout = async () => {
+  // clear all cache
+  console.log("Clearing IndexedDB");
+  // await deleteAllFormsFromIDB(); <- doesnt seem to work
+  console.log("Finished clearning IndexedDB");
+
+  localStorage.clear();
+  sessionStorage.clear();
+
+  console.log("help");
+  // redirect to login
+  location.href = "login";
+} />
+
 <body>
     <div class="header">
         <h1 class="header-title">Dashboard</h1>
@@ -87,8 +101,8 @@ import { deleteEmployee } from "../../api/deleteEmployee.js";
               Upload SALN JSON
             </button>
             <button class="otherButton" onClick() {
-              location.href = "login";
-              // TODO: Clear IndexedDB SALN data, and localStorage and sessionStorage
+              console.log("logging out");
+              logout()
             }> // TODO: handle log out
               Log out
             </button>

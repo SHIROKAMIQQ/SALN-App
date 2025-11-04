@@ -3,10 +3,12 @@
 namespace App\Services;
 
 use App\Models\OTP;
+use App\Models\Employee;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Carbon;
 
 class OtpService
@@ -98,13 +100,15 @@ class OtpService
             ], 400);
         }
 
+        $employeeRecord = Employee::where('email', $email)->first();
+
         $otpRecord->delete();
         return response()->json([
             'success' => true,
             'message' => "OTP verified!",
-            'email' => $otpRecord->email,
-            'employeeID' => $otpRecord->employeeID,
-            'encryptionKey' => $otpRecord->encryption_key,
+            'email' => $employeeRecord->email,
+            'employeeID' => $employeeRecord->employeeID,
+            'encryptionKey' => Crypt::decryptString($employeeRecord->encryption_key),
         ], 200);
     }
 }
