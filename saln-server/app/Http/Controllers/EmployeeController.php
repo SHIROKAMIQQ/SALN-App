@@ -57,7 +57,7 @@ class EmployeeController extends Controller
         return response()->json(['message' => 'Account not found.'], 404);
     }
 
-    $this->otpService->generateAndSend($employee->email);
+    $this->otpService->generateAndSend($employeeRecord->email);
 
     return response()->json([
       'success' => true,

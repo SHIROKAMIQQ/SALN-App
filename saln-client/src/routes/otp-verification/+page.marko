@@ -12,10 +12,8 @@ import { verifyOTP } from "../../api/verifyOTP.js";
         if (result.success) {
             window.location.href = "/dashboard";
         } else {
-            alert(result.message) // TODO: show message from result instead of just show wrong
+            alert(result.message);
         }
-
-        // TODO: Add alert case where email already exists
     } catch (err) {
         console.error(err);
     }
