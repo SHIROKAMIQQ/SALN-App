@@ -20,6 +20,13 @@ class EmployeeController extends Controller
 
   public function register(Request $request)
   {
+    if (Employee::where('email', $request->email)->first()) {
+      return response()->json([
+        'success' => false,
+        'message' => "Email already registered.",
+      ], 409);
+    }
+
     $validated = $request->validate([
       'employeeID' => 'required|uuid|unique:employees,employeeID',
       'email' => 'required|email|unique:employees,email',
@@ -67,7 +74,7 @@ class EmployeeController extends Controller
 
   public function verifyOTP(Request $request) // TODO: set employee to verified upon success
   {
-    return  $this->otpService->verify($request->email, $request->otp);
+    return $this->otpService->verify($request->email, $request->otp);
   }
 
   public function destroy($employeeID)

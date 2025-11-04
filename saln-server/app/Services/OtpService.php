@@ -70,7 +70,7 @@ class OtpService
 
     public function verify(string $email, string $otp)
     {
-        $otpRecord = OTP::where('email', $email)
+        $otpRecord = OTP::where('email', $email) //TODO: seems to be wrong when there are multiple OTPs for one account
                     ->latest()
                     ->first();
 
@@ -102,6 +102,9 @@ class OtpService
         return response()->json([
             'success' => true,
             'message' => "OTP verified!",
+            'email' => $otpRecord->email,
+            'employeeID' => $otpRecord->employeeID,
+            'encryptionKey' => $otpRecord->encryption_key,
         ], 200);
     }
 }

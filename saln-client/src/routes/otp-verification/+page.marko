@@ -10,6 +10,9 @@ import { verifyOTP } from "../../api/verifyOTP.js";
         const result = await verifyOTP(email, otp);
         console.log("API call finished");
         if (result.success) {
+            localStorage.setItem("email", result.email);
+            localStorage.setItem("employeeID", result.employeeID);
+            localStorage.setItem("encryptionKey", result.encryptionKey);
             window.location.href = "/dashboard";
         } else {
             alert(result.message);
