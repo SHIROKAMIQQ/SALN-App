@@ -3,8 +3,6 @@ import { verifyOTP } from "../../api/verifyOTP.js";
 
 // TODO: resend/create new OTP when user requests one
 
-<let/showWrongOTP = false>
-
 <let/submitOTP = async (email: string, otp: string) => {
     console.log("verify OTP button clicked");
 
@@ -12,12 +10,13 @@ import { verifyOTP } from "../../api/verifyOTP.js";
         const result = await verifyOTP(email, otp);
         console.log("API call finished");
         if (result.success) {
+            localStorage.setItem("email", result.email);
+            localStorage.setItem("employeeID", result.employeeID);
+            localStorage.setItem("encryptionKey", result.encryptionKey);
             window.location.href = "/dashboard";
         } else {
-            showWrongOTP = true;
+            alert(result.message);
         }
-
-        // TODO: Add alert case where email already exists
     } catch (err) {
         console.error(err);
     }
@@ -28,10 +27,6 @@ import { verifyOTP } from "../../api/verifyOTP.js";
     <p> // The backend will concatenate the words already, ex: screen-ring-pen-king
         An OTP was sent to your email address. Please enter it here to log in.
     </p>
-
-    <if=showWrongOTP>
-        <p class="wrongOTP">Sorry, the OTP inputted is incorrect.</p>
-    </if>
 
     <input type="text" id="OTPInput" class="enterOTP" placeholder="Enter OTP" required>
     <br>

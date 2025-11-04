@@ -60,7 +60,7 @@ class OtpService
         // add new OTP entry
         OTP::create([
             'email' => $email,
-            'otp_code' => Hash::make($otp),
+            'otp_code' => $otp,
             'expires_at' => Carbon::now()->addMinutes(10),
         ]);
 
@@ -70,26 +70,41 @@ class OtpService
 
     public function verify(string $email, string $otp)
     {
-        $otpRecord = OTP::where('email', $email)
+        $otpRecord = OTP::where('email', $email) //TODO: seems to be wrong when there are multiple OTPs for one account
                     ->latest()
                     ->first();
 
         if (!$otpRecord) {
             log::error('no otp found');
-            return response()->json(['message' => 'No OTP found.'], 404);
+            return response()->json([
+                'success' => false,
+                'message' => 'No OTP found.'
+            ], 404);
         }
 
         if (Carbon::parse($otpRecord->expires_at)->isPast()) {
             log::error('otp expired');
-            return response()->json(['message' => 'OTP has expired.'], 400);
+            return response()->json([
+                'success' => false,
+                'message' => 'OTP has expired.'
+            ], 400);
         }
 
-        if (!Hash::check($otp, $otpRecord->otp)) {
+        if ($otp !== $otpRecord->otp_code) {
             log::error('invalid otp');
-            return response()->json(['message' => 'Invalid OTP.'], 400);
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid OTP.'
+            ], 400);
         }
 
         $otpRecord->delete();
-        return response()->json(['message' => 'OTP verification success!', 200]);
+        return response()->json([
+            'success' => true,
+            'message' => "OTP verified!",
+            'email' => $otpRecord->email,
+            'employeeID' => $otpRecord->employeeID,
+            'encryptionKey' => $otpRecord->encryption_key,
+        ], 200);
     }
 }

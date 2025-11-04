@@ -20,6 +20,13 @@ class EmployeeController extends Controller
 
   public function register(Request $request)
   {
+    if (Employee::where('email', $request->email)->first()) {
+      return response()->json([
+        'success' => false,
+        'message' => "Email already registered.",
+      ], 409);
+    }
+
     $validated = $request->validate([
       'employeeID' => 'required|uuid|unique:employees,employeeID',
       'email' => 'required|email|unique:employees,email',
@@ -51,19 +58,13 @@ class EmployeeController extends Controller
 
   public function login(Request $request)
   {
-    $validated = $request->validate([
-      'employeeID' => 'required|uuid|unique:employees,employeeID',
-      'email' => 'required|email|unique:employees,email',
-      'encryption_key' => 'required|string'
-    ]);
-
-    $employee = Employee::where('email', $request->email)->first();
-
-    if (!$employee) {
+    $employeeRecord = Employee::where('email', $request->email)->first();
+   
+    if (!$employeeRecord) {
         return response()->json(['message' => 'Account not found.'], 404);
     }
 
-    $this->otpService->generateAndSend($employee->email);
+    $this->otpService->generateAndSend($employeeRecord->email);
 
     return response()->json([
       'success' => true,
@@ -71,14 +72,9 @@ class EmployeeController extends Controller
     ], 201);
   }
 
-  public function verifyOTP(Request $request)
+  public function verifyOTP(Request $request) // TODO: set employee to verified upon success
   {
-    $this->otpService->verify($request->email, $request->otp);
-
-    return response()->json([
-      'success' => true,
-      'message' => 'OTP verified successfully!'
-    ], 201);
+    return $this->otpService->verify($request->email, $request->otp);
   }
 
   public function destroy($employeeID)

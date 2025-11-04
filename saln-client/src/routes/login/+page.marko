@@ -1,4 +1,30 @@
 import "./tags/style.css";
+import { loginEmployee } from "../../api/loginEmployee.js";
+
+<let/email="" />
+
+<let/confirmLogin = async (email: string) => {
+  console.log("login button clicked");
+  if (!email) {
+    alert("Enter an email first.");
+    return;
+  }
+
+  console.log(`recieved email: ${email}`);
+  
+  try {
+    const result = await loginEmployee(email);
+    console.log("API call finished");
+    if (result.success) {
+      window.location.href = "/otp-verification";
+    } else {
+      alert(result.message);
+    }
+
+  } catch (err) {
+    console.error(err);
+  }
+}/>
 
 
 <body>
@@ -7,9 +33,18 @@ import "./tags/style.css";
       SALN APP
     </h1>
 
-    <input type="text" class="enterEmail" placeholder="Email">
+    <input
+      type="text"
+      class="enterEmail"
+      placeholder="Email"
+      onInput(event) {
+        email = event.target.value.trim();
+      }
+    />
     <br>
-    <button onclick="location.href='otp-verification'" class="confirmLogin"> //TODO: handle log-in via API call here
+    <button class="confirmLogin" onClick() {
+      confirmLogin(email);
+    }>
       Log in with Email
     </button>
     <br>
