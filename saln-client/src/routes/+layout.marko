@@ -14,32 +14,51 @@ import { redirect } from "../utils/redirect.ts";
   </body>
 </html>
 
-// <script>
+<script>
 
-//   console.log("HELLO FROM MAIN");
-//   // localStorage.setItem("employeeID", "1234");
-//   const employeeID = localStorage.getItem("employeeID");
-//   const currentPath = window.location.pathname;
+  if ("serviceWorker" in navigator && "SyncManager" in window) {
+    window.addEventListener("load", async () => {
+      try {
+        const registration = await navigator.serviceWorker.register("/service-worker.js");
+        console.log("Service Worker registered:", registration);
 
-//   if (!employeeID) {
-//     if (
-//       currentPath !== "/login" &&
-//       currentPath !== "/registration" &&
-//       currentPath !== "/otp-verification"
-//     ) {
-//       redirect("/login");
-//     }
-//   } else {
-//     if (
-//       currentPath === "/" || 
-//       currentPath === "/login" || 
-//       currentPath === "/registration" ||
-//       currentPath === "/otp-verification"
-//     ) {
-//       redirect("/dashboard");
-//     }
-//   }
-// </script>
+        // Wait until the service worker is fully active
+        const readyReg = await navigator.serviceWorker.ready;
+        await readyReg.sync.register("sync-requests");
+        console.log("Background sync registered (sync-requests)");
+      } catch (err) {
+        console.error("Service Worker registration failed:", err);
+      }
+    });
+  } else {
+    console.warn("Background Sync not supported — fallback will be used");
+  }
+
+
+  console.log("HELLO FROM MAIN");
+  // localStorage.setItem("employeeID", "1234");
+  const employeeID = localStorage.getItem("employeeID");
+  const currentPath = window.location.pathname;
+
+  if (!employeeID) {
+    if (
+      currentPath !== "/login" &&
+      currentPath !== "/registration" &&
+      currentPath !== "/otp-verification"
+    ) {
+      redirect("/login");
+    }
+  } else {
+    if (
+      currentPath === "/" || 
+      currentPath === "/login" || 
+      currentPath === "/registration" ||
+      currentPath === "/otp-verification"
+    ) {
+      redirect("/dashboard");
+    }
+  }
+</script>
 
 <style>
   html,

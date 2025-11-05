@@ -15,3 +15,5 @@ Route::post('/submit-saln', [SalnFormController::class, 'submit']);
 Route::post('/delete-saln', [SalnFormController::class, 'deleteSaln']);
 
 Route::delete('/delete-employee/{employeeID}', [EmployeeController::class, 'destroy']);
+
+Route::post('/fetch-salns', [SalnFormController::class, 'getEmployeeSalns']);

@@ -1,7 +1,9 @@
 import { API_BASE_URL } from "./config";
+import { swFetch } from "./swFetch.js";
 
 export async function submitSALN(salnData, employeeID) {
   try {
+    if (!salnData) throw new Error("No salnData provided for submitSALN");
     if (!employeeID) throw new Error("No employeeID provied for submitSALN");
 
     const payload = {
@@ -10,22 +12,17 @@ export async function submitSALN(salnData, employeeID) {
     };
     console.log("payload", payload);
     console.log("Made API request to /submit-saln");
-    const response = await fetch(`${API_BASE_URL}/submit-saln`, {
+    const response = await swFetch(`${API_BASE_URL}/submit-saln`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
     });
-    console.log("Finished API Request to /submit-saln");
     
-    if (!response.ok) {
-      throw new Error (`Server responsed with ${response.status}`);
-    }
+    console.log("swFetch response:", response);
+    return await response.json();
 
-    const data = await response.json();
-    console.log("SALN Form successfully sent to server: ", data);
-    return data;
   } catch (error) {
     console.error("Error sending SALN Form to server:", error);
     throw error;
@@ -44,25 +41,38 @@ export async function deleteSALN(salnID, employeeID) {
 
     console.log("payload:", payload);
     console.log("Made API Request to /delete-saln");
-    const response = await fetch(`${API_BASE_URL}/delete-saln`, {
+    const response = await swFetch(`${API_BASE_URL}/delete-saln`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
     });
-    console.log("Finished API Request to /delete-saln");
 
-    if (!response.ok) {
-      console.error(response.message);
-      throw new Error (`Server responsed with ${response.status}`);
-    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error deleting SALN Form from server:", error);
+    throw error;
+  }
+}
+
+export async function fetchSalns(employeeID) {
+  try {
+    if (!employeeID) throw new Error("No employeeID provided for fetchSalns");
+
+    console.log("Made API Request to /fetch-salns");
+    const response = await swFetch(`${API_BASE_URL}/fetch-salns`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ employeeID: employeeID })
+    });
 
     const data = await response.json();
-    console.log("SALN Form successfully deleted: ", data);
-    return data;
+    return data; 
   } catch (error) {
-    console.error("Error deleting SALN Form from server: ", error);
+    console.error("Error fetching SALN Forms from server: ", error);
     throw error;
   }
 }

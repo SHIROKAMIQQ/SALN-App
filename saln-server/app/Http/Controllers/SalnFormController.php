@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Employee;
 use App\Models\SALNForm;
 use App\Models\UnmarriedChild;
 use App\Models\RealProperty;
@@ -172,6 +173,59 @@ class SalnFormController extends Controller
 			return response()->json([
 				'status' => 'error',
 				'message' => $e->getMessage(),
+			], 500);
+		}
+	}
+
+	public function getEmployeeSalns(Request $request)
+	{
+
+		$validated = $request->validate([
+			'employeeID' => 'required|string',
+		]);
+
+		$employeeID = $validated['employeeID'];
+
+		try {
+			$employee = Employee::where('employeeID', $employeeID)
+				->with([
+					'salnForms.unmarriedChildren',
+					'salnForms.realProperties',
+					'salnForms.personalProperties',
+					'salnForms.liabilities',
+					'salnForms.relatives',
+					'salnForms.connections',
+				])
+				->first();
+
+			if (!$employee) {
+				return response()->json([
+					'status' => 'error',
+					'message' => 'Employee not found'
+				], 404);
+			}
+
+			$salnData = $employee->salnForms->map(function ($saln) {
+				$salnJSON = $saln->toArray();
+				
+				$salnJSON['children'] = $salnJSON['unmarried_children'] ?? [];
+				unset($salnJSON['unmarried_children']);
+				$salnJSON['realProperties'] = $salnJSON['real_properties'] ?? [];
+				unset($salnJSON['real_properties']);
+				$salnJSON['personalProperties'] = $salnJSON['personal_properties'] ?? [];
+				unset($salnJSON['personal_properties']);
+				return $salnJSON;
+			});
+
+			return response()->json([
+				'status' => 'success',
+				'employeeID' => $employeeID,
+				'salnForms' => $salnData,
+			], 200);
+		} catch (\Exception $e) {
+			return response()->json([
+				'status' => 'error',
+				'message' => $e->getMessage()
 			], 500);
 		}
 	}
