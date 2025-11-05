@@ -102,6 +102,8 @@ class OtpService
 
         $employeeRecord = Employee::where('email', $email)->first();
 
+        log::info('decrypted key is ' . Crypt::decryptString($employeeRecord->encryption_key));
+
         $otpRecord->delete();
         return response()->json([
             'success' => true,
