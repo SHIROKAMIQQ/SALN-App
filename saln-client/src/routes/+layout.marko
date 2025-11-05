@@ -16,6 +16,14 @@ import { redirect } from "../utils/redirect.ts";
 
 <script>
 
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(reg => console.log('✅ Service Worker registered:', reg))
+        .catch(err => console.error('Service Worker registration failed:', err));
+    });
+  }
+
   console.log("HELLO FROM MAIN");
   // localStorage.setItem("employeeID", "1234");
   const employeeID = localStorage.getItem("employeeID");
