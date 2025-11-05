@@ -1,4 +1,4 @@
-import { PDFDocument , rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument} from 'pdf-lib';
 import templatePDFUrl from './SALN-rev-2015-template.pdf?url';
 
 /**
@@ -10,67 +10,59 @@ function formatNumber(amount) {
   }).format(amount || 0);
 }
 
-function cleanTextForPDF(text) {
-  if (!text) return '';
-  return String(text)
-    .replace(/₱/g, 'PHP ')  // Replace peso sign with PHP
-    .replace(/[^\x20-\x7E]/g, ''); // Remove any other non-ASCII characters
-}
 /**
  * Helper to prepare SALN data from your form structure
  */
 export function prepareSALNData(formData) {
   const pi = formData.personalInfo;
   
+  // Parse currency strings to numbers (handles format "1,234,567.89")
+  const parseCurrency = (value) => {
+    if (!value) return 0;
+    if (typeof value === 'number') return value;
+    return parseFloat(value.toString().replace(/,/g, '')) || 0;
+  };
+  
   // Calculate totals
-  const totalRealPropertyCost = (formData.realProperties || []).reduce((sum, prop) => sum + (prop.cost || 0), 0);
-  const totalPersonalPropertyCost = (formData.personalProperties || []).reduce((sum, prop) => sum + (prop.acquisitionCost || 0), 0);
+  const totalRealPropertyCost = (formData.realProperties || []).reduce((sum, prop) => 
+    sum + parseCurrency(prop.acquisitionCost || 0), 0
+  );
+  
+  const totalPersonalPropertyCost = (formData.personalProperties || []).reduce((sum, prop) => 
+    sum + parseCurrency(prop.acquisitionCost || 0), 0
+  );
+  
   const totalAssets = totalRealPropertyCost + totalPersonalPropertyCost;
-  const totalLiabilities = (formData.liabilities || []).reduce((sum, liab) => sum + (liab.outstandingBalance || 0), 0);
+  
+  const totalLiabilities = (formData.liabilities || []).reduce((sum, liab) => 
+    sum + parseCurrency(liab.outstandingBalance || 0), 0
+  );
+  
   const netWorth = totalAssets - totalLiabilities;
-  const filingTypes = ['Not Applicable', `Join`, `Separate`]
+  
   return {
-    // Date and filing type
-    asOf: new Date().toISOString().split('T')[0],
-    filingType: filingTypes[pi.filingType], 
-    // Declarant information
-    declarant: {
-      familyName: pi.familyName,
-      firstName: pi.firstName,
-      middleInitial: pi.mi,
+    salnID: formData.salnID,
+    updatedAt: formData.updatedAt || new Date().toISOString(),
+    personalInfo: {
+      filingType: pi.filingType,
+      declarantName: pi.declarantName,
+      address: pi.address,
       position: pi.position,
       agency: pi.agency,
       officeAddress: pi.officeAddress,
-      address: pi.address
+      spouseName: pi.spouseName,
+      spousePosition: pi.spousePosition,
+      spouseAgency: pi.spouseAgency,
+      spouseOfficeAddress: pi.spouseOfficeAddress
     },
-    
-    // Spouse information
-    spouse: pi.spousefirstName ? {
-      familyName: pi.spousefamilyName,
-      firstName: pi.spousefirstName,
-      middleInitial: pi.spouseMI,
-      position: pi.spousePosition,
-      agency: pi.spouseAgency,
-      officeAddress: pi.spouseofficeAddress
-    } : null,
-    
-    // Children
     children: formData.children || [],
-    
-    // Assets
     realProperties: formData.realProperties || [],
     personalProperties: formData.personalProperties || [],
-    
-    // Liabilities
     liabilities: formData.liabilities || [],
-    
-    // Business interests
-    businessInterests: formData.connections || [],
-    
-    // Relatives
+    connections: formData.connections || [],
     relatives: formData.relatives || [],
     
-    // Totals
+    // Totals for calculations
     totals: {
       totalRealProperty: totalRealPropertyCost,
       totalPersonalProperty: totalPersonalPropertyCost,
@@ -88,6 +80,13 @@ export function prepareSALNData(formData) {
  */
 export async function fillPDFFormFields(salnData) {
   try {
+    const childrenMaxLen = 5;
+    const realPropertiesMaxLen = 4;
+    const personalPropertiesMaxLen = 4;
+    const LiabilitiesMaxLen = 4;
+    const BusinessConnectionsMaxLen = 6;
+    const RelativesMaxLen = 8;
+    
     // Load the PDF template using imported URL
     console.log('Loading PDF from:', templatePDFUrl);
     const existingPdfBytes = await fetch(templatePDFUrl).then(res => {
@@ -95,24 +94,13 @@ export async function fillPDFFormFields(salnData) {
       return res.arrayBuffer();
     });
     
-     const pdfDoc = await PDFDocument.load(existingPdfBytes);
-    const form = pdfDoc.getForm();
-    
-    // Get all form fields for debugging
-    const fields = form.getFields();
-    console.log('Available PDF form fields:', fields.map(f => ({
-      name: f.getName(),
-      type: f.constructor.name
-    })));
-    const fontSize = 10;
-    
     // Helper function to safely set text field
-    const setTextField = (fieldName, value) => {
+    const setTextField = (form, fieldName, value) => {
       try {
         const field = form.getTextField(fieldName);
         if (field && value !== null && value !== undefined) {
           field.setText(String(value));
-          field.setFontSize(fontSize); 
+          field.setFontSize(0); 
         }
       } catch (e) {
         console.warn(`Could not set field "${fieldName}":`, e.message);
@@ -120,7 +108,7 @@ export async function fillPDFFormFields(salnData) {
     };
     
     // Helper function to safely set checkbox
-    const setCheckbox = (fieldName, isChecked) => {
+    const setCheckbox = (form, fieldName, isChecked) => {
       try {
         const field = form.getCheckBox(fieldName);
         if (field) {
@@ -135,124 +123,242 @@ export async function fillPDFFormFields(salnData) {
       }
     };
     
-    // Fill basic information
-    setTextField('asOf', salnData.asOf);
+    // Fill basic info on a form
+    const fillBasicInfo = (form) => {
+      setTextField(form, 'asOf', new Date().toISOString().split('T')[0]);
+      
+      // Filing type checkboxes
+      setCheckbox(form, 'jointFiling', salnData.personalInfo.filingType === 'Joint Filing');
+      setCheckbox(form, 'separateFiling', salnData.personalInfo.filingType === 'Separate Filing');
+      
+      // Declarant information
+      setTextField(form, 'declarantName', salnData.personalInfo.declarantName);
+      setTextField(form, 'declarantPosition', salnData.personalInfo.position);
+      setTextField(form, 'declarantAgency', salnData.personalInfo.agency);
+      setTextField(form, 'declarantOfficeAddress', salnData.personalInfo.officeAddress);
+      setTextField(form, 'declarantAddress', salnData.personalInfo.address);
+      
+      // Spouse information (if applicable)
+      if (salnData.personalInfo.spouseName) {
+        setTextField(form, 'spouseName', salnData.personalInfo.spouseName);
+        setTextField(form, 'spousePosition', salnData.personalInfo.spousePosition);
+        setTextField(form, 'spouseAgency', salnData.personalInfo.spouseAgency);
+        setTextField(form, 'spouseOfficeAddress', salnData.personalInfo.spouseOfficeAddress);
+      }
+    };
     
-    // Filing type checkboxes
-    setCheckbox('jointFiling', salnData.filingType === 'Joint');
-    setCheckbox('separateFiling', salnData.filingType === 'Separate');
+    // Calculate if we need overflow pages
+    const needsOverflow = 
+      (salnData.children || []).length > childrenMaxLen ||
+      (salnData.realProperties || []).length > realPropertiesMaxLen ||
+      (salnData.personalProperties || []).length > personalPropertiesMaxLen ||
+      (salnData.liabilities || []).length > LiabilitiesMaxLen ||
+      (salnData.connections || []).length > BusinessConnectionsMaxLen ||
+      (salnData.relatives || []).length > RelativesMaxLen;
     
-    // Declarant information
-    setTextField('declarantFamilyName', salnData.declarant.familyName);
-    setTextField('declarantFirstName', salnData.declarant.firstName);
-    setTextField('declarantMI', salnData.declarant.middleInitial);
-    setTextField('declarantPosition', salnData.declarant.position);
-    setTextField('declarantAgency', salnData.declarant.agency);
-    setTextField('declarantOfficeAddress', salnData.declarant.officeAddress);
-    setTextField('declarantAddress', salnData.declarant.address);
+    const pdfDocs = [];
     
-    // Spouse information (if applicable)
-    if (salnData.spouse) {
-      setTextField('spouseFamilyName', salnData.spouse.familyName);
-      setTextField('spouseFirstName', salnData.spouse.firstName);
-      setTextField('spouseMI', salnData.spouse.middleInitial);
-      setTextField('spousePosition', salnData.spouse.position);
-      setTextField('spouseAgency', salnData.spouse.agency);
-      setTextField('spouseOfficeAddress', salnData.spouse.officeAddress);
-    }
+    // Create first PDF
+    const firstPdfDoc = await PDFDocument.load(existingPdfBytes);
+    const firstForm = firstPdfDoc.getForm();
     
-    // Children information
-    salnData.children.forEach((child, index) => {
-      setTextField(`childName${index + 1}`, child.name);
-      setTextField(`childDOB${index + 1}`, child.dateOfBirth);
-      setTextField(`childAge${index + 1}`, child.age.toString());
-    });
+    fillBasicInfo(firstForm);
     
-    // Real Properties
-    salnData.realProperties.forEach((prop, index) => {
+
+    // Fill children (first page)
+    const children = salnData.children || [];
+    const firstPageChildren = children.slice(0, childrenMaxLen);
+    firstPageChildren.forEach((child, index) => {
       const idx = index + 1;
-      setTextField(`realPropDescription${idx}`, prop.description);
-      setTextField(`realPropKind${idx}`, prop.kind);
-      setTextField(`realPropLocation${idx}`, prop.exactLocation);
-      setTextField(`realPropAssessedValue${idx}`, formatNumber(prop.assessedValue));
-      setTextField(`realPropMarketValue${idx}`, formatNumber(prop.marketValue));
-      setTextField(`realPropYear${idx}`, prop.yearAcquired.toString());
-      setTextField(`realPropMode${idx}`, prop.modeOfAcquisition);
-      setTextField(`realPropCost${idx}`, formatNumber(prop.cost));
+      setTextField(firstForm, `childName${idx}`, child.name);
+      setTextField(firstForm, `childDOB${idx}`, child.dob);
+      setTextField(firstForm, `childAge${idx}`, child.age.toString());
     });
     
-    // Real property subtotal
-    setTextField('realPropSubtotal', formatNumber(salnData.totals.totalRealProperty));
-    
-    // Personal Properties
-    salnData.personalProperties.forEach((prop, index) => {
+    // Fill Real Properties (first page)
+    const realProps = salnData.realProperties || [];
+    const firstPageRealProps = realProps.slice(0, realPropertiesMaxLen);
+    firstPageRealProps.forEach((prop, index) => {
       const idx = index + 1;
-      setTextField(`personalPropDescription${idx}`, prop.description);
-      setTextField(`personalPropYear${idx}`, prop.yearAcquired.toString());
-      setTextField(`personalPropCost${idx}`, formatNumber(prop.acquisitionCost));
+      setTextField(firstForm, `realPropDescription${idx}`, prop.description);
+      setTextField(firstForm, `realPropKind${idx}`, prop.kind);
+      setTextField(firstForm, `realPropLocation${idx}`, prop.exactLocation);
+      setTextField(firstForm, `realPropAssessedValue${idx}`, prop.assessedValue);
+      setTextField(firstForm, `realPropMarketValue${idx}`, prop.currentFairMarketValue);
+      setTextField(firstForm, `realPropYear${idx}`, prop.acquisitionYear);
+      setTextField(firstForm, `realPropMode${idx}`, prop.acquisitionMode);
+      setTextField(firstForm, `realPropCost${idx}`, prop.acquisitionCost);
     });
     
-    // Personal property subtotal
-    setTextField('personalPropSubtotal', formatNumber(salnData.totals.totalPersonalProperty));
-    
-    // Liabilities
-    salnData.liabilities.forEach((liab, index) => {
+    // Fill Personal Properties (first page)
+    const personalProps = salnData.personalProperties || [];
+    const firstPagePersonalProps = personalProps.slice(0, personalPropertiesMaxLen);
+    firstPagePersonalProps.forEach((prop, index) => {
       const idx = index + 1;
-      setTextField(`liabilityNature${idx}`, liab.nature);
-      setTextField(`liabilityCreditor${idx}`, liab.creditor);
-      setTextField(`liabilityBalance${idx}`, formatNumber(liab.outstandingBalance));
+      setTextField(firstForm, `personalPropDescription${idx}`, prop.description);
+      setTextField(firstForm, `personalPropYear${idx}`, prop.yearAcquired);
+      setTextField(firstForm, `personalPropCost${idx}`, prop.acquisitionCost);
     });
     
-    // Business Interests
-    if (salnData.businessInterests.length === 0) {
-      setCheckbox('noBusinessInterest', true);
+    // Fill Liabilities (first page)
+    const liabilities = salnData.liabilities || [];
+    const firstPageLiabilities = liabilities.slice(0, LiabilitiesMaxLen);
+    firstPageLiabilities.forEach((liab, index) => {
+      const idx = index + 1;
+      setTextField(firstForm, `liabilityNature${idx}`, liab.nature);
+      setTextField(firstForm, `liabilityCreditor${idx}`, liab.creditors);
+      setTextField(firstForm, `liabilityBalance${idx}`, liab.outstandingBalance);
+    });
+    
+    // Fill Business Interests (first page)
+    const connections = salnData.connections || [];
+    if (connections.length === 0) {
+      setCheckbox(firstForm, 'noBusinessInterest', true);
     } else {
-      salnData.businessInterests.forEach((business, index) => {
+      const firstPageConnections = connections.slice(0, BusinessConnectionsMaxLen);
+      firstPageConnections.forEach((business, index) => {
         const idx = index + 1;
-        setTextField(`businessEntity${idx}`, business.entityName);
-        setTextField(`businessAddress${idx}`, business.businessAddress);
-        setTextField(`businessNature${idx}`, business.natureOfConnection);
-        setTextField(`businessDate${idx}`, business.dateAcquired);
+        setTextField(firstForm, `businessEntity${idx}`, business.name);
+        setTextField(firstForm, `businessAddress${idx}`, business.businessAddress);
+        setTextField(firstForm, `businessNature${idx}`, business.nature);
+        setTextField(firstForm, `businessDate${idx}`, business.dateOfAcquisition);
       });
     }
     
-    // Relatives in Government
-    if (salnData.relatives.length === 0) {
-      setCheckbox('noRelatives', true);
+    // Fill Relatives (first page)
+    const relatives = salnData.relatives || [];
+    if (relatives.length === 0) {
+      setCheckbox(firstForm, 'noRelatives', true);
     } else {
-      salnData.relatives.forEach((relative, index) => {
+      const firstPageRelatives = relatives.slice(0, RelativesMaxLen);
+      firstPageRelatives.forEach((relative, index) => {
         const idx = index + 1;
-        setTextField(`relativeName${idx}`, relative.name);
-        setTextField(`relativeRelationship${idx}`, relative.relationship);
-        setTextField(`relativePosition${idx}`, relative.position);
-        setTextField(`relativeAgency${idx}`, relative.agency);
+        setTextField(firstForm, `relativeName${idx}`, relative.name);
+        setTextField(firstForm, `relativeRelationship${idx}`, relative.relationship);
+        setTextField(firstForm, `relativePosition${idx}`, relative.position);
+        setTextField(firstForm, `relativeAgency${idx}`, relative.agency);
       });
     }
     
-    // Totals
-    setTextField('totalAssets', formatNumber(salnData.totals.totalAssets));
-    setTextField('totalLiabilities', formatNumber(salnData.totals.totalLiabilities));
-    setTextField('netWorth', formatNumber(salnData.totals.netWorth));
+    // Fill totals on first page
+    setTextField(firstForm, 'realPropSubtotal', formatNumber(salnData.totals.totalRealProperty));
+    setTextField(firstForm, 'personalPropSubtotal', formatNumber(salnData.totals.totalPersonalProperty));
+    setTextField(firstForm, 'totalAssets', formatNumber(salnData.totals.totalAssets));
+    setTextField(firstForm, 'totalLiabilities', formatNumber(salnData.totals.totalLiabilities));
+    setTextField(firstForm, 'netWorth', formatNumber(salnData.totals.netWorth));
     
-    // Flatten the form to make it non-editable (optional)
-    // form.flatten();
-    form.flatten();
+    firstForm.flatten();
+    pdfDocs.push(firstPdfDoc);
+    
+    // Create overflow pages if needed
+    if (needsOverflow) {
+      const overflowChildren = children.slice(childrenMaxLen);
+      const overflowRealProps = realProps.slice(realPropertiesMaxLen);
+      const overflowPersonalProps = personalProps.slice(personalPropertiesMaxLen);
+      const overflowLiabilities = liabilities.slice(LiabilitiesMaxLen);
+      const overflowConnections = connections.slice(BusinessConnectionsMaxLen);
+      const overflowRelatives = relatives.slice(RelativesMaxLen);
+      
+      while (
+        overflowChildren.length > 0 ||
+        overflowRealProps.length > 0 ||
+        overflowPersonalProps.length > 0 ||
+        overflowLiabilities.length > 0 ||
+        overflowConnections.length > 0 ||
+        overflowRelatives.length > 0
+      ) {
+        const overflowPdfDoc = await PDFDocument.load(existingPdfBytes);
+        const overflowForm = overflowPdfDoc.getForm();
+        
+        fillBasicInfo(overflowForm);
+        
+      
+        const currentChildren = overflowChildren.slice(0, childrenMaxLen);
+        currentChildren.forEach((child, index) => {
+          const idx = index + 1;
+          setTextField(firstForm, `childName${idx}`, child.name);
+          setTextField(firstForm, `childDOB${idx}`, child.dob);
+          setTextField(firstForm, `childAge${idx}`, child.age.toString());
+        });
+
+        // Fill overflow Real Properties
+        const currentRealProps = overflowRealProps.splice(0, realPropertiesMaxLen);
+        currentRealProps.forEach((prop, index) => {
+          const idx = index + 1;
+          setTextField(overflowForm, `realPropDescription${idx}`, prop.description);
+          setTextField(overflowForm, `realPropKind${idx}`, prop.kind);
+          setTextField(overflowForm, `realPropLocation${idx}`, prop.exactLocation);
+          setTextField(overflowForm, `realPropAssessedValue${idx}`, prop.assessedValue);
+          setTextField(overflowForm, `realPropMarketValue${idx}`, prop.currentFairMarketValue);
+          setTextField(overflowForm, `realPropYear${idx}`, prop.acquisitionYear);
+          setTextField(overflowForm, `realPropMode${idx}`, prop.acquisitionMode);
+          setTextField(overflowForm, `realPropCost${idx}`, prop.acquisitionCost);
+        });
+        
+        // Fill overflow Personal Properties
+        const currentPersonalProps = overflowPersonalProps.splice(0, personalPropertiesMaxLen);
+        currentPersonalProps.forEach((prop, index) => {
+          const idx = index + 1;
+          setTextField(overflowForm, `personalPropDescription${idx}`, prop.description);
+          setTextField(overflowForm, `personalPropYear${idx}`, prop.yearAcquired);
+          setTextField(overflowForm, `personalPropCost${idx}`, prop.acquisitionCost);
+        });
+        
+        // Fill overflow Liabilities
+        const currentLiabilities = overflowLiabilities.splice(0, LiabilitiesMaxLen);
+        currentLiabilities.forEach((liab, index) => {
+          const idx = index + 1;
+          setTextField(overflowForm, `liabilityNature${idx}`, liab.nature);
+          setTextField(overflowForm, `liabilityCreditor${idx}`, liab.creditors);
+          setTextField(overflowForm, `liabilityBalance${idx}`, liab.outstandingBalance);
+        });
+        
+        // Fill overflow Business Interests
+        const currentConnections = overflowConnections.splice(0, BusinessConnectionsMaxLen);
+        currentConnections.forEach((business, index) => {
+          const idx = index + 1;
+          setTextField(overflowForm, `businessEntity${idx}`, business.name);
+          setTextField(overflowForm, `businessAddress${idx}`, business.businessAddress);
+          setTextField(overflowForm, `businessNature${idx}`, business.nature);
+          setTextField(overflowForm, `businessDate${idx}`, business.dateOfAcquisition);
+        });
+        
+        // Fill overflow Relatives
+        const currentRelatives = overflowRelatives.splice(0, RelativesMaxLen);
+        currentRelatives.forEach((relative, index) => {
+          const idx = index + 1;
+          setTextField(overflowForm, `relativeName${idx}`, relative.name);
+          setTextField(overflowForm, `relativeRelationship${idx}`, relative.relationship);
+          setTextField(overflowForm, `relativePosition${idx}`, relative.position);
+          setTextField(overflowForm, `relativeAgency${idx}`, relative.agency);
+        });
+        
+        overflowForm.flatten();
+        pdfDocs.push(overflowPdfDoc);
+      }
+    }
+    
+    // Merge all PDFs
+    const mergedPdf = await PDFDocument.create();
+    for (const pdfDoc of pdfDocs) {
+      const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+      copiedPages.forEach((page) => mergedPdf.addPage(page));
+    }
+    
     // Save and download the PDF
-    const pdfBytes = await pdfDoc.save();
+    const pdfBytes = await mergedPdf.save();
     
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `SALN_${salnData.declarant.familyName}_${salnData.asOf}.pdf`;
+    link.download = `SALN_${salnData.personalInfo.declarantName}_${new Date().toISOString().split('T')[0]}.pdf`;
     link.click();
-    
     
     // Clean up
     setTimeout(() => URL.revokeObjectURL(url), 100);
     
     return { success: true, message: 'PDF exported successfully' };
-   
     
   } catch (error) {
     console.error('Error filling PDF form:', error);
@@ -261,4 +367,4 @@ export async function fillPDFFormFields(salnData) {
       message: error.message || 'Failed to export PDF'
     };
   }
-} 
+}
