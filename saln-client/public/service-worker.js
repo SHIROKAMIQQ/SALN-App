@@ -1,4 +1,3 @@
-const CACHE_NAME = "saln-cache-v1";
 const OFFLINE_URLS = [
   "/", 
   "/dashboard",
@@ -7,6 +6,10 @@ const OFFLINE_URLS = [
   "/saln-form",
   "/uploadJSON"
 ];
+
+const CACHE_NAME = "saln-cache-v1";
+const DB_NAME = "salnIDB";
+const STORE_NAME = "pendingRequests";
 
 self.addEventListener("install", (event) => {
   console.log("[ServiceWorker] Install");
@@ -25,41 +28,80 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
+// ✅ Activate: cleanup old caches
 self.addEventListener("activate", (event) => {
   console.log("[ServiceWorker] Activate");
-  event.waitUntil(clients.claim());
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys.map((key) => key !== CACHE_NAME && caches.delete(key))
+      )
+    )
+  );
+  self.clients.claim();
 });
 
+// ✅ Intercept API requests
 self.addEventListener("fetch", (event) => {
-  const request = event.request;
-
-  // Don’t try to handle non-GET or chrome-extension requests
-  if (request.method !== "GET" || request.url.startsWith("chrome-extension")) return;
-
-  // ⚡ Runtime caching for assets (JS, CSS, PDF)
-  if (request.url.includes("/assets/")) {
-    event.respondWith(
-      caches.open(CACHE_NAME).then(async (cache) => {
-        try {
-          // Try network first, update cache
-          const response = await fetch(request);
-          cache.put(request, response.clone());
-          return response;
-        } catch {
-          // Fallback to cached version if offline
-          const cached = await cache.match(request);
-          if (cached) return cached;
-          throw new Error("Asset not available offline");
-        }
-      })
-    );
+  // Only handle GET requests for caching
+  if (event.request.method !== "GET") {
     return;
   }
-
-  // Default: cache-first for pages
+  
   event.respondWith(
-    caches.match(request).then((response) => {
-      return response || fetch(request);
+    caches.match(event.request).then((cached) => {
+      return (
+        cached ||
+        fetch(event.request)
+          .then((response) => {
+            const cloned = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, cloned));
+            return response;
+          })
+          .catch(() => caches.match("/"))
+      );
     })
   );
 });
+
+// ✅ Background sync handler
+self.addEventListener("sync", (event) => {
+  if (event.tag === "sync-requests") {
+    console.log("[SW] Sync triggered: sync-requests");
+    event.waitUntil(syncPendingRequests());
+  }
+});
+
+// 🔁 Helper: replay queued requests from IndexedDB
+async function syncPendingRequests() {
+  return new Promise((resolve, reject) => {
+    const open = indexedDB.open("requestQueue", 1);
+    open.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains("requests"))
+        db.createObjectStore("requests", { keyPath: "id", autoIncrement: true });
+    };
+
+    open.onsuccess = (e) => {
+      const db = e.target.result;
+      const tx = db.transaction("requests", "readwrite");
+      const store = tx.objectStore("requests");
+
+      store.getAll().onsuccess = async (evt) => {
+        const allRequests = evt.target.result || [];
+        for (const req of allRequests) {
+          try {
+            await fetch(req.url, req.options);
+            console.log("[SW] Synced request:", req.url);
+            store.delete(req.id);
+          } catch (err) {
+            console.warn("[SW] Sync failed for:", req.url, err);
+          }
+        }
+        resolve();
+      };
+    };
+
+    open.onerror = reject;
+  });
+}
