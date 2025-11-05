@@ -13,6 +13,7 @@ import { loginEmployee } from "../../api/loginEmployee.js";
   console.log(`recieved email: ${email}`);
   
   try {
+    sessionStorage.setItem('email', email);
     const result = await loginEmployee(email);
     console.log("API call finished");
     if (result.success) {
@@ -30,7 +31,7 @@ import { loginEmployee } from "../../api/loginEmployee.js";
 <body>
 <div class="container">
     <h1>
-      SALN APP
+      SALN APP Login
     </h1>
 
     <input

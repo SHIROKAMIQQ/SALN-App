@@ -8,6 +8,7 @@ use App\Services\OtpService;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeController extends Controller
 {
@@ -39,6 +40,7 @@ class EmployeeController extends Controller
 
     // Encrypt the encryption key using APP_KEY
     $encryptedKey = Crypt::encryptString($validated['encryption_key']);
+    log::info("given encryption key is " . $validated['encryption_key']);
 
     // Save to database
     $employee = Employee::create([

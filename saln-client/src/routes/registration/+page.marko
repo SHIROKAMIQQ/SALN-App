@@ -13,6 +13,7 @@ import { registerEmployee } from "../../api/registerEmployee.js";
   console.log(`recieved email: ${email}`);
   
   try {
+    sessionStorage.setItem('email', email);
     const result = await registerEmployee(email);
     console.log("API call finished");
     if (result.success) {
@@ -21,7 +22,6 @@ import { registerEmployee } from "../../api/registerEmployee.js";
       alert(result.message);
     }
 
-    // TODO: Add alert case where email already exists
   } catch (err) {
     console.error(err);
   }
@@ -30,7 +30,7 @@ import { registerEmployee } from "../../api/registerEmployee.js";
 <body>
 <div class="container">
     <h1>
-      SALN APP
+      SALN APP Registration
     </h1>
 
     <input 
