@@ -177,8 +177,15 @@ class SalnFormController extends Controller
 		}
 	}
 
-	public function getEmployeeSalns($employeeID)
+	public function getEmployeeSalns(Request $request)
 	{
+
+		$validated = $request->validate([
+			'employeeID' => 'required|string',
+		]);
+
+		$employeeID = $validated['employeeID'];
+
 		try {
 			$employee = Employee::where('employeeID', $employeeID)
 				->with([
