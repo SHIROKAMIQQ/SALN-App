@@ -25,4 +25,8 @@ class Employee extends Authenticable {
 	public function otps() {
 		return $this->hasMany(OTP::class, 'employeeID', 'employeeID');
 	}
+
+	public function salnForms() {
+		return $this->hasMany(SALNForm::class, 'employeeID', 'employeeID');
+	}
 } // TODO: add verified column
