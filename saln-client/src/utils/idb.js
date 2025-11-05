@@ -67,27 +67,17 @@ export async function deleteFormFromIDB(salnID) {
 }
 
 export async function deleteAllFormsFromIDB() {
+  const db = await openIDB();
+
+  const transaction = db.transaction(STORE_NAME, "readwrite");
+
+  const objectStore = transaction.objectStore(STORE_NAME);
+
+  const objectStoreRequest = objectStore.clear();
+
+
   return new Promise((resolve, reject) => {
-    const request = openIDB();
-
-    request.onerror = () => reject("Failed to open IndexedDB");
-
-    request.onsuccess = (event) => {
-      const db = event.target.result;
-      const tx = db.transaction(STORE_NAME, "readwrite");
-      const store = tx.objectStore(STORE_NAME);
-
-      const clearRequest = store.clear();
-
-      clearRequest.onsuccess = () => {
-        console.log("All SALN forms deleted from IndexedDB");
-        resolve();
-      };
-
-      clearRequest.onerror = () => {
-        console.error("Failed to delete SALN forms from IndexedDB");
-        reject(clearRequest.error);
-      };
-    };
+    objectStoreRequest.onsuccess = () => resolve("clear IDB successful");
+    objectStoreRequest.onerror = () => reject("clear IDB failed");
   });
 }

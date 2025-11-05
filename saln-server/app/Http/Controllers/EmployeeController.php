@@ -40,7 +40,6 @@ class EmployeeController extends Controller
 
     // Encrypt the encryption key using APP_KEY
     $encryptedKey = Crypt::encryptString($validated['encryption_key']);
-    log::info("given encryption key is " . $validated['encryption_key']);
 
     // Save to database
     $employee = Employee::create([
