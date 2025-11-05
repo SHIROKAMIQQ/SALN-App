@@ -55,7 +55,7 @@ export async function deleteSALN(salnID, employeeID) {
 
     if (!response.ok) {
       console.error(response.message);
-      throw new Error (`Server responsed with ${response.status}`);
+      throw new Error (`Server responded with ${response.status}`);
     }
 
     const data = await response.json();
@@ -63,6 +63,27 @@ export async function deleteSALN(salnID, employeeID) {
     return data;
   } catch (error) {
     console.error("Error deleting SALN Form from server: ", error);
+    throw error;
+  }
+}
+
+export async function fetchSalns(employeeID) {
+  try {
+    if (!employeeID) throw new Error("No employeeID provided for fetchSalns");
+
+    console.log("Made API Request to /fetch-salns");
+    const response = await fetch (`${API_BASE_URL}/fetch-salns/${employeeID}`);
+
+    if (!response.ok) {
+      console.error(response.message);
+      throw new Error(`Server responded with ${response.message}`);
+    }
+
+    const data = await response.json();
+    console.log("SALN Forms fetched: ", data);
+    return data; 
+  } catch (error) {
+    console.error("Error fetching SALN Forms from server: ", error);
     throw error;
   }
 }
