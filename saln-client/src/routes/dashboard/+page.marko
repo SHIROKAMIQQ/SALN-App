@@ -59,7 +59,7 @@ import { deleteEmployee } from "../../api/deleteEmployee.js";
       sessionStorage.clear();
       console.log("Cleared localStorage and sessionStorage");
 
-      // window.location.href = "/login";
+      window.location.href = "/login";
     }
   } catch (error) {
     console.error(error);
@@ -69,7 +69,7 @@ import { deleteEmployee } from "../../api/deleteEmployee.js";
 <let/logout = async () => {
   // clear all cache
   console.log("Clearing IndexedDB");
-  // await deleteAllFormsFromIDB(); <- doesnt seem to work
+  await deleteAllFormsFromIDB();
   console.log("Finished clearning IndexedDB");
 
   localStorage.clear();
