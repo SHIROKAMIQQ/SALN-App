@@ -208,6 +208,29 @@ class SalnFormController extends Controller
 			$salnData = $employee->salnForms->map(function ($saln) {
 				$salnJSON = $saln->toArray();
 				
+				$salnJSON['personalInfo'] = [
+					'fillingType' => $salnJSON['filingType'] ?? "",
+					'declarantName' => $salnJSON['declarantName'] ?? "",
+					'address' => $salnJSON['address'] ?? "",
+					'position' => $salnJSON['agency'] ?? "",
+					'officeAddress' => $salnJSON['officeAddress'] ?? "",
+					'spouseName' => $salnJSON['spouseName'] ?? "",
+					'spousePosition' => $salnJSON['spousePosition'] ?? "",
+					'spouseAgency' => $salnJSON['spouseAgency'] ?? "",
+					'spouseOfficeAddress' => $salnJSON['spouseOfficeAddress'] ?? "",
+				];
+
+				unset($salnJSON['filingType']);
+				unset($salnJSON['declarantName']);
+				unset($salnJSON['address']);
+				unset($salnJSON['position']);
+				unset($salnJSON['officeAddress']);
+				unset($salnJSON['spouseName']);
+				unset($salnJSON['spouseAgency']);
+				unset($salnJSON['spousePosition']);
+				unset($salnJSON['spouseOfficeAddress']);
+
+
 				$salnJSON['children'] = $salnJSON['unmarried_children'] ?? [];
 				unset($salnJSON['unmarried_children']);
 				$salnJSON['realProperties'] = $salnJSON['real_properties'] ?? [];
