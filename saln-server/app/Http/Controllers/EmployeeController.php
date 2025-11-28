@@ -36,8 +36,6 @@ class EmployeeController extends Controller
 
     $email = $validated['email'];
 
-    // TODO: return an error if the email already exists
-
     // Encrypt the encryption key using APP_KEY
     $encryptedKey = Crypt::encryptString($validated['encryption_key']);
     log::info("given encryption key is " . $validated['encryption_key']);
