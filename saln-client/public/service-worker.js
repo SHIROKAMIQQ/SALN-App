@@ -74,34 +74,57 @@ self.addEventListener("sync", (event) => {
 
 // 🔁 Helper: replay queued requests from IndexedDB
 async function syncPendingRequests() {
-  return new Promise((resolve, reject) => {
+  // Step 1: Load the pending requests
+  const allRequests = await new Promise((resolve, reject) => {
     const open = indexedDB.open("requestQueue", 1);
+
     open.onupgradeneeded = (e) => {
       const db = e.target.result;
       if (!db.objectStoreNames.contains("requests"))
         db.createObjectStore("requests", { keyPath: "id", autoIncrement: true });
     };
 
+    open.onerror = reject;
+
+    open.onsuccess = (e) => {
+      const db = e.target.result;
+      const tx = db.transaction("requests", "readonly");
+      const store = tx.objectStore("requests");
+
+      const getAll = store.getAll();
+      getAll.onsuccess = () => resolve(getAll.result || []);
+      getAll.onerror = reject;
+    };
+  });
+
+  // Step 2: Execute the network calls (outside IndexedDB)
+  const succeeded = [];
+  for (const req of allRequests) {
+    try {
+      await fetch(req.url, req.options);
+      console.log("[SW] Synced request:", req.url);
+      succeeded.push(req.id);
+    } catch (err) {
+      console.warn("[SW] Sync failed for:", req.url, err);
+    }
+  }
+
+  // Step 3: Delete only successfully synced requests
+  if (succeeded.length === 0) return;
+
+  await new Promise((resolve, reject) => {
+    const open = indexedDB.open("requestQueue", 1);
+    open.onerror = reject;
+
     open.onsuccess = (e) => {
       const db = e.target.result;
       const tx = db.transaction("requests", "readwrite");
       const store = tx.objectStore("requests");
 
-      store.getAll().onsuccess = async (evt) => {
-        const allRequests = evt.target.result || [];
-        for (const req of allRequests) {
-          try {
-            await fetch(req.url, req.options);
-            console.log("[SW] Synced request:", req.url);
-            store.delete(req.id);
-          } catch (err) {
-            console.warn("[SW] Sync failed for:", req.url, err);
-          }
-        }
-        resolve();
-      };
-    };
+      for (const id of succeeded) store.delete(id);
 
-    open.onerror = reject;
+      tx.oncomplete = resolve;
+      tx.onerror = reject;
+    };
   });
 }
