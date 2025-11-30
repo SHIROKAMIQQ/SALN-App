@@ -1,12 +1,18 @@
 import { fillPDFFormFields, prepareSALNData } from '../../../api/pdfExporter.js';
+import { getFormFromIDB } from '../../../utils/idb.js';
 
 export interface Input {
-  salnData: Object;
+  // salnData: Object;
+  salnID: string;
   idx: Number;
 }
 
-static async function handleExportPDF(salnData, idx) {
+static async function handleExportPDF(salnID, idx) {
   try {
+    console.log(`Getting Saln Data of salnID ${salnID} from IDB.`);
+    const salnData = await getFormFromIDB(salnID);
+    console.log(`Gotten Saln Data of salnID ${salnID} from IDB.`);
+
     console.log("Exporting form %d to PDF", idx);
     
     // Prepare SALN data for PDF
@@ -33,7 +39,7 @@ static async function handleExportPDF(salnData, idx) {
   onClick() {
     if (isExporting) return;
     isExporting = true;
-    handleExportPDF(input.salnData, input.idx).finally(() => {
+    handleExportPDF(input.salnID, input.idx).finally(() => {
       isExporting = false;
     });
   }
