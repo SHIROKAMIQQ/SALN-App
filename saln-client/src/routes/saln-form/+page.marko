@@ -36,14 +36,15 @@ import { submitSALN } from "../../api/saln.js";
   try {
     // Encrypt formData
     console.log("Encrypting formData");
-    const keyBase64 = localStorage.getItem("encryptionKey");
-    const encryptedFormData = await encryptSalnForm(formData, keyBase64);
+    // const keyBase64 = localStorage.getItem("encryptionKey");
+    // const encryptedFormData = await encryptSalnForm(formData, keyBase64);
     console.log("Finished encrypting formData");
 
     // Send to Server Database
     console.log("Saving to Server");
     const employeeID = localStorage.getItem("employeeID");
-    const result = await submitSALN(encryptedFormData, employeeID);
+    // const result = await submitSALN(encryptedFormData, employeeID);
+    const result = await submitSALN(formData, employeeID);
     console.log("Finished saving to server");
 
     window.location.href = "/dashboard";
@@ -56,7 +57,6 @@ import { submitSALN } from "../../api/saln.js";
 <script>
   if (!loaded) {
     const salnID = sessionStorage.getItem("tmpSalnID");
-    // TODO: To be loaded from IndexedDB.
     tmpData = (salnID != null ) ? await getFormFromIDB(salnID) : {
       salnID: uuidv4(),
       updatedAt: "",

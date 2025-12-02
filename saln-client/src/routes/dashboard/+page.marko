@@ -1,20 +1,46 @@
 import "./tags/style.css";
 import { redirect } from "../../utils/redirect.ts";
-import { getAllFormsFromIDB, deleteFormFromIDB, deleteAllFormsFromIDB } from "../../utils/idb.js";
-import { deleteSALN } from "../../api/saln.js";
+import { getAllFormsFromIDB, deleteFormFromIDB, deleteAllFormsFromIDB, saveFormToIDB } from "../../utils/idb.js";
+import { deleteSALN, fetchSalns } from "../../api/saln.js";
 import { deleteEmployee } from "../../api/deleteEmployee.js";
+
 
 <let/tmpData = null/>
 <let/formsFetched = false/>
 <let/loaded = false/>
 
 <script>
+  console.log("[DASHBOARD] Hello from /dashboard");
   sessionStorage.removeItem("tmpSalnID");
   if (!loaded) {
-    tmpData = { salns: await getAllFormsFromIDB() };
+    const oldIDBData = { salns: await getAllFormsFromIDB() };
+    try {
+      const employeeID = localStorage.getItem("employeeID");
+      console.log("Fetching remote SALN Forms.");
+      console.log(employeeID);
+      const result = await fetchSalns(employeeID);
+      console.log(result);      
+      await deleteAllFormsFromIDB();
+      console.log("[Dashboard] Saving fetched forms");
+      console.log(result.salnForms);
+      // console.log(keyBase64);
+      // console.log(typeof keyBase64);
+      // console.log("decrypt and then save");
+      for (const salnForm of result.salnForms) {
+        console.log(salnForm);
+        // const salnData = await decryptSalnForm(salnForm, keyBase64);
+        await saveFormToIDB(salnForm);
+      }
+      console.log("[Dashboard] Finished saving fetched forms.");
+      tmpData = { salns: await getAllFormsFromIDB() };
+      formsFetched = true;
+    } catch (err) {
+      console.log("[DASHBOARD] Failed to fetch remote SALN Forms. Using local backup.");
+      tmpData = oldIDBData;
+      formsFetched = true;
+    }
     console.log(tmpData);
     loaded = true;
-    formsFetched = true;
   }
 </script>
 
@@ -103,33 +129,35 @@ import { deleteEmployee } from "../../api/deleteEmployee.js";
             <button class="otherButton" onClick() {
               console.log("logging out");
               logout()
-            }> // TODO: handle log out
+            }>
               Log out
             </button>
         </div>
     </div>
-    <if=(formsFetched && tmpData.salns.length > 0)>
-      <for|saln, idx| of=tmpData.salns>
-        <DashboardCard
-          salnID=saln.salnID,
-          dateFilled=saln.updatedAt.replace('T', ' ').replace('Z', '').split('.')[0],
-          name=saln.personalInfo.declarantName,
-          position=saln.personalInfo.position,
-          agency=saln.personalInfo.agency,
-          officeAddress=saln.personalInfo.officeAddress,
+    <if=formsFetched>
+      <if=(tmpData.salns.length > 0)>
+        <for|saln, idx| of=tmpData.salns>
+          <DashboardCard
+            salnID=saln.salnID,
+            dateFilled=saln.updatedAt.replace('T', ' ').replace('Z', '').split('.')[0],
+            name=saln.personalInfo.declarantName,
+            position=saln.personalInfo.position,
+            agency=saln.personalInfo.agency,
+            officeAddress=saln.personalInfo.officeAddress,
 
-          idx=idx,
-          deleteElement(i) {
-            const newFormList = tmpData.salns.filter((_, idx) => i !== idx); 
-				    tmpData = {...tmpData, salns: newFormList};
-            clickDeleteForm(saln.salnID);
-          },
-        />
-      </for>
+            idx=idx,
+            deleteElement(i) {
+              const newFormList = tmpData.salns.filter((_, idx) => i !== idx); 
+              tmpData = {...tmpData, salns: newFormList};
+              clickDeleteForm(saln.salnID);
+            },
+          />
+        </for>
+      </if>
+      <else>
+        <h1 class="header-title">No forms</h1>
+      </else>
     </if>
-    <else>
-      <h1 class="header-title">No forms</h1>
-    </else>
 </body>
 
 <if=showDeleteAcctModal>

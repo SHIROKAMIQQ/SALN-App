@@ -40,13 +40,14 @@ import { encryptSalnForm } from "../../utils/salnEncryption.js";
 
         // Encrypt
         console.log("Encrypting SALN...");
-        const keyBase64 = localStorage.getItem("encryptionKey");
-        const encryptedSalnJSON = await encryptSalnForm(salnJSON, keyBase64);
+        // const keyBase64 = localStorage.getItem("encryptionKey");
+        // const encryptedSalnJSON = await encryptSalnForm(salnJSON, keyBase64);
         console.log("✅ Encrypted SALN");
 
         // Submit to server
         console.log("Uploading to server...");
-        const result = await submitSALN(encryptedSalnJSON, employeeID);
+        // const result = await submitSALN(encryptedSalnJSON, employeeID);
+        const result = await submitSALN(salnJSON, employeeID);
         console.log("✅ Uploaded to server:", result);
 
         // Redirect after everything finishes

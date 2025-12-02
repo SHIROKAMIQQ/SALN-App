@@ -61,7 +61,7 @@ export async function fetchSalns(employeeID) {
     if (!employeeID) throw new Error("No employeeID provided for fetchSalns");
 
     console.log("Made API Request to /fetch-salns");
-    const response = await swFetch(`${API_BASE_URL}/fetch-salns`, {
+    const response = await fetch(`${API_BASE_URL}/fetch-salns`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
