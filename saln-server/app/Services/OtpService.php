@@ -53,6 +53,7 @@ class OtpService
      */
     public function generateAndSend(string $email): void
     {
+        DB::beginTransaction();
         // generate 4-word OTP
         $otp = $this->generateOTP();
 
@@ -68,16 +69,19 @@ class OtpService
 
         // send OTP
         Mail::to($email)->send(new OtpMail($otp));
+        DB::commit();
     }
 
     public function verify(string $email, string $otp)
     {
+        DB::beginTransaction();
         $otpRecord = OTP::where('email', $email) //TODO: seems to be wrong when there are multiple OTPs for one account
                     ->latest()
                     ->first();
 
         if (!$otpRecord) {
             log::error('no otp found');
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => 'No OTP found.'
@@ -86,6 +90,7 @@ class OtpService
 
         if (Carbon::parse($otpRecord->expires_at)->isPast()) {
             log::error('otp expired');
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => 'OTP has expired.'
@@ -94,6 +99,7 @@ class OtpService
 
         if ($otp !== $otpRecord->otp_code) {
             log::error('invalid otp');
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid OTP.'
@@ -105,6 +111,7 @@ class OtpService
         log::info('decrypted key is ' . Crypt::decryptString($employeeRecord->encryption_key));
 
         $otpRecord->delete();
+        DB::commit();
         return response()->json([
             'success' => true,
             'message' => "OTP verified!",

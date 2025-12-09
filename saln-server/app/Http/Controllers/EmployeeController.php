@@ -21,7 +21,9 @@ class EmployeeController extends Controller
 
   public function register(Request $request)
   {
+    DB::beginTransaction();
     if (Employee::where('email', $request->email)->first()) {
+      DB::rollBack();
       return response()->json([
         'success' => false,
         'message' => "Email already registered.",
@@ -38,7 +40,6 @@ class EmployeeController extends Controller
 
     // Encrypt the encryption key using APP_KEY
     $encryptedKey = Crypt::encryptString($validated['encryption_key']);
-    log::info("given encryption key is " . $validated['encryption_key']);
 
     // Save to database
     $employee = Employee::create([
@@ -50,6 +51,7 @@ class EmployeeController extends Controller
     // TODO: Create OTP, Save OTP to otps table, Email OTP to Employee.email
     $this->otpService->generateAndSend($email);
 
+    DB::commit();
     return response()->json([
       'success' => true,
       'message' => "Employee registered to database, OTP is sent.",
@@ -58,14 +60,17 @@ class EmployeeController extends Controller
 
   public function login(Request $request)
   {
+    DB::beginTransaction();
     $employeeRecord = Employee::where('email', $request->email)->first();
    
     if (!$employeeRecord) {
-        return response()->json(['message' => 'Account not found.'], 404);
+      DB::rollBack();
+      return response()->json(['message' => 'Account not found.'], 404);
     }
 
     $this->otpService->generateAndSend($employeeRecord->email);
 
+    DB::commit();
     return response()->json([
       'success' => true,
       'message' => "OTP is sent.",
