@@ -180,12 +180,16 @@ export interface salnFormData {
 
 export interface personalInfo {
   filingType: string; // "Not Applicable", "Joint Filing", "Separate Filing"
-  declarantName: string; // "Last Name, First Name, MI." ; take note of commas and period.
+  declarantFamilyName: string;
+  declarantFirstName: string;
+  declarantMI: string; // Could be an Empty String
   address: string; // any string
   position: string; // any string
   agency: string; // any string
   officeAddress: string; // any string
-  spouseName: string; // "Last Name, First Name, MI." ; take note of commas and period
+  spouseFamilyName: string;
+  spouseFirstName: string;
+  spouseMI: string; // Could be an Empty String
   spousePosition: string; // any string
   spouseAgency: string; // any string
   spouseOfficeAddress: string; // any string
