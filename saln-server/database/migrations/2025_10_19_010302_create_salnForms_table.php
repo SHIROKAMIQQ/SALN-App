@@ -23,12 +23,12 @@ return new class extends Migration
 			$table->text('position'); // ENCRYPTED
 			$table->text('agency'); // ENCRYPTED
 			$table->text('officeAddress'); // ENCRYPTED
-			$table->text('spouseFamilyName'); // ENCRYPTED
-			$table->text('spouseFirstName'); // ENCRYPTED
-			$table->text('spouseMI'); // ENCRYPTED
-			$table->text('spousePosition'); // ENCRYPTED
-			$table->text('spouseAgency'); // ENCRYPTED
-			$table->text('spouseOfficeAddress'); // ENCRYPTED
+			$table->text('spouseFamilyName')->nullable(); // ENCRYPTED
+			$table->text('spouseFirstName')->nullable(); // ENCRYPTED
+			$table->text('spouseMI')->nullable(); // ENCRYPTED
+			$table->text('spousePosition')->nullable(); // ENCRYPTED
+			$table->text('spouseAgency')->nullable(); // ENCRYPTED
+			$table->text('spouseOfficeAddress')->nullable(); // ENCRYPTED
 
 			$table->timestamp('updatedAt');
 
