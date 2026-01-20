@@ -72,7 +72,7 @@ export interface Input {
 	<TextCard
 		label="Declarant's First Name"
 		placeholder="First Name"
-		value=declarantFamilyName
+		value=declarantFirstName
 		updateAnswer(answer) {
 			declarantFirstName = answer;
 			input.updateFormData({...input.personalInfo, declarantFirstName: answer});
