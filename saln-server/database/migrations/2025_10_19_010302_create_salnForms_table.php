@@ -16,15 +16,19 @@ return new class extends Migration
 			$table->uuid('employeeID');
 
 			$table->text('filingType'); // ENCRYPTED
-			$table->text('declarantName'); // ENCRYPTED
+			$table->text('declarantFamilyName'); // ENCRYPTED
+			$table->text('declarantFirstName'); // ENCRYPTED
+			$table->text('declarantMI'); // ENCRYPTED
 			$table->text('address'); // ENCRYPTED
 			$table->text('position'); // ENCRYPTED
 			$table->text('agency'); // ENCRYPTED
 			$table->text('officeAddress'); // ENCRYPTED
-			$table->text('spouseName')->nullable(); // ENCRYPTED
-			$table->text('spousePosition')->nullable(); // ENCRYPTED
-			$table->text('spouseAgency')->nullable(); // ENCRYPTED
-			$table->text('spouseOfficeAddress')->nullable(); // ENCRYPTED
+			$table->text('spouseFamilyName'); // ENCRYPTED
+			$table->text('spouseFirstName'); // ENCRYPTED
+			$table->text('spouseMI'); // ENCRYPTED
+			$table->text('spousePosition'); // ENCRYPTED
+			$table->text('spouseAgency'); // ENCRYPTED
+			$table->text('spouseOfficeAddress'); // ENCRYPTED
 
 			$table->timestamp('updatedAt');
 

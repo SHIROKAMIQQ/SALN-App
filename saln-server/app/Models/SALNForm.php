@@ -22,9 +22,9 @@ class SALNForm extends Model
 	protected $fillable = [
 		'salnID', 'employeeID',
 		'filingType',
-		'declarantName', 'address', 
+		'declarantFamilyName', 'declarantFirstName', 'declarantMI', 'address', 
 		'position', 'agency', 'officeAddress',
-		'spouseName', 'spousePosition', 'spouseAgency', 'spouseOfficeAddress',
+		'spouseFamilyName', 'spouseFirstName', 'spouseMI', 'spousePosition', 'spouseAgency', 'spouseOfficeAddress',
 		'updatedAt'
 	];
 
