@@ -4,12 +4,16 @@ import { namePattern, agePattern, datePattern, costPattern, commaCost, yearPatte
 function validatePersonalInformation (obj) {
 
 	const filingType = 'filingType' in obj ? obj.filingType : "";
-	const declarantName = 'declarantName' in obj ? obj.declarantName : "";
+	const declarantFamilyName = 'declarantFamilyName' in obj ? obj.declarantFamilyName : "";
+	const declarantFirstName = 'declarantFirstName' in obj ? obj.declarantFirstName : "";
+	const declarantMI = 'declarantMI' in obj ? obj.declarantMI : "";
 	const address = 'address' in obj ? obj.address : "";
 	const position = 'position' in obj ? obj.position : "";
 	const agency = 'agency' in obj ? obj.agency : "";
 	const officeAddress = 'officeAddress' in obj ? obj.officeAddress : "";
-	const spouseName = 'spouseName' in obj ? obj.spouseName : "";
+	const spouseFamilyName = 'spouseFamilyName' in obj ? obj.spouseFamilyName : "";
+	const spouseFirstName = 'spouseFirstName' in obj ? obj.spouseFirstName : "";
+	const spouseMI = 'spouseMI' in obj ? obj.spouseMI : "";
 	const spousePosition = 'spousePosition' in obj ? obj.spousePosition : "";
 	const spouseAgency = 'spouseAgency' in obj ? obj.spouseAgency : "";
 	const spouseOfficeAddress = 'spouseOfficeAddress' in obj ? obj.spouseOfficeAddress : "";
@@ -18,11 +22,8 @@ function validatePersonalInformation (obj) {
 		alert("Invalid Personal Information. Filing Type is invalid/missing.");
 		return false;
 	}
-	if (
-		(!declarantName) ||
-		(!namePattern.test(declarantName))
-	) {
-		alert("Invalid Personal Information. Declarant Name is not of correct format. (Last Name, First Name, MI.)");
+	if (!declarantFamilyName || !declarantFirstName) {
+		alert("Missing declarant name fields.");
 		return false;
 	}
 	if (!address) {
@@ -43,15 +44,10 @@ function validatePersonalInformation (obj) {
 	}
 
 	if (!(
-		(!spouseName && !spousePosition && !spouseAgency && !spouseOfficeAddress) ||
-		(spouseName && spousePosition && spouseAgency && spouseOfficeAddress)
+		(!spouseFamilyName && !spouseFirstName && !spouseMI && !spousePosition && !spouseAgency && !spouseOfficeAddress) ||
+		(spouseFamilyName && spouseFirstName && spousePosition && spouseAgency && spouseOfficeAddress)
 	)) {
 		alert("Invalid Personal Information. If a Spouse field is filled, then all Spouse fields must be filled.");
-		return false;
-	}
-	if (spouseName && !namePattern.test(spouseName)) {
-		console.log(spouseName);
-		alert("Invalid Personal Information. Spouse Name is not of correct format. (Last Name, First Name, MI.)");
 		return false;
 	}
 
