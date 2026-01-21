@@ -13,10 +13,7 @@ export interface Input {
 		tmpValid = false;
 		console.log("filingType failed.");
 	}
-	if (
-		(!declarantName) ||
-		(!namePattern.test(declarantName))
-	) {
+	if (!declarantFamilyName || !declarantFirstName) {
 		tmpValid = false;
 		console.log("declarantName failed.");
 	}
@@ -38,15 +35,11 @@ export interface Input {
 	}
 
 	if (!(
-		(!spouseName && !spousePosition && !spouseAgency && !spouseOfficeAddress) ||
-		(spouseName && spousePosition && spouseAgency && spouseOfficeAddress)
+		(!spouseFamilyName && !spouseFirstName && !spouseMI && !spousePosition && !spouseAgency && !spouseOfficeAddress) ||
+		(spouseFamilyName && spouseFirstName && spousePosition && spouseAgency && spouseOfficeAddress)
 	)) {
 		tmpValid = false;
 		console.log("spouse failed.");
-	}
-	if (spouseName && !namePattern.test(spouseName)) {
-		tmpValid = false;
-		console.log("spouseName failed.");
 	}
 
 	input.updateFormValid(tmpValid); // TODO have more specific error handling messages. 
@@ -65,15 +58,35 @@ export interface Input {
 			input.updateFormData({...input.personalInfo, filingType: answer});
 		}
 	/>
-	<let/declarantName = input.personalInfo.declarantName />
+	<let/declarantFamilyName = input.personalInfo.declarantFamilyName />
 	<TextCard
-		label="Declarant"
-		subtext="Last Name, First Name, M.I."
-		placeholder="Last Name, First Name, M.I."
-		value=declarantName
+		label="Declarant's Family Name"
+		placeholder="Last Name"
+		value=declarantFamilyName
 		updateAnswer(answer) {
-			declarantName = answer;
-			input.updateFormData({...input.personalInfo, declarantName: answer});
+			declarantFamilyName = answer;
+			input.updateFormData({...input.personalInfo, declarantFamilyName: answer});
+		}
+	/>
+	<let/declarantFirstName = input.personalInfo.declarantFirstName />
+	<TextCard
+		label="Declarant's First Name"
+		placeholder="First Name"
+		value=declarantFirstName
+		updateAnswer(answer) {
+			declarantFirstName = answer;
+			input.updateFormData({...input.personalInfo, declarantFirstName: answer});
+		}
+	/>
+	<let/declarantMI = input.personalInfo.declarantMI />
+	<TextCard
+		label="Declarant Middle Initial"
+		subtext="Leave BLANK if no Middle Name"
+		placeholder="M.I."
+		value=declarantMI
+		updateAnswer(answer) {
+			declarantMI = answer;
+			input.updateFormData({...input.personalInfo, declarantMI: answer});
 		}
 	/>
 	<let/address = input.personalInfo.address />
@@ -116,15 +129,37 @@ export interface Input {
 			input.updateFormData({...input.personalInfo, officeAddress: answer});
 		}
 	/> 
-	<let/spouseName = input.personalInfo.spouseName />
+	<let/spouseFamilyName = input.personalInfo.spouseFamilyName />
 	<TextCard 
-		label="Spouse"
-		subtext="Last Name, First Name, M.I. | Leave BLANK if unapplicable."
-		placeholder="Last Name, First Name, M.I."
-		value=spouseName
+		label="Family Name"
+		subtext="of Spouse | Leave BLANK if unapplicable."
+		placeholder="Last Name"
+		value=spouseFamilyName
 		updateAnswer(answer) {
-			spouseName = answer;
-			input.updateFormData({...input.personalInfo, spouseName: answer});
+			spouseFamilyName = answer;
+			input.updateFormData({...input.personalInfo, spouseFamilyName: answer});
+		}
+	/>
+	<let/spouseFirstName = input.personalInfo.spouseFirstName />
+	<TextCard 
+		label="First Name"
+		subtext="of Spouse | Leave BLANK if unapplicable."
+		placeholder="First Name"
+		value=spouseFirstName
+		updateAnswer(answer) {
+			spouseFirstName = answer;
+			input.updateFormData({...input.personalInfo, spouseFirstName: answer});
+		}
+	/>
+	<let/spouseMI = input.personalInfo.spouseMI />
+	<TextCard 
+		label="Middle Initial"
+		subtext="of Spouse | Leave BLANK if unapplicable."
+		placeholder="M.I."
+		value=spouseMI
+		updateAnswer(answer) {
+			spouseMI = answer;
+			input.updateFormData({...input.personalInfo, spouseMI: answer});
 		}
 	/>
 	<let/spousePosition = input.personalInfo.spousePosition />

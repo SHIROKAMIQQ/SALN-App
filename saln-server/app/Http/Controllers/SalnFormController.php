@@ -210,24 +210,32 @@ class SalnFormController extends Controller
 				
 				$salnJSON['personalInfo'] = [
 					'filingType' => $salnJSON['filingType'] ?? "",
-					'declarantName' => $salnJSON['declarantName'] ?? "",
+					'declarantFamilyName' => $salnJSON['declarantFamilyName'] ?? "",
+					'declarantFirstName' => $salnJSON['declarantFirstName'] ?? "",
+					'declarantMI' => $salnJSON['declarantMI'] ?? "",
 					'address' => $salnJSON['address'] ?? "",
 					'agency' => $salnJSON['agency'] ?? "",
 					'position' => $salnJSON['position'] ?? "",
 					'officeAddress' => $salnJSON['officeAddress'] ?? "",
-					'spouseName' => $salnJSON['spouseName'] ?? "",
+					'spouseFamilyName' => $salnJSON['spouseFamilyName'] ?? "",
+					'spouseFirstName' => $salnJSON['spouseFirstName'] ?? "",
+					'spouseMI' => $salnJSON['spouseMI'] ?? "",
 					'spousePosition' => $salnJSON['spousePosition'] ?? "",
 					'spouseAgency' => $salnJSON['spouseAgency'] ?? "",
 					'spouseOfficeAddress' => $salnJSON['spouseOfficeAddress'] ?? "",
 				];
 
 				unset($salnJSON['filingType']);
-				unset($salnJSON['declarantName']);
+				unset($salnJSON['declarantFamilyName']);
+				unset($salnJSON['declarantFirstName']);
+				unset($salnJSON['declarantMI']);
 				unset($salnJSON['address']);
 				unset($salnJSON['agency']);
 				unset($salnJSON['position']);
 				unset($salnJSON['officeAddress']);
-				unset($salnJSON['spouseName']);
+				unset($salnJSON['spouseFamilyName']);
+				unset($salnJSON['spouseFirstName']);
+				unset($salnJSON['spouseMI']);
 				unset($salnJSON['spouseAgency']);
 				unset($salnJSON['spousePosition']);
 				unset($salnJSON['spouseOfficeAddress']);
