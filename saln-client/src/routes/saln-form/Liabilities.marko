@@ -29,6 +29,8 @@ export interface Input {
 	}
 	obj.outstandingBalance = commaCost(obj.outstandingBalance);
 
+	obj.nondeclarantExclusive = obj.nondeclarantExclusive === "on" ? "true" : "false";
+
 	return true;
 } />
 

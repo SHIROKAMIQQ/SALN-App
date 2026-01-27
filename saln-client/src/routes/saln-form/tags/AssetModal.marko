@@ -20,7 +20,6 @@ export interface Input {
           const formData = new FormData(event.target);
           const data = Object.fromEntries(formData.entries()); 
           
-          data.nondeclarantExclusive = formData.has("nondeclarantExclusive");
           const valid = input.validateData(data);
 
           if (valid) {
@@ -55,7 +54,7 @@ export interface Input {
                 <input
                   type="checkbox"
                   name=field.inputName
-                  checked=input.attributes?.[field.inputName]
+                  checked=(input.attributes?.[field.inputName] === "true")
                 />
                 <span class="checkbox-subtext">${field.checktext}</span>
               </label>
