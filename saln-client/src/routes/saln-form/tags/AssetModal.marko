@@ -38,13 +38,27 @@ export interface Input {
                 <span class="field-subtext">${field.subtext}</span>
               </if>
             </div>
-            <input class="field-input"
-              type="text"
-              name=field.inputName
-              placeholder=field.placeholder? field.placeholder : field.label
-              value=input.attributes? input.attributes[field.inputName] : "" 
-            />
+
+            <if=(field.inputType === "text")> 
+              <input class="field-input"
+                type="text"
+                name=field.inputName
+                placeholder=field.placeholder? field.placeholder : field.label
+                value=input.attributes? input.attributes[field.inputName] : "" 
+              />
+            </if>
+
+            <if=(field.inputType === "checkbox")>
+              <label class="checkbox-field">
+                <input
+                  type="checkbox"
+                  name=field.inputName
+                />
+                <span class="checkbox-subtext">${field.checktext}</span>
+              </label>
+            </if>
           </div>
+
         </for>
 
         <div class="asset-modal-buttons">

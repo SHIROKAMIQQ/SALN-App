@@ -12,17 +12,20 @@ export enum AssetTypes {
 export const AssetFields = {
   [AssetTypes.UNMARRIED_CHILDREN]: [
     {
+      inputType: "text",
       label: "Name", 
       subtext: "Unmarried child below eighteen (18) years of age living in declarant's household", 
-      inputName: "name", 
+      inputName: "name",
     },
     {
+      inputType: "text",
       label: "Date of Birth", 
       subtext: "Must be less than 18 years ago",
       inputName: "dob",
       placeholder: "YYYY-MM-DD",
     },
     {
+      inputType: "text",
       label: "Age", 
       subtext: "Must match Date of Birth",
       inputName: "age",
@@ -31,112 +34,158 @@ export const AssetFields = {
   ],
   [AssetTypes.REAL_PROPERTY]: [
     {
+      inputType: "text",
       label: "Description", 
       subtext: "(e.g. lot, house and lot, condominium, and improvements)", 
       inputName: "description", 
     },
     {
+      inputType: "text",
       label: "Kind", 
       subtext: "(e.g. residential, commericial, industrial, agricultural and mixed used)", 
       inputName: "kind",
     },
     {
+      inputType: "text",
       label: "Exact Location", 
       inputName: "exactLocation",
     },
     {
+      inputType: "text",
       label: "Assessed Value", 
       subtext: "(As found in the Tax Declaration of Real Property)", 
       inputName: "assessedValue",
       placeholder: "X,XXX,XXX.XX",
     },
     {
+      inputType: "text",
       label: "Current Fair Market Value", 
       subtext: "(As found in the Tax Declaration of Real Property)",
       inputName: "currentFairMarketValue",
       placeholder: "X,XXX,XXX.XX",
     },
     {
+      inputType: "text",
       label: "Acquisition Year", 
       inputName: "acquisitionYear",
       placeholder: "YYYY"
     },
     {
+      inputType: "text",
       label: "Acquisition Mode", 
       inputName: "acquisitionMode",
     },
     {
+      inputType: "text",
       label: "Acquisition Cost", 
       inputName: "acquisitionCost",
       placeholder: "X,XXX,XXX.XX",
+    },
+    {
+      inputType: "checkbox",
+      label: "Non-declarant Exclusivity",
+      inputName: "nondeclarantExclusivity",
+      checktext: "This property is the exclusive property of the spouse or is the property of unmarried children below 18 years of age living in the declarant's household."
     }
   ],
   [AssetTypes.PERSONAL_PROPERTY]: [
     {
+      inputType: "text",
       label: "Description", 
       inputName: "description",
     },
     {
+      inputType: "text",
       label: "Year Acquired",
       inputName: "yearAcquired",
       placeholder: "YYYY",
     },
     {
+      inputType: "text",
       label: "Acquisition Cost/Amount",
       inputName: "acquisitionCost",
       placeholder: "X,XXX,XXX.XX",
+    },
+    {
+      inputType: "checkbox",
+      label: "Non-declarant Exclusivity",
+      inputName: "nondeclarantExclusivity",
+      checktext: "This property is the exclusive property of the spouse or is the property of unmarried children below 18 years of age living in the declarant's household."
     }
   ],
   [AssetTypes.LIABILITY]: [
     {
+      inputType: "text",
       label: "Nature", 
       inputName: "nature",
     },
     {
+      inputType: "text",
       label: "Name of Creditors", 
       inputName: "creditors",
     },
     {
+      inputType: "text",
       label: "Outstanding Balance", 
       inputName: "outstandingBalance",
       placeholder: "X,XXX,XXX.XX"
+    },
+    {
+      inputType: "checkbox",
+      label: "Non-declarant Exclusivity",
+      inputName: "nondeclarantExclusivity",
+      checktext: "This property is the exclusive property of the spouse or is the property of unmarried children below 18 years of age living in the declarant's household."
     }
   ],
   [AssetTypes.CONNECTION]: [
     {
+      inputType: "text",
       label: "Name of Entity/Business Enterprise", 
       inputName: "name",
     },
     {
+      inputType: "text",
       label: "Business Address", 
       inputName: "businessAddress",
     },
     {
+      inputType: "text",
       label: "Nature of Business Interest & / or Financial Connection", 
       inputName: "nature",
     },
     {
+      inputType: "text",
       label: "Date of Acquisition of Interest or Connection",
       subtext: "(Year)",
       inputName: "dateOfAcquisition",
       placeholder: "YYYY",
+    },
+    {
+      inputType: "checkbox",
+      label: "Non-declarant Exclusivity",
+      inputName: "nondeclarantExclusivity",
+      checktext: "This property is the exclusive property of the spouse or is the property of unmarried children below 18 years of age living in the declarant's household."
     }
   ],
   [AssetTypes.RELATIVE]: [
     {
+      inputType: "text",
       label: "Name of Relative",
       subtext: "in the government service",
       inputName: "name",
     },
     {
+      inputType: "text",
       label: "Relationship", 
       inputName: "relationship",
     },
     {
+      inputType: "text",
       label: "Position", 
       inputName: "position",
     },
     {
+      inputType: "text",
       label: "Name of Agency/Office and Address", 
       inputName: "agency",
     }
