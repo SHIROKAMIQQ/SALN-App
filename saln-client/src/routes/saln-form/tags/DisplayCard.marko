@@ -20,7 +20,7 @@ export interface Input {
         <div class="attributes-dictionary">
             <for|key, value| in=input.attributes>
 								<if=(!key.endsWith("ID"))>
-                	<p class="attribute-item"><b class="attribute-key">${key}:</b> ${value}</p>
+                	<p class="attribute-item"><b class="attribute-key">${key}:</b> ${String(value)}</p>
 								</if>
             </for>
         </div> 

@@ -20,11 +20,13 @@ export interface Input {
           const formData = new FormData(event.target);
           const data = Object.fromEntries(formData.entries()); 
           
+          data.nondeclarantExclusive = formData.has("nondeclarantExclusive");
           const valid = input.validateData(data);
 
           if (valid) {
             input.fetchData(data, input.idx);
             input.closeModal();
+            console.log(data);
           } else {
             alert("You have incomplete/improper required fields.") // Make this more specific.
           }
@@ -53,6 +55,7 @@ export interface Input {
                 <input
                   type="checkbox"
                   name=field.inputName
+                  checked=input.attributes?.[field.inputName]
                 />
                 <span class="checkbox-subtext">${field.checktext}</span>
               </label>
