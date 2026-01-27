@@ -18,6 +18,7 @@ return new class extends Migration
 			$table->text('description'); // ENCRYPTED
 			$table->text('yearAcquired'); // ENCRYPTED 
 			$table->text('acquisitionCost'); // ENCRYPTED
+			$table->text('nondeclarantExclusive'); // ENCRYPTED
 
 			$table->foreign('salnID')
 				->references('salnID')
