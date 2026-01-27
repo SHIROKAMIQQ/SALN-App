@@ -69,15 +69,15 @@ function validateChild(obj, i) {
 		return false;
 	}
 
-	const todayChecker = new Date();
-	const dobChecker = new Date(dob);
-	let dobageChecker = todayChecker.getFullYear() - dobChecker.getFullYear();
-	const m = todayChecker.getMonth() - dobChecker.getMonth();
-	if (m < 0 || (m === 0 && todayChecker.getDate() < dobChecker.getDate())) dobageChecker--;
-	if (dobageChecker >= 18 || todayChecker < dobChecker) {
-		alert(`Invalid Child ${i}. Child with this Date of Birth can't be less than 18 years old.`);
-		return false;
-	}
+	// const todayChecker = new Date();
+	// const dobChecker = new Date(dob);
+	// let dobageChecker = todayChecker.getFullYear() - dobChecker.getFullYear();
+	// const m = todayChecker.getMonth() - dobChecker.getMonth();
+	// if (m < 0 || (m === 0 && todayChecker.getDate() < dobChecker.getDate())) dobageChecker--;
+	// if (dobageChecker >= 18 || todayChecker < dobChecker) {
+	// 	alert(`Invalid Child ${i}. Child with this Date of Birth can't be less than 18 years old.`);
+	// 	return false;
+	// }
 
 	if (
 		!age ||
@@ -87,9 +87,13 @@ function validateChild(obj, i) {
 		return false;
 	}
 
-	const ageNumber = Number(age);
-	if (ageNumber >= 18) {
-		alert(`Invalid Child ${i}. Child must be less than 18 years old.`);
+	try {
+		const ageNumber = Number(age);
+		if (ageNumber >= 18) {
+			alert(`Invalid Child ${i}. Child must be less than 18 years old.`);
+			return false;
+		}
+	} catch (e) {
 		return false;
 	}
 
@@ -106,6 +110,7 @@ function validateRealProperty(obj, i) {
 	const acquisitionYear = 'acquisitionYear' in obj ? obj.acquisitionYear : "";
 	const acquisitionMode = 'acquisitionMode' in obj ? obj.acquisitionMode : "";
 	const acquisitionCost = 'acquisitionCost' in obj ? obj.acquisitionCost : "";
+	const nondeclarantExclusive = 'nondeclarantExclusive' in obj ? obj.nondeclarantExclusive : "";
 
 	if (!description) {
 		alert(`Invalid Real Property ${i}. Missing Description.`);
@@ -169,6 +174,14 @@ function validateRealProperty(obj, i) {
 	}
 	obj.acquisitionCost = commaCost(acquisitionCost);
 
+	if (
+		!nondeclarantExclusive || 
+		!(nondeclarantExclusive === "true" || nondeclarantExclusive === "false")
+	) {
+		alert(`Invalid Personal Property ${i}. nondeclarantExclusive field is missingor is not of value \"true\" or \"false\".`);
+		return false;
+	}
+
 	return true;
 }
 
@@ -176,6 +189,7 @@ function validatePersonalProperty(obj, i) {
 	const description = 'description' in obj ? obj.description : "";
 	const yearAcquired = 'yearAcquired' in obj ? obj.yearAcquired : "";
 	const acquisitionCost = 'acquisitionCost' in obj ? obj.acquisitionCost : "";
+	const nondeclarantExclusive = 'nondeclarantExclusive' in obj ? obj.nondeclarantExclusive : "";
 
 	if (!description) {
 		alert(`Invalid Personal Property ${i}. Missing Description.`);
@@ -206,6 +220,14 @@ function validatePersonalProperty(obj, i) {
 	}
 	obj.acquisitionCost = commaCost(acquisitionCost);
 
+	if (
+		!nondeclarantExclusive || 
+		!(nondeclarantExclusive === "true" || nondeclarantExclusive === "false")
+	) {
+		alert(`Invalid Personal Property ${i}. nondeclarantExclusive field is missingor is not of value \"true\" or \"false\".`);
+		return false;
+	}
+
 	return true;
 }
 
@@ -213,6 +235,7 @@ function validateLiability(obj, i) {
 	const nature = 'nature' in obj ? obj.nature : "";
 	const creditors = 'creditors' in obj ? obj.creditors : "";
 	const outstandingBalance = 'outstandingBalance' in obj ? obj.outstandingBalance : "";
+	const nondeclarantExclusive = 'nondeclarantExclusive' in obj ? obj.nondeclarantExclusive : "";
 
 	if (!nature) {
 		alert(`Invalid Liability ${i}. Missing Nature.`);
@@ -233,6 +256,14 @@ function validateLiability(obj, i) {
 	}
 	obj.outstandingBalance = commaCost(outstandingBalance);
 
+	if (
+		!nondeclarantExclusive || 
+		!(nondeclarantExclusive === "true" || nondeclarantExclusive === "false")
+	) {
+		alert(`Invalid Personal Property ${i}. nondeclarantExclusive field is missingor is not of value \"true\" or \"false\".`);
+		return false;
+	}
+
 	return true;
 }
 
@@ -241,6 +272,7 @@ function validateConnection(obj, i) {
 	const businessAddress = 'businessAddress' in obj ? obj.businessAddress : "";
 	const nature = 'nature' in obj ? obj.nature : "";
 	const dateOfAcquisition = 'dateOfAcquisition' in obj ? obj.dateOfAcquisition : "";
+	const nondeclarantExclusive = 'nondeclarantExclusive' in obj ? obj.nondeclarantExclusive : "";
 
 	if (!name) {
 		alert(`Invalid Connection ${i}. Missing Name.`);
@@ -269,6 +301,14 @@ function validateConnection(obj, i) {
 	const acqyear = new Date(dateOfAcquisition);
 	if (acqyear.getFullYear() > today.getFullYear()) {
 		alert(`Invalid Connection ${i}. Date of Acquisition after this year.`);
+		return false;
+	}
+
+	if (
+		!nondeclarantExclusive || 
+		!(nondeclarantExclusive === "true" || nondeclarantExclusive === "false")
+	) {
+		alert(`Invalid Personal Property ${i}. nondeclarantExclusive field is missingor is not of value \"true\" or \"false\".`);
 		return false;
 	}
 
@@ -316,7 +356,9 @@ export function preprocessJSON(obj) {
 	// Check if personalInformation is valid.
 	obj.personalInfo ||= {};
 	if (!validatePersonalInformation(obj.personalInfo)) throw new Error("Invalid Personal Information.");
-	obj.personalInfo.spouseName ||= "";
+	obj.personalInfo.spouseFamilyName ||= "";
+	obj.personalInfo.spouseFirstName ||= "";
+	obj.personalInfo.spouseMI ||= "";
 	obj.personalInfo.spousePosition ||= "";
 	obj.personalInfo.spouseAgency ||= "";
 	obj.personalInfo.spouseOfficeAddress ||= "";
