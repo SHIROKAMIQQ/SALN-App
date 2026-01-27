@@ -84,7 +84,7 @@ export const AssetFields = {
     {
       inputType: "checkbox",
       label: "Non-declarant Exclusivity",
-      inputName: "nondeclarantExclusivity",
+      inputName: "nondeclarantExclusive",
       checktext: "This property is the exclusive property of the spouse or is the property of unmarried children below 18 years of age living in the declarant's household."
     }
   ],
@@ -109,7 +109,7 @@ export const AssetFields = {
     {
       inputType: "checkbox",
       label: "Non-declarant Exclusivity",
-      inputName: "nondeclarantExclusivity",
+      inputName: "nondeclarantExclusive",
       checktext: "This property is the exclusive property of the spouse or is the property of unmarried children below 18 years of age living in the declarant's household."
     }
   ],
@@ -133,7 +133,7 @@ export const AssetFields = {
     {
       inputType: "checkbox",
       label: "Non-declarant Exclusivity",
-      inputName: "nondeclarantExclusivity",
+      inputName: "nondeclarantExclusive",
       checktext: "This property is the exclusive property of the spouse or is the property of unmarried children below 18 years of age living in the declarant's household."
     }
   ],
@@ -163,7 +163,7 @@ export const AssetFields = {
     {
       inputType: "checkbox",
       label: "Non-declarant Exclusivity",
-      inputName: "nondeclarantExclusivity",
+      inputName: "nondeclarantExclusive",
       checktext: "This property is the exclusive property of the spouse or is the property of unmarried children below 18 years of age living in the declarant's household."
     }
   ],
