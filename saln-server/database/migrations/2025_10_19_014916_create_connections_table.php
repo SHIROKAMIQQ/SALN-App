@@ -19,6 +19,7 @@ return new class extends Migration
 			$table->text('businessAddress'); // ENCRYPTED
 			$table->text('nature'); // ENCRYPTED
 			$table->text('dateOfAcquisition'); // ENCRYPTED
+			$table->text('nondeclarantExclusive'); // ENCRYPTED
 
 			$table->foreign('salnID')
 				->references('salnID')

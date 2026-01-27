@@ -20,16 +20,16 @@ export interface Input {
 		return false;
 	}
 
-	const today = new Date();
-	const dob = new Date(obj.dob);
-	let dobage = today.getFullYear() - dob.getFullYear();
-	const m = today.getMonth() - dob.getMonth();
-	if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) dobage--;
-	console.log(`Age ${dobage}`);
-	if (dobage >= 18 || today < dob) {
-		console.log("DoB fails.");
-		return false;
-	}
+	// const today = new Date();
+	// const dob = new Date(obj.dob);
+	// let dobage = today.getFullYear() - dob.getFullYear();
+	// const m = today.getMonth() - dob.getMonth();
+	// if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) dobage--;
+	// console.log(`Age ${dobage}`);
+	// if (dobage >= 18 || today < dob) {
+	// 	console.log("DoB fails.");
+	// 	return false;
+	// }
 
 	if (
 		!obj.age ||

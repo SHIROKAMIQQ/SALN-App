@@ -40,6 +40,8 @@ export interface Input {
 		return false;
 	}
 
+	obj.nondeclarantExclusive = obj.nondeclarantExclusive === "on" ? "true" : "false";
+
 	return true;
 } />
 

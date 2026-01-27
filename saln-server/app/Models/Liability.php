@@ -18,7 +18,7 @@ class Liability extends Model
 
 	protected $fillable = [
 		'liabilityID', 'salnID',
-		'nature', 'creditors', 'outstandingBalance'
+		'nature', 'creditors', 'outstandingBalance', 'nondeclarantExclusive'
 	];
 
 	public function salnForm()
