@@ -2,6 +2,7 @@ import "./tags/style.css";
 import { loginEmployee } from "../../api/loginEmployee.js";
 
 <let/email="" />
+<let/isLoggingIn = false>
 
 <let/confirmLogin = async (email: string) => {
   console.log("login button clicked");
@@ -44,7 +45,15 @@ import { loginEmployee } from "../../api/loginEmployee.js";
     />
     <br>
     <button class="confirmLogin" onClick() {
-      confirmLogin(email);
+      if (isLoggingIn) {
+        console.log("error: button disabled");
+        return;
+      }
+      isLoggingIn = true;
+      console.log("logging in");
+      confirmLogin(email).finally(() => {
+        isLoggingIn = false;
+      });
     }>
       Log in with Email
     </button>

@@ -45,9 +45,15 @@ import { registerEmployee } from "../../api/registerEmployee.js";
     />
     <br>
     <button class="confirmRegistration" disabled=isRegistering onClick() {
-      if (isRegistering) return;
+      if (isRegistering) {
+        console.log("error: button disabled");
+        return;
+      }
       isRegistering = true;
-      confirmRegistration(email);
+      console.log("registering");
+      confirmRegistration(email).finally(() => {
+        isRegistering = false;
+      });
     }>
       Register with Email
     </button>
