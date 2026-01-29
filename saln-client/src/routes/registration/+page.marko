@@ -2,6 +2,7 @@ import "./tags/style.css";
 import { registerEmployee } from "../../api/registerEmployee.js";
 
 <let/email="" />
+<let/isRegistering = false>
 
 <let/confirmRegistration = async (email: string) => {
   console.log("registration button clicked");
@@ -40,10 +41,19 @@ import { registerEmployee } from "../../api/registerEmployee.js";
       onInput(event) {
         email = event.target.value.trim();
       }
+      disabled=isRegistering
     />
     <br>
-    <button class="confirmRegistration" onClick() {
-      confirmRegistration(email);
+    <button class="confirmRegistration" disabled=isRegistering onClick() {
+      if (isRegistering) {
+        console.log("error: button disabled");
+        return;
+      }
+      isRegistering = true;
+      console.log("registering");
+      confirmRegistration(email).finally(() => {
+        isRegistering = false;
+      });
     }>
       Register with Email
     </button>
