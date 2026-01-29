@@ -2,7 +2,6 @@ import "./tags/style.css";
 import { registerEmployee } from "../../api/registerEmployee.js";
 
 <let/email="" />
-<let/isRegistering = false>
 
 <let/confirmRegistration = async (email: string) => {
   console.log("registration button clicked");
@@ -18,7 +17,6 @@ import { registerEmployee } from "../../api/registerEmployee.js";
     const result = await registerEmployee(email);
     console.log("API call finished");
     if (result.success) {
-      console.log("registration success");
       window.location.href = "/otp-verification";
     } else {
       alert(result.message);
@@ -45,15 +43,7 @@ import { registerEmployee } from "../../api/registerEmployee.js";
     />
     <br>
     <button class="confirmRegistration" onClick() {
-      if (isRegistering) {
-        console.log("error: button disabled");
-        return;
-      }
-      isRegistering = true;
-      console.log("registering");
-      confirmRegistration(email).finally(() => {
-        isRegistering = false;
-      });
+      confirmRegistration(email);
     }>
       Register with Email
     </button>
