@@ -38,6 +38,8 @@ export interface Input {
 	}
 	obj.acquisitionCost = commaCost(obj.acquisitionCost);
 
+	obj.nondeclarantExclusive = obj.nondeclarantExclusive === "on" ? "true" : "false";
+
 	return true;
 } />
 

@@ -19,7 +19,7 @@ class RealProperty extends Model
 		'realPropertyID', 'salnID',
 		'description', 'kind', 'exactLocation',
 		'assessedValue', 'currentFairMarketValue',
-		'acquisitionYear', 'acquisitionMode', 'acquisitionCost'
+		'acquisitionYear', 'acquisitionMode', 'acquisitionCost', 'nondeclarantExclusive'
 	];
 
 	public function salnForm()

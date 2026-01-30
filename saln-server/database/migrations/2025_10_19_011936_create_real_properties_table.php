@@ -23,7 +23,8 @@ return new class extends Migration
 			$table->text('acquisitionYear'); // ENCRYPTED
 			$table->text('acquisitionMode'); // ENCRYPTED
 			$table->text('acquisitionCost'); // ENCRYPTED
-
+			$table->text('nondeclarantExclusive'); // ENCRYPTED
+			
 			$table->foreign('salnID')
 				->references('salnID')
 				->on('salnForms')

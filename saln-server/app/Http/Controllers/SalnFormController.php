@@ -75,6 +75,7 @@ class SalnFormController extends Controller
 					'acquisitionYear' => $realProperty['acquisitionYear'],
 					'acquisitionMode' => $realProperty['acquisitionMode'],
 					'acquisitionCost' => $realProperty['acquisitionCost'],
+					'nondeclarantExclusive' => $realProperty['nondeclarantExclusive'],
 				]);
 			}
 
@@ -86,6 +87,7 @@ class SalnFormController extends Controller
 					'description' => $personalProperty['description'],
 					'yearAcquired' => $personalProperty['yearAcquired'],
 					'acquisitionCost' => $personalProperty['acquisitionCost'],
+					'nondeclarantExclusive' => $personalProperty['nondeclarantExclusive'],
 				]);
 			}
 
@@ -97,6 +99,7 @@ class SalnFormController extends Controller
 					'nature' => $liability['nature'],
 					'creditors' => $liability['creditors'],
 					'outstandingBalance' => $liability['outstandingBalance'],
+					'nondeclarantExclusive' => $liability['nondeclarantExclusive'],
 				]);
 			}
 
@@ -109,6 +112,7 @@ class SalnFormController extends Controller
 					'businessAddress' => $connection['businessAddress'],
 					'nature' => $connection['nature'],
 					'dateOfAcquisition' => $connection['dateOfAcquisition'],
+					'nondeclarantExclusive' => $connection['nondeclarantExclusive'],
 				]);
 			}
 

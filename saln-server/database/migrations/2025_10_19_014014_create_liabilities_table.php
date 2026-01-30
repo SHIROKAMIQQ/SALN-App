@@ -18,6 +18,7 @@ return new class extends Migration
 			$table->text('nature'); // ENCRYPTED
 			$table->text('creditors'); // ENCRYPTED;
 			$table->text('outstandingBalance'); // ENCRYPTED
+			$table->text('nondeclarantExclusive'); // ENCRYPTED
 
 			$table->foreign('salnID')
 				->references('salnID')

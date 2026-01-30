@@ -17,7 +17,7 @@ class Connection extends Model
 
 	protected $fillable = [
 		'connectionID', 'salnID',
-		'name', 'businessAddress', 'nature', 'dateOfAcquisition'
+		'name', 'businessAddress', 'nature', 'dateOfAcquisition', 'nondeclarantExclusive'
 	];
 
 	public function salnForm() {
