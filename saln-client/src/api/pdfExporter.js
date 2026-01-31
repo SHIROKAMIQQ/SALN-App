@@ -215,11 +215,14 @@ export async function fillPDFFormFields(salnData) {
         getNonDeclarantSheets(nonDeclarantData.connections, BusinessConnectionsMaxLen)
     );
 
+    // Calculate Total Number of Pages
+    const totalPages = 2 + sheetsNeeded_Declarant + sheetsNeeded_NonDeclarant;
     
     console.log("Declarant Lists:", declarantData);
     console.log("Non-Declarant Lists:", nonDeclarantData);
     console.log(`Sheets to Print (Declarant): ${sheetsNeeded_Declarant}`);
     console.log(`Sheets to Print (Non-Declarant): ${sheetsNeeded_NonDeclarant}`);
+    console.log(`Total Pages: ${totalPages}`);
 
 
 
@@ -305,10 +308,16 @@ export async function fillPDFFormFields(salnData) {
         setTextField(firstForm, `relativeAgency${idx}`, relative.agency);
       });
     }
+    
+    // Fill Total Number of Pages (MAIN)
+    setTextField(firstForm, `mainTotalPages1`, totalPages);
+    setTextField(firstForm, `mainTotalPages2`, totalPages); 
 
     firstForm.flatten();
     pdfDocs.push(firstPdfDoc);
 
+    // AS Page Number starts at Page 3
+    let currPageNumber = 3;
 
     //AS-1 
     if (sheetsNeeded_Declarant > 0){
@@ -388,6 +397,11 @@ export async function fillPDFFormFields(salnData) {
           setTextField(overflowForm, `as1-businessDate${idx}`, business.dateOfAcquisition);
         });
 
+        // Fill page count
+        setTextField(overflowForm, `as1-currPage`, currPageNumber);
+        setTextField(overflowForm, `as1-totalPages`, totalPages);
+        currPageNumber++;
+
         overflowForm.flatten();
         pdfDocs.push(overflowPdfDoc);
       }
@@ -459,6 +473,11 @@ export async function fillPDFFormFields(salnData) {
           setTextField(overflowForm, `as2-businessNature${idx}`, business.nature);
           setTextField(overflowForm, `as2-businessDate${idx}`, business.dateOfAcquisition);
         });
+        
+        // Fill page count
+        setTextField(overflowForm, `as2-currPage`, currPageNumber);
+        setTextField(overflowForm, `as2-totalPages`, totalPages);
+        currPageNumber++;        
 
         overflowForm.flatten();
         pdfDocs.push(overflowPdfDoc);
