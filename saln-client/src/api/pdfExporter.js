@@ -125,8 +125,7 @@ export async function fillPDFFormFields(salnData) {
 
       setTextField(form, `${p}declarantPosition`, salnData.personalInfo.position);
       setTextField(form, `${p}declarantAgency`, salnData.personalInfo.agency);
-      setTextField(form, `${p}declarantOfficeAddress`, salnData.personalInfo.officeAddress);
-      setTextField(form, `${p}declarantAddress`, salnData.personalInfo.address);
+      
     };
 
     const pdfDocs = [];
@@ -140,7 +139,9 @@ export async function fillPDFFormFields(salnData) {
     setCheckbox(firstForm, 'notApplicable', salnData.personalInfo.filingType === 'Not Applicable');
 
     fillBasicDeclarantInfo(firstForm);
-
+    setTextField(firstForm, `declarantOfficeAddress`, salnData.personalInfo.officeAddress);
+    setTextField(firstForm, `declarantAddress`, salnData.personalInfo.address);
+    
     // Spouse information (if applicable)
     if (salnData.personalInfo.spouseFamilyName) {
       setTextField(firstForm, 'spouseFamilyName', salnData.personalInfo.spouseFamilyName);
