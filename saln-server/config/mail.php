@@ -13,8 +13,12 @@ return [
     | "mailers" array. Examples of each type of mailer are provided.
     |
     */
-
+    
+    // FOR DEV:
     'default' => env('MAIL_MAILER', 'smtp'),
+
+    // FOR PROD:
+    // 'default' => env('MAIL_MAILER', 'sendgrid'),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,6 +40,10 @@ return [
     */
 
     'mailers' => [
+
+        'sendgrid' => [
+            'transport' => 'sendgrid',
+        ],
 
         'smtp' => [
             'transport' => 'smtp',
