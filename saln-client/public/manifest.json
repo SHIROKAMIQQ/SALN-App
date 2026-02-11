@@ -1,0 +1,13 @@
+{
+  "name": "Lamig SALN PWA",
+  "short_name": "SALN PWA",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icons/fire.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
