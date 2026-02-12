@@ -1,31 +1,6 @@
 import "./tags/style.css";
 import { registerEmployee } from "../../api/registerEmployee.js";
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lamig SALN PWA</title>
-    <link rel="manifest" href="manifest.json">
-    <!--iOS-->
-    <link rel="apple-touch-icon" href="/icons/fire.png">
-    <meta name="apple-mobile-web-app-status-bar" content="#f7df1e">
-    <meta name="theme-color" content="#f7df1e">
-</head>
-
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function() {
-      navigator.serviceWorker
-        .register("/js/serviceWorker.js")
-        .then(function() {
-          console.log("service worker registered")
-        })
-        .catch(function(err) {
-          console.log("service worker not registered", err)
-        })
-    })
-  }
-</script>
 
 <let/email="" />
 <let/isRegistering = false>
