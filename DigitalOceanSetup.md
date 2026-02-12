@@ -63,10 +63,16 @@ For this setup, we have the MarkoJS client served by a Node server. This is usua
 But, this disconnects once the terminal gets terminated. 
 Process manager 2 (`pm2`) allows us to keep this process alive.
 ```bash
+fallocate -l 2G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+echo '/swapfile none swap sw 0 0' >> /etc/fstab
+
 cd /var/www/SALN-App/saln-client
 npm install -g pm2
 pm2 -v
-pm2 start dist/index.mjs --name saln-client
+pm2 start dist/index.mjs --name saln-client --max-memory-restart 200M
 pm2 save
 pm2 startup
 ```
