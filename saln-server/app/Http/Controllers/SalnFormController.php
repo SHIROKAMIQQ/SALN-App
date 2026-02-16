@@ -269,6 +269,7 @@ class SalnFormController extends Controller
 					$salnJSON['children'] = collect($salnJSON['unmarried_children'] ?? [])
 						->map(function ($child) use ($decrypt) {
 							return [
+								'unmarriedChildID' => $child['unmarriedChildID'] ?? "",
 								'name' => $decrypt($child['name'] ?? ""),
 								'dob' => $decrypt($child['dob'] ?? ""),
 								'age' => $decrypt($child['age'] ?? ""),
@@ -284,6 +285,7 @@ class SalnFormController extends Controller
 					$salnJSON['realProperties'] = collect($salnJSON['real_properties'] ?? [])
 						->map(function ($property) use ($decrypt) {
 							return [
+								'realPropertyID' => $property['realPropertyID'] ?? "",
 								'description' => $decrypt($property['description'] ?? ""),
 								'kind' => $decrypt($property['kind'] ?? ""),
 								'exactLocation' => $decrypt($property['exactLocation'] ?? ""),
@@ -305,6 +307,7 @@ class SalnFormController extends Controller
 					$salnJSON['personalProperties'] = collect($salnJSON['personal_properties'] ?? [])
 						->map(function ($property) use ($decrypt) {
 							return [
+								'personalPropertyID' => $property['personalPropertyID'] ?? "",
 								'description' => $decrypt($property['description'] ?? ""),
 								'yearAcquired' => $decrypt($property['yearAcquired'] ?? ""),
 								'acquisitionCost' => $decrypt($property['acquisitionCost'] ?? ""),
@@ -321,6 +324,7 @@ class SalnFormController extends Controller
 					$salnJSON['liabilities'] = collect($salnJSON['liabilities'] ?? [])
 						->map(function ($liability) use ($decrypt) {
 							return [
+								'liabilityID' => $liability['liabilityID'] ?? "",
 								'nature' => $decrypt($liability['nature'] ?? ""),
 								'creditors' => $decrypt($liability['creditors'] ?? ""),
 								'outstandingBalance' => $decrypt($liability['outstandingBalance'] ?? ""),
@@ -335,8 +339,9 @@ class SalnFormController extends Controller
 					$salnJSON['relatives'] = collect($salnJSON['relatives'] ?? [])
 						->map(function ($relative) use ($decrypt) {
 							return [
+								'relativeID' => $relative['relativeID'] ?? "",
 								'name' => $decrypt($relative['name'] ?? ""),
-								'relationship' => $decrypt($relative['relative'] ?? ""),
+								'relationship' => $decrypt($relative['relationship'] ?? ""),
 								'position' => $decrypt($relative['position'] ?? ""),
 								'agency' => $decrypt($relative['agency'] ?? ""),
 							];
@@ -349,6 +354,7 @@ class SalnFormController extends Controller
 					$salnJSON['connections'] = collect($salnJSON['connections'] ?? [])
 						->map(function ($connection) use ($decrypt) {
 							return [
+								'connectionID' => $connection['connectionID'] ?? "",
 								'name' => $decrypt($connection['name'] ?? ""),
 								'businessAddress' => $decrypt($connection['businessAddress'] ?? ""),
 								'nature' => $decrypt($connection['nature'] ?? ""),
