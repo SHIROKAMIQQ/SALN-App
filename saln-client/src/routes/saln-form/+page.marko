@@ -19,6 +19,7 @@ import { submitSALN } from "../../api/saln.js";
 <let/currentPage = 0 />
 <let/formValid = false />
 <let/loaded = false />
+<let/isSubmitting = false>
 
 <let/clickSubmit = async(formData) => {
   // This assumes salnID and asset IDs are already given.
@@ -202,7 +203,15 @@ import { submitSALN } from "../../api/saln.js";
   </if> 
   <if=(currentPage === 7)>
     <button class="nextButton" onClick() {
-      clickSubmit(tmpData);
+      if (isSubmitting) {
+        console.log("error: button disabled");
+        return;
+      }
+      isSubmitting = true;
+      console.log("submitting");
+      clickSubmit(tmpData).finally(() => {
+        isSubmitting = false;
+      });
     }>Submit</button>
   </if>
 </div>
