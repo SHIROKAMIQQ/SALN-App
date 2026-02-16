@@ -8,6 +8,7 @@ import { deleteEmployee } from "../../api/deleteEmployee.js";
 <let/tmpData = null/>
 <let/formsFetched = false/>
 <let/loaded = false/>
+<let/isDeleting = false/>
 
 <script>
   console.log("[DASHBOARD] Hello from /dashboard");
@@ -147,9 +148,18 @@ import { deleteEmployee } from "../../api/deleteEmployee.js";
 
             idx=idx,
             deleteElement(i) {
+              if (isDeleting) {
+                console.log("error: button disabled");
+                return;
+              }
+              isDeleting = true;
+              console.log("deleting form");
+
               const newFormList = tmpData.salns.filter((_, idx) => i !== idx); 
               tmpData = {...tmpData, salns: newFormList};
-              clickDeleteForm(saln.salnID);
+              clickDeleteForm(saln.salnID).finally(() => {
+                isDeleting = false;
+              });
             },
           />
         </for>
@@ -162,7 +172,17 @@ import { deleteEmployee } from "../../api/deleteEmployee.js";
 
 <if=showDeleteAcctModal>
   <DeleteAcctModal
-    deleteAccount() { clickDeleteAccount(); },
+    deleteAccount() { 
+      if (isDeleting) {
+        console.log("error: button disabled");
+        return;
+      }
+      isDeleting = true;
+      console.log("deleting account");
+      clickDeleteAccount().finally(() => {
+        isDeleting = false;
+      }); 
+    },
     toggleModal() { showDeleteAcctModal = !showDeleteAcctModal; },
   />
 </if>
