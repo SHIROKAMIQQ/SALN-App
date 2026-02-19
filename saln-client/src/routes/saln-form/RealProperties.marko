@@ -8,6 +8,9 @@ export interface Input {
 }
 
 <let/showModal = false />
+<let/editIndex = -1 />
+<let/showEditModal = false />
+
 
 <let/checkData = (obj: any) => {
 	if (!obj.description) {
@@ -73,7 +76,6 @@ export interface Input {
 
 	obj.nondeclarantExclusive = obj.nondeclarantExclusive === "on" ? "true" : "false";
 
-
 	return true;
 } />
 
@@ -92,25 +94,18 @@ export interface Input {
 </div>
 
 <if=(input.realProperties.length > 0)>
-	<for|property, idx| of=input.realProperties>
-		<DisplayCard 
-			type=AssetTypes.REAL_PROPERTY
-			attributes=property
-			idx=idx
-			editElement (obj, i) {
-				const newProperty = {...obj, realPropertyID: property.realPropertyID};
-				const newPropertyList = input.realProperties.map((property, idx) => i === idx ? newProperty : property);
-				input.updateFormData(newPropertyList);
-			}
-			deleteElement (i) {
-				const newPropertyList = input.realProperties.filter((property, idx) => i !== idx);
-				input.updateFormData(newPropertyList);
-			}
-			validateData (obj) {
-				return checkData(obj);
-			}
-		/>
-	</for>
+	<TableCard 
+		items=input.realProperties
+		columns=AssetTypes.REAL_PROPERTY
+		editItem(idx) {
+			editIndex = idx;
+			showEditModal = true;
+		}
+		deleteItem(idx) {
+			const newrealPropertyList = input.realProperties.filter((_, i) => i !== idx);
+			input.updateFormData(newrealPropertyList);
+		}
+	/>
 </if>
 <else>
 	<h1 class="indicator">No Real Properties</h1>
@@ -127,6 +122,31 @@ export interface Input {
 		fetchData (obj, i) {
 			const newProperty = {...obj, realPropertyID: uuidv4()};
 			input.updateFormData([...input.realProperties, newProperty]);
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>
+
+
+<!-- Edit Modal -->
+<if=(showEditModal && editIndex >= 0)>
+	<AssetModal
+		type=AssetTypes.REAL_PROPERTY
+		attributes=input.realProperties[editIndex]
+		idx=editIndex
+		mode="Edit"
+		closeModal() {
+			showEditModal = false;
+			editIndex = -1;
+		}
+		fetchData (obj, i) {
+			const updatedProperty = {...obj, realPropertyID: input.realProperties[i].realPropertyID};
+			const newrealPropertiesList = input.realProperties.map((property, idx) => idx === i ? updatedProperty: property);
+			input.updateFormData(newrealPropertiesList);
+			showEditModal = false;
+			editIndex = -1;
 		}
 		validateData (obj) {
 			return checkData(obj);

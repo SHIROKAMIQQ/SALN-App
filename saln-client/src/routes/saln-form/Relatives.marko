@@ -8,6 +8,9 @@ export interface Input {
 }
 
 <let/showModal = false />
+<let/editIndex = -1 />
+<let/showEditModal = false />
+
 
 <let/checkData = (obj: any) => {
 	if (!obj.name) {
@@ -48,25 +51,18 @@ export interface Input {
 </div>
 
 <if=(input.relatives.length > 0)>
-	<for|relative, idx| of=input.relatives>
-		<DisplayCard 
-			type=AssetTypes.RELATIVE
-			attributes=relative
-			idx=idx
-			editElement (obj, i) {
-				const newRelative = {...obj, relativeID: relative.relativeID};
-				const newRelativeList = input.relatives.map((relative, idx) => i === idx ? newRelative : relative);
-				input.updateFormData(newRelativeList);
-			}
-			deleteElement (i) {
-				const newRelativeList = input.relatives.filter((relative, idx) => i !== idx);
-				input.updateFormData(newRelativeList);
-			}
-			validateData (obj) {
-				return checkData(obj);
-			}
-		/>
-	</for>
+	<TableCard 
+		items=input.relatives
+		columns=AssetTypes.RELATIVE
+		editItem(idx) {
+			editIndex = idx;
+			showEditModal = true;
+		}
+		deleteItem(idx) {
+			const newRELATIVEList = input.relatives.filter((_, i) => i !== idx);
+			input.updateFormData(newRELATIVEList);
+		}
+	/>
 </if>
 <else>
 	<h1 class="indicator">No Relatives in the Government Service</h1>
@@ -83,6 +79,30 @@ export interface Input {
 		fetchData (obj, i) {
 			const newRelative = {...obj, relativeID: uuidv4()};
 			input.updateFormData([...input.relatives, newRelative]);
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>
+
+
+<if=(showEditModal && editIndex >= 0)>
+	<AssetModal
+		type=AssetTypes.RELATIVE
+		attributes=input.relatives[editIndex]
+		idx=editIndex
+		mode="Edit"
+		closeModal() {
+			showEditModal = false;
+			editIndex = -1;
+		}
+		fetchData (obj, i) {
+			const updatedrelative = {...obj, relativeID: input.relatives[i].relativeID};
+			const newrelativesList = input.relatives.map((relative, idx) => idx === i ? updatedrelative: relative);
+			input.updateFormData(newrelativesList);
+			showEditModal = false;
+			editIndex = -1;
 		}
 		validateData (obj) {
 			return checkData(obj);
