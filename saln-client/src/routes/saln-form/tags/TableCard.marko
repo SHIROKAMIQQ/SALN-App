@@ -1,0 +1,59 @@
+
+import "./style.css";
+import { AssetTypes, AssetFields } from "../../../utils/assetTypes.js";
+
+
+export interface Input {
+    items: any[];
+    columns: AssetTypes;
+    editItem: (idx: number) => void;
+    deleteItem: (idx: number) => void;
+    emptyMessage?: string;
+}
+
+
+<div class="table-wrapper">
+<table class="display-table">
+    <thead>
+        <tr>
+        <for|field| of=AssetFields[input.columns]>
+            <th>${field.label}</th>
+        </for>
+        <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <for |item, idx| of=input.items>
+            <tr>
+            <for|key, value| in=item>
+                <if=(!key.endsWith("ID"))>
+                    <th> ${String(value)}</th>
+                </if>
+            </for>
+            <td class="tablecard-actions">
+                <button class="editButton"
+                onClick() {
+                    input.editItem(idx);
+                }
+                >
+                Edit
+                </button>
+                <button class="deleteButton"
+                onClick() {
+                    input.deleteItem(idx);
+                }
+                >
+                Delete
+                </button>
+            </td>
+            </tr>
+        </for>
+    </tbody>
+</table>
+</div>
+
+
+
+
+
+

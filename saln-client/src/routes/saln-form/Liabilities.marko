@@ -8,6 +8,9 @@ export interface Input {
 }
 
 <let/showModal = false />
+<let/editIndex = -1 />
+<let/showEditModal = false />
+
 
 <let/checkData = (obj: any) => {
 	if (!obj.nature) {
@@ -39,7 +42,7 @@ export interface Input {
 </script>
 
 <div class="page-buttons">
-	<button class="nextButton"
+	<button class="addButton"
 		onClick() {
 			showModal = true;
 		}
@@ -49,25 +52,18 @@ export interface Input {
 </div>
 
 <if=(input.liabilities.length > 0)>
-	<for|liability, idx| of=input.liabilities>
-		<DisplayCard 
-			type=AssetTypes.LIABILITY
-			attributes=liability
-			idx=idx
-			editElement (obj, i) {
-				const newLiability = {...obj, liabilityID: liability.liabilityID};
-				const newLiabilityList = input.liabilities.map((liability, idx) => i === idx ? newLiability : liability);
-				input.updateFormData(newLiabilityList);
-			}
-			deleteElement (i) {
-				const newLiabilityList = input.liabilities.filter((liability, idx) => i !== idx);
-				input.updateFormData(newLiabilityList);
-			}
-			validateData (obj) {
-				return checkData(obj);
-			}
-		/>
-	</for>
+	<TableCard 
+		items=input.liabilities
+		columns=AssetTypes.LIABILITY
+		editItem(idx) {
+			editIndex = idx;
+			showEditModal = true;
+		}
+		deleteItem(idx) {
+			const newLIABILITYList = input.liabilities.filter((_, i) => i !== idx);
+			input.updateFormData(newLIABILITYList);
+		}
+	/>
 </if>
 <else>
 	<h1 class="indicator">No Liabilities</h1>
@@ -84,6 +80,29 @@ export interface Input {
 		fetchData (obj, i) {
 			const newLiability = {...obj, liabilityID: uuidv4()};
 			input.updateFormData([...input.liabilities, newLiability]);
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>
+
+<if=(showEditModal && editIndex >= 0)>
+	<AssetModal
+		type=AssetTypes.LIABILITY
+		attributes=input.liabilities[editIndex]
+		idx=editIndex
+		mode="Edit"
+		closeModal() {
+			showEditModal = false;
+			editIndex = -1;
+		}
+		fetchData (obj, i) {
+			const updatedLiability = {...obj, liabilityID: input.liabilities[i].liabilityID};
+			const newliabilitiesList = input.liabilities.map((liability, idx) => idx === i ? updatedLiability: liability);
+			input.updateFormData(newliabilitiesList);
+			showEditModal = false;
+			editIndex = -1;
 		}
 		validateData (obj) {
 			return checkData(obj);

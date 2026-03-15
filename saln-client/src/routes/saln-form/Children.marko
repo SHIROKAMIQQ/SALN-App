@@ -8,6 +8,8 @@ export interface Input {
 }
 
 <let/showModal = false />
+<let/editIndex = -1 />
+<let/showEditModal = false />
 
 <let/checkData = (obj: any) => {
 	if (!obj.name) {
@@ -19,17 +21,6 @@ export interface Input {
 		console.log("DoB fails.");
 		return false;
 	}
-
-	// const today = new Date();
-	// const dob = new Date(obj.dob);
-	// let dobage = today.getFullYear() - dob.getFullYear();
-	// const m = today.getMonth() - dob.getMonth();
-	// if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) dobage--;
-	// console.log(`Age ${dobage}`);
-	// if (dobage >= 18 || today < dob) {
-	// 	console.log("DoB fails.");
-	// 	return false;
-	// }
 
 	if (
 		!obj.age ||
@@ -53,40 +44,34 @@ export interface Input {
 </script>
 
 <div class="page-buttons">
-	<button class="nextButton" 
+	<button class="addButton" 
 		onClick() {
 			showModal = true;
 		}
 	>
-			Add Child
+		Add Child
 	</button>
 </div>
 
 <if=(input.children.length > 0)>
-	<for|child, idx| of=input.children>
-		<DisplayCard 
-			type=AssetTypes.UNMARRIED_CHILDREN
-			attributes=child
-			idx=idx
-			editElement (obj, i) {
-				const newChild = {...obj, unmarriedChildID: child.unmarriedChildID};
-				const newChildrenList = input.children.map((child, idx) => i === idx ? newChild : child ); 
-				input.updateFormData(newChildrenList);
-			}
-			deleteElement (i) {
-				const newChildrenList = input.children.filter((child, idx) => i !== idx); 
-				input.updateFormData(newChildrenList);
-			}
-			validateData (obj) {
-				return checkData(obj);
-			}
-		/>
-	</for>
+	<TableCard 
+		items=input.children
+		columns=AssetTypes.UNMARRIED_CHILDREN
+		editItem(idx) {
+			editIndex = idx;
+			showEditModal = true;
+		}
+		deleteItem(idx) {
+			const newChildrenList = input.children.filter((_, i) => i !== idx);
+			input.updateFormData(newChildrenList);
+		}
+	/>
 </if>
 <else>
 	<h1 class="indicator">No children</h1>
 </else>
 
+<!-- Add Modal -->
 <if=(showModal)>
 	<AssetModal
 		type=AssetTypes.UNMARRIED_CHILDREN
@@ -98,9 +83,35 @@ export interface Input {
 		fetchData (obj, i) {
 			const newChild = {...obj, unmarriedChildID: uuidv4()}
 			input.updateFormData([...input.children, newChild]);
+			showModal = false;
 		}
 		validateData (obj) {
 			return checkData(obj);
 		}
 	/>
 </if>
+
+<!-- Edit Modal -->
+<if=(showEditModal && editIndex >= 0)>
+	<AssetModal
+		type=AssetTypes.UNMARRIED_CHILDREN
+		attributes=input.children[editIndex]
+		idx=editIndex
+		mode="Edit"
+		closeModal() {
+			showEditModal = false;
+			editIndex = -1;
+		}
+		fetchData (obj, i) {
+			const updatedChild = {...obj, unmarriedChildID: input.children[i].unmarriedChildID};
+			const newChildrenList = input.children.map((child, idx) => idx === i ? updatedChild : child);
+			input.updateFormData(newChildrenList);
+			showEditModal = false;
+			editIndex = -1;
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>
+

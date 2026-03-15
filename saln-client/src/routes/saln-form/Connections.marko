@@ -8,6 +8,9 @@ export interface Input {
 }
 
 <let/showModal = false />
+<let/editIndex = -1 />
+<let/showEditModal = false />
+
 
 <let/checkData = (obj: any) => {
 	if (!obj.name) {
@@ -50,7 +53,7 @@ export interface Input {
 </script>
 
 <div class="page-buttons">
-	<button class="nextButton"
+	<button class="addButton"
 		onClick() {
 			showModal = true;
 		}
@@ -60,25 +63,19 @@ export interface Input {
 </div>
 
 <if=(input.connections.length > 0)>
-	<for|connection, idx| of=input.connections>
-		<DisplayCard 
-			type=AssetTypes.CONNECTION
-			attributes=connection
-			idx=idx
-			editElement (obj, i) {
-				const newConnection = {...obj, connectionID: connection.connectionID};
-				const newConnectionList = input.connections.map((connection, idx) => i === idx ? newConnection : connection);
-				input.updateFormData(newConnectionList);
-			}
-			deleteElement (i) {
-				const newConnectionList = input.connections.filter((connection, idx) => i !== idx);
-				input.updateFormData(newConnectionList);
-			}
-			validateData (obj) {
-				return checkData(obj);
-			}
-		/>
-	</for>
+	<TableCard 
+		items=input.connections
+		columns=AssetTypes.CONNECTION
+		editItem(idx) {
+			editIndex = idx;
+			showEditModal = true;
+		}
+		deleteItem(idx) {
+			const newConnectionList = input.connections.filter((_, i) => i !== idx);
+			input.updateFormData(newConnectionList);
+		}
+	/>
+	
 </if>
 <else>
 	<h1 class="indicator">No Business Interests and Financial Connections</h1>
@@ -95,6 +92,30 @@ export interface Input {
 		fetchData (obj, i) {
 			const newConnection = {...obj, connectionID: uuidv4()};
 			input.updateFormData([...input.connections, newConnection]);
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>
+
+
+<if=(showEditModal && editIndex >= 0)>
+	<AssetModal
+		type=AssetTypes.CONNECTION
+		attributes=input.connections[editIndex]
+		idx=editIndex
+		mode="Edit"
+		closeModal() {
+			showEditModal = false;
+			editIndex = -1;
+		}
+		fetchData (obj, i) {
+			const updatedConnection = {...obj, connectionID: input.connections[i].connectionID};
+			const newconnectionsList = input.connections.map((connection, idx) => idx === i ? updatedConnection: connection);
+			input.updateFormData(newconnectionsList);
+			showEditModal = false;
+			editIndex = -1;
 		}
 		validateData (obj) {
 			return checkData(obj);

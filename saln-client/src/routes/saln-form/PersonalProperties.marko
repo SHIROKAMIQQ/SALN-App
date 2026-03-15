@@ -8,6 +8,9 @@ export interface Input {
 }
 
 <let/showModal = false />
+<let/editIndex = -1 />
+<let/showEditModal = false />
+
 
 <let/checkData = (obj: any) => {
 	if (!obj.description) {
@@ -48,7 +51,7 @@ export interface Input {
 </script>
 
 <div class="page-buttons">
-	<button class="nextButton"
+	<button class="addButton"
 		onClick() {
 			showModal = true;
 		}
@@ -58,25 +61,19 @@ export interface Input {
 </div>
 
 <if=(input.personalProperties.length > 0)>
-	<for|property, idx| of=input.personalProperties>
-		<DisplayCard 
-			type=AssetTypes.PERSONAL_PROPERTY
-			attributes=property
-			idx=idx
-			editElement (obj, i) {
-				const newProperty =  {...obj, personalPropertyID: property.personalPropertyID};
-				const newPropertyList = input.personalProperties.map((property, idx) => i === idx ? newProperty : property);
-				input.updateFormData(newPropertyList);
-			}
-			deleteElement (i) {
-				const newPropertyList = input.personalProperties.filter((property, idx) => i !== idx);
-				input.updateFormData(newPropertyList);
-			}
-			validateData (obj) {
-				return checkData(obj);
-			}
-		/>
-	</for>
+	<TableCard 
+		items=input.personalProperties
+		columns=AssetTypes.PERSONAL_PROPERTY
+		editItem(idx) {
+			editIndex = idx;
+			showEditModal = true;
+		}
+		deleteItem(idx) {
+			const newpersonalPropertyList = input.personalProperties.filter((_, i) => i !== idx);
+			input.updateFormData(newpersonalPropertyList);
+		}
+	/>
+	
 </if>
 <else>
 	<h1 class="indicator">No Personal Properties</h1>
@@ -93,6 +90,29 @@ export interface Input {
 		fetchData (obj, i) {
 			const newProperty = {...obj, personalPropertyID: uuidv4()};
 			input.updateFormData([...input.personalProperties, newProperty]);
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>
+
+<if=(showEditModal && editIndex >= 0)>
+	<AssetModal
+		type=AssetTypes.PERSONAL_PROPERTY
+		attributes=input.personalProperties[editIndex]
+		idx=editIndex
+		mode="Edit"
+		closeModal() {
+			showEditModal = false;
+			editIndex = -1;
+		}
+		fetchData (obj, i) {
+			const updatedProperty = {...obj, realPropertyID: input.personalProperties[i].realPropertyID};
+			const newpersonalPropertiesList = input.personalProperties.map((property, idx) => idx === i ? updatedProperty: property);
+			input.updateFormData(newpersonalPropertiesList);
+			showEditModal = false;
+			editIndex = -1;
 		}
 		validateData (obj) {
 			return checkData(obj);
