@@ -11,13 +11,20 @@ export async function loginEmployee(email) {
   
   if (!email) throw new Error("Email is required");
 
+  // Geenerate a temporary employeeID UUID.
+  // If email exists, this UUID will be disregarded
+  // If email is new, this UUID will be used by db as employeeID
+  const employeeID = uuidv4();
+
   // Send to server
+  console.log(`attempting to fetch form ${API_BASE_URL}/login-employee`);
   const response = await fetch(`${API_BASE_URL}/login-employee`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      employeeID: employeeID,
       email: email,
     }),
   });

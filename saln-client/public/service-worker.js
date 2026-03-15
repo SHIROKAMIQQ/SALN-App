@@ -1,8 +1,6 @@
 const OFFLINE_URLS = [
   "/", 
   "/dashboard",
-  "/login",
-  "/registration",
   "/saln-form",
   "/uploadJSON"
 ];
@@ -28,7 +26,7 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
-// ✅ Activate: cleanup old caches
+// Activate: cleanup old caches
 self.addEventListener("activate", (event) => {
   console.log("[ServiceWorker] Activate");
   event.waitUntil(
@@ -41,7 +39,7 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// ✅ Intercept API requests
+// Intercept API requests
 self.addEventListener("fetch", (event) => {
   // Only handle GET requests for caching
   if (event.request.method !== "GET") {
@@ -64,7 +62,7 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
-// ✅ Background sync handler
+// Background sync handler
 self.addEventListener("sync", (event) => {
   if (event.tag === "sync-requests") {
     console.log("[SW] Sync triggered: sync-requests");
@@ -72,7 +70,7 @@ self.addEventListener("sync", (event) => {
   }
 });
 
-// 🔁 Helper: replay queued requests from IndexedDB
+// Helper: replay queued requests from IndexedDB
 async function syncPendingRequests() {
   // Step 1: Load the pending requests
   const allRequests = await new Promise((resolve, reject) => {

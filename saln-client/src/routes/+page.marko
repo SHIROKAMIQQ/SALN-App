@@ -1,33 +1,63 @@
-<div class="container">
-  <header>
-    <img src="./logo.svg" alt="Marko" class="logo">
-  </header>
-  <main>
-    <p>
-      Edit
-      <code>./src/routes/+page.marko</code>
-       and save to reload.
-    </p>
-    <a href="https://markojs.com/docs/getting-started">
-      Learn Marko
-    </a>
-  </main>
-</div>
-<mouse-mask/>
+import "./login-style.css";
+import { loginEmployee } from "../api/loginEmployee.js";
 
-<style>
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(1em, 2vw, 2em);
-    padding: 1em;
-    box-sizing: border-box;
-    height: 100%;
-    width: 100%;
+<let/email="" />
+<let/isLoggingIn = false>
+
+<let/confirmLogin = async (email: string) => {
+  console.log("login button clicked");
+  if (!email) {
+    alert("Enter an email first.");
+    return;
   }
-  img.logo {
-    width: 12em;
+
+  console.log(`recieved email: ${email}`);
+  
+  try {
+    const result = await loginEmployee(email);
+    console.log("API call finished");
+    if (result.success) {
+      // sessionStorage.email used for otp-verification page to remember email input.
+      sessionStorage.setItem('email', email);
+      window.location.href = "/otp-verification";
+    } else {
+      alert(result.message);
+    }
+
+  } catch (err) {
+    console.error(err);
   }
-</style>
+}/>
+
+
+<body>
+<div class="container">
+    <h1>
+      SALN APP Login
+    </h1>
+
+    <input
+      type="text"
+      class="enterEmail"
+      placeholder="Email"
+      onInput(event) {
+        email = event.target.value.trim();
+      }
+    />
+    <br>
+    <button class="confirmLogin" onClick() {
+      if (isLoggingIn) {
+        console.log("error: button disabled");
+        return;
+      }
+      isLoggingIn = true;
+      console.log("logging in");
+      confirmLogin(email).finally(() => {
+        isLoggingIn = false;
+      });
+    }>
+      Log in with Email
+    </button>
+    <br>
+</div>
+</body>
