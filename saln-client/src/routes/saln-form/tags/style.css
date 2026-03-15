@@ -292,20 +292,48 @@
 
 /* Table-Card*/
 
+/* Add this wrapper style */
+.table-wrapper {
+  width: 100%;
+  max-width: 100%;        
+  margin: 0 auto 1rem;
+  overflow-x: auto;      
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+}
+
+/* Update the table to fill the wrapper */
 .display-table {
-	background-color: #FFFFFF;
-	border-radius: 8px;
-	border: 1px solid #E5E7EB;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 1rem;
-	width: 70%;
-	box-sizing: border-box;
-	color: black;
-	border-collapse: collapse;
-	overflow: hidden;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  width: 100%;            /* fills wrapper, not the whole page */
+  margin: 0;              /* wrapper handles centering now */
+  box-sizing: border-box;
+  color: black;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  .table-wrapper {
+    width: 90%;
+  }
+}
+
+@media (max-width: 640px) {
+  .table-wrapper {
+    width: 95%;
+  }
+
+  .display-table thead th,
+  .display-table tbody td,
+  .display-table tbody th {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.875rem;
+  }
 }
 
 .display-table thead {
@@ -319,7 +347,7 @@
 	color: white;
 	border: none;
 	
-}
+} 
 
 .display-table thead th:last-child {
 	border-right: none;
@@ -365,4 +393,45 @@
 .display-table thead th:not(:last-child) {
   border-right: 1px solid black; /* Semi-transparent white for the teal header */
 }
+
+.tablecard-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+.editButton {
+  width: 3vw;
+  min-width: 70px; 
+  padding: 0.5em 0;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: #1F3B4D;
+  color: white;
+  margin : 0;
+}
+
+.deleteButton {
+  width: 3vw;
+  min-width: 70px;
+  padding: 0.5em 0; 
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: #B22222;
+  color: white;
+  margin: 0;
+}
+
 
