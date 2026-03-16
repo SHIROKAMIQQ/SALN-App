@@ -23,6 +23,13 @@ export const AssetFields = {
       subtext: "Must be less than 18 years ago",
       inputName: "dob",
       placeholder: "YYYY-MM-DD",
+    },
+    { // TODO: REMOVE THIS
+      inputType: "text",
+      label: "Age", 
+      subtext: "Must match Date of Birth",
+      inputName: "age",
+      placeholder: "17",
     }
   ],
   [AssetTypes.REAL_PROPERTY]: [
@@ -241,7 +248,7 @@ export interface child {
   unmarriedChildID: string;
   name: string; // any string
   dob: string; // YYYY-MM-DD
-  age: string; // XX
+  age: string; // XX // TODO: REMOVE THIS
 }
 
 export interface realProperty {
