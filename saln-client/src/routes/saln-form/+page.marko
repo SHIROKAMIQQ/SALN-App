@@ -209,6 +209,7 @@ import { submitSALN } from "../../api/saln.js";
       }
       isSubmitting = true;
       console.log("submitting");
+      console.log(tmpData);
       clickSubmit(tmpData).finally(() => {
         isSubmitting = false;
       });

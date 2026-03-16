@@ -17,7 +17,7 @@ class UnmarriedChild extends Model
 
 	protected $fillable = [
 		'unmarriedChildID', 'salnID',
-		'name', 'dob', 'age'
+		'name', 'dob', 'age' // TODO: REMOVE THIS
 	];
 
 	public function salnForm()

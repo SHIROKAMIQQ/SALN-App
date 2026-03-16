@@ -1,4 +1,4 @@
-import { AssetTypes, agePattern, datePattern } from "../../utils/assetTypes.ts";
+import { AssetTypes, datePattern } from "../../utils/assetTypes.ts";
 import { v4 as uuidv4 } from "uuid";
 
 export interface Input {
@@ -11,7 +11,17 @@ export interface Input {
 <let/editIndex = -1 />
 <let/showEditModal = false />
 
-<let/checkData = (obj: any) => {
+<let/isChildEqual = (c1: any, c2: any) => {
+	if (c1.dob !== c2.dob) {
+		return false;
+	}
+	if (c1.name !== c2.name) {
+		return false;
+	}
+	return true;
+} />
+
+<let/checkData = (oldList: any[], obj: any) => {
 	if (!obj.name) {
 		console.log("Name fails.");
 		return false;
@@ -22,17 +32,39 @@ export interface Input {
 		return false;
 	}
 
-	if (
-		!obj.age ||
-		!agePattern.test(obj.age)
-	) {
-		console.log("Age fail.");
-		return false;
+	const birthdate = new Date(obj.dob);
+	const dateToday = new Date();
+
+	console.log(`dob: ${birthdate}`);
+	console.log(`today: ${dateToday}`);
+
+	// attempting to input future date
+	if (dateToday.getTime() - birthdate.getTime() < 0) {
+		console.log("date is in the future");
+		return false; 
 	}
 
-	const age = Number(obj.age);
+	const yearDiff = dateToday.getFullYear() - birthdate.getFullYear();
+	const monthDiff = dateToday.getMonth() - birthdate.getMonth();
+	const dayDiff = dateToday.getDate() - birthdate.getDate();
+	let age = yearDiff;
+	if ((monthDiff < 0) || ((monthDiff === 0) && (dayDiff < 0))) {
+		age--;
+	}
+
+	console.log(`year diff: ${yearDiff}`);
+	console.log(`month diff: ${monthDiff}`);
+	console.log(`day diff: ${dayDiff}`);
+	console.log(`computed age: ${age}`);
+
 	if (age >= 18) {
-		console.log("Age fails.");
+		return false;
+	}
+	console.log("age is more than 18");
+
+	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
+	if (oldList.some(x => isChildEqual(x, obj))) {
+		console.log("already in list.");
 		return false;
 	}
 
@@ -85,8 +117,8 @@ export interface Input {
 			input.updateFormData([...input.children, newChild]);
 			showModal = false;
 		}
-		validateData (obj) {
-			return checkData(obj);
+		validateData (obj, i) {
+			return checkData(input.children, obj);
 		}
 	/>
 </if>
@@ -109,8 +141,9 @@ export interface Input {
 			showEditModal = false;
 			editIndex = -1;
 		}
-		validateData (obj) {
-			return checkData(obj);
+		validateData (obj, i) {
+			const filteredList = (input.children).filter((_, idx) => idx !== i);
+			return checkData(filteredList, obj);
 		}
 	/>
 </if>

@@ -11,8 +11,26 @@ export interface Input {
 <let/editIndex = -1 />
 <let/showEditModal = false />
 
+<let/isConnectionEqual = (c1: any, c2: any) => {
+	if (c1.name !== c2.name) {
+		return false;
+	}
+	if (c1.businessAddress !== c2.businessAddress) {
+		return false;
+	}
+	if (c1.nature !== c2.nature) {
+		return false;
+	}
+	if (c1.dateOfAcquisition !== c2.dateOfAcquisition) {
+		return false;
+	}
+	if (c1.nondeclarantExclusive !== c2.nondeclarantExclusive) {
+		return false;
+	}
+	return true;
+} />
 
-<let/checkData = (obj: any) => {
+<let/checkData = (oldList: any[], obj: any) => {
 	if (!obj.name) {
 		console.log("Name fail.");
 		return false;
@@ -44,6 +62,12 @@ export interface Input {
 	}
 
 	obj.nondeclarantExclusive = obj.nondeclarantExclusive === "on" ? "true" : "false";
+
+	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
+	if (oldList.some(x => isConnectionEqual(x, obj))) {
+		console.log("already in list.");
+		return false;
+	}
 
 	return true;
 } />
@@ -93,8 +117,8 @@ export interface Input {
 			const newConnection = {...obj, connectionID: uuidv4()};
 			input.updateFormData([...input.connections, newConnection]);
 		}
-		validateData (obj) {
-			return checkData(obj);
+		validateData (obj, i) {
+			return checkData(input.connections, obj);
 		}
 	/>
 </if>
@@ -117,8 +141,9 @@ export interface Input {
 			showEditModal = false;
 			editIndex = -1;
 		}
-		validateData (obj) {
-			return checkData(obj);
+		validateData (obj, i) {
+			const filteredList = (input.connections).filter((_, idx) => idx !== i);
+			return checkData(filteredList, obj);
 		}
 	/>
 </if>

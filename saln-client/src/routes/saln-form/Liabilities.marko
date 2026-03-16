@@ -11,8 +11,23 @@ export interface Input {
 <let/editIndex = -1 />
 <let/showEditModal = false />
 
+<let/isLiabilityEqual = (c1: any, c2: any) => {
+	if (c1.nature !== c2.nature) {
+		return false;
+	}
+	if (c1.creditors !== c2.creditors) {
+		return false;
+	}
+	if (c1.outstandingBalance !== c2.outstandingBalance) {
+		return false;
+	}
+	if (c1.nondeclarantExclusive !== c2.nondeclarantExclusive) {
+		return false;
+	}
+	return true;
+}>
 
-<let/checkData = (obj: any) => {
+<let/checkData = (oldList: any[], obj: any) => {
 	if (!obj.nature) {
 		console.log("Nature fail.");
 		return false;
@@ -33,6 +48,12 @@ export interface Input {
 	obj.outstandingBalance = commaCost(obj.outstandingBalance);
 
 	obj.nondeclarantExclusive = obj.nondeclarantExclusive === "on" ? "true" : "false";
+
+	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
+	if (oldList.some(x => isLiabilityEqual(x, obj))) {
+		console.log("already in list.");
+		return false;
+	}
 
 	return true;
 } />
@@ -81,8 +102,8 @@ export interface Input {
 			const newLiability = {...obj, liabilityID: uuidv4()};
 			input.updateFormData([...input.liabilities, newLiability]);
 		}
-		validateData (obj) {
-			return checkData(obj);
+		validateData (obj, i) {
+			return checkData(input.liabilities, obj);
 		}
 	/>
 </if>
@@ -104,8 +125,9 @@ export interface Input {
 			showEditModal = false;
 			editIndex = -1;
 		}
-		validateData (obj) {
-			return checkData(obj);
+		validateData (obj, i) {
+			const filteredList = (input.liabilities).filter((_, idx) => idx !== i);
+			return checkData(filteredList, obj);
 		}
 	/>
 </if>

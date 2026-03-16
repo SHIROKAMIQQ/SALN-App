@@ -7,39 +7,45 @@ export interface Input {
 }
 
 <script>
+	function isAllEmpty(FamilyName, FirstName, MiddleInitial, position, agency, officeAddress) {
+		const reqd = [FamilyName, FirstName, MiddleInitial, position, agency, officeAddress];
+		return !(reqd.some(element => element));
+	}
+	function validatePersonalInfo(FamilyName, FirstName, MiddleInitial, position, agency, officeAddress) {
+		const reqd = [FamilyName, FirstName, position, agency, officeAddress];
+		if (reqd.some(element => !element)) {
+			console.log("something is null");
+			return false;
+		}
+		if (MiddleInitial && MiddleInitial.length >= 2) {
+			console.log("middle initial too long");
+			return false;
+		}
+		console.log("details all good");
+		return true;
+	}
+
 	let tmpValid = true;
 
 	if (!(["Not Applicable", "Joint Filing", "Separate Filing"].includes(filingType))) {
 		tmpValid = false;
 		console.log("filingType failed.");
 	}
-	if (!declarantFamilyName || !declarantFirstName) {
-		tmpValid = false;
-		console.log("declarantName failed.");
-	}
 	if (!address) {
 		tmpValid = false;
 		console.log("address failed.");
 	}
-	if (!position) {
+	if (!validatePersonalInfo(declarantFamilyName, declarantFirstName, declarantMI, position, agency, officeAddress)) {
 		tmpValid = false;
-		console.log("position failed.");
-	}
-	if (!agency) {
-		tmpValid = false;
-		console.log("agency failed.");
-	}
-	if (!officeAddress) {
-		tmpValid = false;
-		console.log("officeAddress failed.");
+		console.log("declarant info failed.");
 	}
 
 	if (!(
-		(!spouseFamilyName && !spouseFirstName && !spouseMI && !spousePosition && !spouseAgency && !spouseOfficeAddress) ||
-		(spouseFamilyName && spouseFirstName && spousePosition && spouseAgency && spouseOfficeAddress)
+		isAllEmpty(spouseFamilyName, spouseAgency, spouseMI, spousePosition, spouseAgency, spouseOfficeAddress) ||
+		validatePersonalInfo(spouseFamilyName, spouseAgency, spouseMI, spousePosition, spouseAgency, spouseOfficeAddress)
 	)) {
 		tmpValid = false;
-		console.log("spouse failed.");
+		console.log("spouse info failed.");
 	}
 
 	input.updateFormValid(tmpValid); // TODO have more specific error handling messages. 
