@@ -33,12 +33,14 @@ export interface Input {
       >
         <for|field| of=AssetFields[input.type]>
           <div class="field">
-            <div class="field-header">
-              <b class="field-label">${field.label}</b>
-              <if=field.subtext>
-                <span class="field-subtext">${field.subtext}</span>
-              </if>
-            </div>
+            <if=(field.inputType !== "derived")>
+              <div class="field-header">
+                <b class="field-label">${field.label}</b>
+                <if=field.subtext>
+                  <span class="field-subtext">${field.subtext}</span>
+                </if>
+              </div>
+            </if>
 
             <if=(field.inputType === "text")> 
               <input class="field-input"
@@ -58,6 +60,15 @@ export interface Input {
                 />
                 <span class="checkbox-subtext">${field.checktext}</span>
               </label>
+            </if>
+
+            <if=(field.inputType === "derived")>
+              <input
+                type="text"
+                name=field.inputName
+                value=input.attributes? input.attributes[field.inputName] : ""
+                hidden
+              />
             </if>
           </div>
 

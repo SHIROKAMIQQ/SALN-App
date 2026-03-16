@@ -160,7 +160,7 @@ export async function fillPDFFormFields(salnData) {
       const idx = index + 1;
       setTextField(firstForm, `childName${idx}`, child.name);
       setTextField(firstForm, `childDOB${idx}`, child.dob);
-      setTextField(firstForm, `childAge${idx}`, child.age.toString());
+      setTextField(firstForm, `childAge${idx}`, child.age);
     });
 
   

@@ -27,7 +27,10 @@ import { submitSALN } from "../../api/saln.js";
   console.log("FormData:", formData);
 
   // Update updatedAt field
-  formData.updatedAt = new Date().toISOString().replace('T', ' ').replace('Z', '').split('.')[0];
+  formData.updatedAt = new Date().toLocaleString('sv-SE', {timeZone: 'Asia/Manila'})
+    .replace('T', ' ')
+    .replace('Z', '')
+    .split('.')[0];
 
   // Store in IndexedDB
   console.log("Saving to IndexedDB");
@@ -213,7 +216,7 @@ import { submitSALN } from "../../api/saln.js";
       clickSubmit(tmpData).finally(() => {
         isSubmitting = false;
       });
-    }>Submit</button>
+    }>Save</button>
   </if>
 </div>
 

@@ -59,7 +59,7 @@ class SalnFormController extends Controller
 					'unmarriedChildID' => $child['unmarriedChildID'],
 					'name' => Crypt::encryptString($child['name']),
 					'dob' => Crypt::encryptString($child['dob']),
-					'age' => Crypt::encryptString($child['age']), // TODO: REMOVE THIS
+					'age' => Crypt::encryptString($child['age'])
 				]);
 			}
 
@@ -272,6 +272,7 @@ class SalnFormController extends Controller
 								'unmarriedChildID' => $child['unmarriedChildID'] ?? "",
 								'name' => $decrypt($child['name'] ?? ""),
 								'dob' => $decrypt($child['dob'] ?? ""),
+								'age' => $decrypt($child['age'] ?? "")
 							];
 						})
 						->toArray();
