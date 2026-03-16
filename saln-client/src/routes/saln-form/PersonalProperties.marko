@@ -11,8 +11,24 @@ export interface Input {
 <let/editIndex = -1 />
 <let/showEditModal = false />
 
+<let/isPersonalPropertyEqual = (c1: any, c2: any) => {
+	if (c1.description !== c2.description) {
+		return false;
+	}
+	if (c1.yearAcquired !== c2.yearAcquired) {
+		return false;
+	}
+	if (c1.acquisitionCost !== c2.acquisitionCost) {
+		return false;
+	}
+	if (c1.nondeclarantExclusive !== c2.nondeclarantExclusive) {
+		return false;
+	}
+	return true;
+}/>
 
-<let/checkData = (obj: any) => {
+
+<let/checkData = (oldList: any[], obj: any) => {
 	if (!obj.description) {
 		console.log("Description fail.");
 		return false;
@@ -42,6 +58,12 @@ export interface Input {
 	obj.acquisitionCost = commaCost(obj.acquisitionCost);
 
 	obj.nondeclarantExclusive = obj.nondeclarantExclusive === "on" ? "true" : "false";
+
+	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
+	if (oldList.some(x => isPersonalPropertyEqual(x, obj))) {
+		console.log("already in list.");
+		return false;
+	}
 
 	return true;
 } />
@@ -92,7 +114,7 @@ export interface Input {
 			input.updateFormData([...input.personalProperties, newProperty]);
 		}
 		validateData (obj) {
-			return checkData(obj);
+			return checkData(input.personalProperties, obj);
 		}
 	/>
 </if>
@@ -115,7 +137,7 @@ export interface Input {
 			editIndex = -1;
 		}
 		validateData (obj) {
-			return checkData(obj);
+			return checkData(input.personalProperties, obj);
 		}
 	/>
 </if>

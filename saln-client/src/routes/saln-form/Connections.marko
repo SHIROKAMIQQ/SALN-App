@@ -11,8 +11,32 @@ export interface Input {
 <let/editIndex = -1 />
 <let/showEditModal = false />
 
+<let/isConnectionEqual = (c1: any, c2: any) => {
+	if (c1.name !== c2.name) {
+		return false;
+	}
+	if (c1.businessAddress !== c2.businessAddress) {
+		return false;
+	}
+	if (c1.nature !== c2.nature) {
+		return false;
+	}
+	if (Date.parse(c1.dateOfAcquisition) !== Date.parse(c2.dateOfAcquisition)) {
+		return false;
+	}
+	if (c1.nondeclarantExclusive !== (c2.nondeclarantExclusive === "on" ? "true" : "false")) {
+		return false;
+	}
+	return true;
+} />
 
-<let/checkData = (obj: any) => {
+<let/checkData = (oldList: any[], obj: any) => {
+	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
+	if (oldList.some(x => isConnectionEqual(x, obj))) {
+		console.log("already in list.");
+		return false;
+	}
+
 	if (!obj.name) {
 		console.log("Name fail.");
 		return false;
@@ -94,7 +118,7 @@ export interface Input {
 			input.updateFormData([...input.connections, newConnection]);
 		}
 		validateData (obj) {
-			return checkData(obj);
+			return checkData(input.connections, obj);
 		}
 	/>
 </if>
@@ -118,7 +142,7 @@ export interface Input {
 			editIndex = -1;
 		}
 		validateData (obj) {
-			return checkData(obj);
+			return checkData(input.connections, obj);
 		}
 	/>
 </if>

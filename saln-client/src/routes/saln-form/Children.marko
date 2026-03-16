@@ -22,12 +22,6 @@ export interface Input {
 } />
 
 <let/checkData = (oldList: any[], obj: any) => {
-	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
-	if (oldList.some(x => isChildEqual(x, obj))) {
-		console.log("already in list.");
-		return false;
-	}
-
 	if (!obj.name) {
 		console.log("Name fails.");
 		return false;
@@ -63,12 +57,18 @@ export interface Input {
 	console.log(`day diff: ${dayDiff}`);
 	console.log(`computed age: ${age}`);
 
-	// check if less than 18 years old
-	if (age < 18) {
-		return true;
+	if (age >= 18) {
+		return false;
 	}
 	console.log("age is more than 18");
-	return false;
+
+	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
+	if (oldList.some(x => isChildEqual(x, obj))) {
+		console.log("already in list.");
+		return false;
+	}
+
+	return true;
 } />
 
 <script>
