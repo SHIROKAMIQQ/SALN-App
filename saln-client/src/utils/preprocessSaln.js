@@ -26,6 +26,10 @@ function validatePersonalInformation (obj) {
 		alert("Missing declarant name fields.");
 		return false;
 	}
+	if (declarantMI.length >= 2) {
+		alert("Declarant Middle Initial too long.");
+		return false;
+	}
 	if (!address) {
 		alert ("Invalid Personal Information. Missing address.");
 		return false;
@@ -48,6 +52,10 @@ function validatePersonalInformation (obj) {
 		(spouseFamilyName && spouseFirstName && spousePosition && spouseAgency && spouseOfficeAddress)
 	)) {
 		alert("Invalid Personal Information. If a Spouse field is filled, then all Spouse fields must be filled.");
+		return false;
+	}
+	if (spouseMI.length >= 2) {
+		alert("Spouse Middle Initial too long.");
 		return false;
 	}
 
