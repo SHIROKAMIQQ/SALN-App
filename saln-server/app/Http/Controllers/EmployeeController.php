@@ -19,56 +19,26 @@ class EmployeeController extends Controller
       $this->otpService = $otpService;
   }
 
-  public function register(Request $request)
-  {
-    DB::beginTransaction();
-    if (Employee::where('email', $request->email)->first()) {
-      DB::rollBack();
-      return response()->json([
-        'success' => false,
-        'message' => "Email already registered.",
-      ], 409);
-    }
-
-    $validated = $request->validate([
-      'employeeID' => 'required|uuid|unique:employees,employeeID',
-      'email' => 'required|email|unique:employees,email',
-      'encryption_key' => 'required|string'
-    ]);
-
-    $email = $validated['email'];
-
-    // Encrypt the encryption key using APP_KEY
-    $encryptedKey = Crypt::encryptString($validated['encryption_key']);
-
-    // Save to database
-    $employee = Employee::create([
-      'employeeID' => $validated['employeeID'],
-      'email' => $validated['email'],
-      'encryption_key' => $encryptedKey
-    ]);
-    
-    // TODO: Create OTP, Save OTP to otps table, Email OTP to Employee.email
-    $this->otpService->generateAndSend($email);
-
-    DB::commit();
-    return response()->json([
-      'success' => true,
-      'message' => "Employee registered to database, OTP is sent.",
-    ], 201);
-  }
-
   public function login(Request $request)
   {
     DB::beginTransaction();
-    $employeeRecord = Employee::where('email', $request->email)->first();
-   
-    if (!$employeeRecord) {
-      DB::rollBack();
-      return response()->json(['message' => 'Account not found.'], 404);
+
+    $validated = $request->validate([
+      'employeeID' => 'required|uuid|unique:employees,employeeID',
+      'email' => 'required|email'
+    ]);
+
+    // If email does not exist, insert it into database 
+    if (!Employee::where('email', $request->email)->first()) {
+      $email = $validated['email'];
+      $employee = Employee::create([
+        'employeeID' => $validated['employeeID'],
+        'email' => $validated['email']
+      ]);
     }
 
-    $this->otpService->generateAndSend($employeeRecord->email);
+    // Login logic
+    $this->otpService->generateAndSend($validated['email']);
 
     DB::commit();
     return response()->json([
@@ -77,7 +47,7 @@ class EmployeeController extends Controller
     ], 201);
   }
 
-  public function verifyOTP(Request $request) // TODO: set employee to verified upon success
+  public function verifyOTP(Request $request)
   {
     return $this->otpService->verify($request->email, $request->otp);
   }
