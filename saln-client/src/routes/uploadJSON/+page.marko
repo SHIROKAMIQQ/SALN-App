@@ -2,7 +2,6 @@ import "./tags/style.css";
 import { preprocessJSON } from "../../utils/preprocessSaln.js";
 import { submitSALN } from "../../api/saln.js"; 
 import { saveFormToIDB } from "../../utils/idb.js";
-import { encryptSalnForm } from "../../utils/salnEncryption.js";
 
 <let/helpModal = false />
 <let/uploadedFile = null />
@@ -37,12 +36,6 @@ import { encryptSalnForm } from "../../utils/salnEncryption.js";
         console.log("Saving to IndexedDB...");
         await saveFormToIDB(salnJSON);
         console.log("✅ Saved to IndexedDB");
-
-        // Encrypt
-        console.log("Encrypting SALN...");
-        // const keyBase64 = localStorage.getItem("encryptionKey");
-        // const encryptedSalnJSON = await encryptSalnForm(salnJSON, keyBase64);
-        console.log("✅ Encrypted SALN");
 
         // Submit to server
         console.log("Uploading to server...");

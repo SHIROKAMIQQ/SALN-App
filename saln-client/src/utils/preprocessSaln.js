@@ -57,7 +57,6 @@ function validatePersonalInformation (obj) {
 function validateChild(obj, i) {
 	const name = 'name' in obj ? obj.name : "";
 	const dob = 'dob' in obj ? obj.dob : "";
-	const age = 'age' in obj ? obj.age  : "";
 
 	if (!name) {
 		alert(`Invalid Child ${i}. Missing Name.`);
@@ -69,31 +68,13 @@ function validateChild(obj, i) {
 		return false;
 	}
 
-	// const todayChecker = new Date();
-	// const dobChecker = new Date(dob);
-	// let dobageChecker = todayChecker.getFullYear() - dobChecker.getFullYear();
-	// const m = todayChecker.getMonth() - dobChecker.getMonth();
-	// if (m < 0 || (m === 0 && todayChecker.getDate() < dobChecker.getDate())) dobageChecker--;
-	// if (dobageChecker >= 18 || todayChecker < dobChecker) {
-	// 	alert(`Invalid Child ${i}. Child with this Date of Birth can't be less than 18 years old.`);
-	// 	return false;
-	// }
-
-	if (
-		!age ||
-		!agePattern.test(age)
-	) {
-		alert(`Invalid Child ${i}. Child has a missing age or age is non-numeric (XX).`);
-		return false;
-	}
-
-	try {
-		const ageNumber = Number(age);
-		if (ageNumber >= 18) {
-			alert(`Invalid Child ${i}. Child must be less than 18 years old.`);
-			return false;
-		}
-	} catch (e) {
+	const todayChecker = new Date();
+	const dobChecker = new Date(dob);
+	let dobageChecker = todayChecker.getFullYear() - dobChecker.getFullYear();
+	const m = todayChecker.getMonth() - dobChecker.getMonth();
+	if (m < 0 || (m === 0 && todayChecker.getDate() < dobChecker.getDate())) dobageChecker--;
+	if (dobageChecker >= 18 || todayChecker < dobChecker) {
+		alert(`Invalid Child ${i}. Child with this Date of Birth can't be less than 18 years old.`);
 		return false;
 	}
 
