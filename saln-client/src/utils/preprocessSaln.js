@@ -397,7 +397,11 @@ export function preprocessJSON(obj) {
 	obj = {
 			...obj,
 			salnID: uuidv4(),
-			updatedAt: new Date().toISOString().replace('T', ' ').replace('Z', '').split('.')[0]
+			updatedAt: new Date().toLocaleString('sv-SE', {timeZone: 'Asia/Manila'})
+				.replace('T', ' ')
+				.replace('Z', '')
+				.split('.')[0]
+
 	}
 
 	// Check if personalInformation is valid.
