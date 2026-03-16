@@ -14,7 +14,6 @@ return new class extends Migration
 		Schema::create('employees', function (Blueprint $table) {
 			$table->uuid('employeeID')->primary();
 			$table->string('email')->unique();
-			$table->text('encryption_key'); // ENCRYPTED
 		});
 	}
 
