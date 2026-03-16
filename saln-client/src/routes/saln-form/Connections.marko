@@ -31,12 +31,6 @@ export interface Input {
 } />
 
 <let/checkData = (oldList: any[], obj: any) => {
-	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
-	if (oldList.some(x => isConnectionEqual(x, obj))) {
-		console.log("already in list.");
-		return false;
-	}
-
 	if (!obj.name) {
 		console.log("Name fail.");
 		return false;
@@ -68,6 +62,12 @@ export interface Input {
 	}
 
 	obj.nondeclarantExclusive = obj.nondeclarantExclusive === "on" ? "true" : "false";
+
+	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
+	if (oldList.some(x => isConnectionEqual(x, obj))) {
+		console.log("already in list.");
+		return false;
+	}
 
 	return true;
 } />

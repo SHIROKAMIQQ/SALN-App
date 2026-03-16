@@ -18,7 +18,7 @@ export interface Input {
 	if (c1.creditors !== c2.creditors) {
 		return false;
 	}
-	if (Number(c1.outstandingBalance) !== Number(c2.outstandingBalance)) {
+	if (c1.outstandingBalance !== c2.outstandingBalance) {
 		return false;
 	}
 	if (c1.nondeclarantExclusive !== c2.nondeclarantExclusive) {
