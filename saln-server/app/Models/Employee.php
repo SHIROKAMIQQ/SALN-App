@@ -14,12 +14,11 @@ class Employee extends Authenticable {
 	protected $primaryKey = 'employeeID';
 	public $incrementing = false;
 	protected $keyType = 'string';
-	public $timestamps = false; // TODO: add timestamps
+	public $timestamps = false;
 
 	protected $fillable = [
 		'employeeID',
-		'email', 
-		'encryption_key',
+		'email' 
 	];
 
 	public function otps() {
@@ -29,4 +28,4 @@ class Employee extends Authenticable {
 	public function salnForms() {
 		return $this->hasMany(SALNForm::class, 'employeeID', 'employeeID');
 	}
-} // TODO: add verified column
+}
