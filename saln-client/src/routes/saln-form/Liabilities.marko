@@ -130,26 +130,3 @@ export interface Input {
 		}
 	/>
 </if>
-
-<if=(showEditModal && editIndex >= 0)>
-	<AssetModal
-		type=AssetTypes.LIABILITY
-		attributes=input.liabilities[editIndex]
-		idx=editIndex
-		mode="Edit"
-		closeModal() {
-			showEditModal = false;
-			editIndex = -1;
-		}
-		fetchData (obj, i) {
-			const updatedLiability = {...obj, liabilityID: input.liabilities[i].liabilityID};
-			const newliabilitiesList = input.liabilities.map((liability, idx) => idx === i ? updatedLiability: liability);
-			input.updateFormData(newliabilitiesList);
-			showEditModal = false;
-			editIndex = -1;
-		}
-		validateData (obj) {
-			return checkData(obj);
-		}
-	/>
-</if>

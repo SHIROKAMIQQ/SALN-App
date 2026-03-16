@@ -141,26 +141,3 @@ export interface Input {
 		}
 	/>
 </if>
-
-<if=(showEditModal && editIndex >= 0)>
-	<AssetModal
-		type=AssetTypes.PERSONAL_PROPERTY
-		attributes=input.personalProperties[editIndex]
-		idx=editIndex
-		mode="Edit"
-		closeModal() {
-			showEditModal = false;
-			editIndex = -1;
-		}
-		fetchData (obj, i) {
-			const updatedProperty = {...obj, realPropertyID: input.personalProperties[i].realPropertyID};
-			const newpersonalPropertiesList = input.personalProperties.map((property, idx) => idx === i ? updatedProperty: property);
-			input.updateFormData(newpersonalPropertiesList);
-			showEditModal = false;
-			editIndex = -1;
-		}
-		validateData (obj) {
-			return checkData(obj);
-		}
-	/>
-</if>

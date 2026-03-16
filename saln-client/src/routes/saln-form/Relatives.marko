@@ -130,27 +130,3 @@ export interface Input {
 		}
 	/>
 </if>
-
-
-<if=(showEditModal && editIndex >= 0)>
-	<AssetModal
-		type=AssetTypes.RELATIVE
-		attributes=input.relatives[editIndex]
-		idx=editIndex
-		mode="Edit"
-		closeModal() {
-			showEditModal = false;
-			editIndex = -1;
-		}
-		fetchData (obj, i) {
-			const updatedrelative = {...obj, relativeID: input.relatives[i].relativeID};
-			const newrelativesList = input.relatives.map((relative, idx) => idx === i ? updatedrelative: relative);
-			input.updateFormData(newrelativesList);
-			showEditModal = false;
-			editIndex = -1;
-		}
-		validateData (obj) {
-			return checkData(obj);
-		}
-	/>
-</if>
