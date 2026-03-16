@@ -203,6 +203,15 @@ export function commaCost(costString: string) {
   });
 }
 
+export function getAgeOfChild(child: child) {
+  const todayDate = new Date();
+	const dobDate = new Date(child.dob);
+	let age = todayDate.getFullYear() - dobDate.getFullYear();
+	const m = todayDate.getMonth() - dobDate.getMonth();
+	if (m < 0 || (m === 0 && todayDate.getDate() < dobDate.getDate())) age--;
+	return age;
+}
+
 export const yearPattern = /^\d{4}$/
 
 // Optional utility if you need a list
@@ -241,7 +250,6 @@ export interface child {
   unmarriedChildID: string;
   name: string; // any string
   dob: string; // YYYY-MM-DD
-  age: string; // XX // TODO: REMOVE THIS
 }
 
 export interface realProperty {
