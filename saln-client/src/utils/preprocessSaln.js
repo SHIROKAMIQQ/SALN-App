@@ -333,6 +333,64 @@ function validateRelative(obj, i) {
 	return true;
 }
 
+function isChildEqual(i, j){
+	return (
+		i.name === j.name &&
+		i.dob === j.dob
+	);
+}
+
+function isRealPropertyEqual(i, j) {
+	return (
+		i.description === j.description &&
+		i.kind === j.kind &&
+		i.exactLocation === j.exactLocation &&
+		i.assessedValue === j.assessedValue &&
+		i.currentFairMarketValue === j.currentFairMarketValue &&
+		i.acquisitionYear === j.acquisitionYear &&
+		i.acquisitionMode === j.acquisitionMode &&
+		i.acquisitionCost === j.acquisitionCost &&
+		i.nondeclarantExclusive === j.nondeclarantExclusive
+	);
+}
+
+function isPersonalPropertyEqual(i, j) {
+	return (
+		i.description === j.description &&
+		i.yearAcquired === j.yearAcquired &&
+		i.acquisitionCost === j.acquisitionCost &&
+		i.nondeclarantExclusive === j.nondeclarantExclusive
+	);
+}
+
+function isLiabilityEqual(i, j) {
+	return (
+		i.nature === j.nature &&
+		i.creditors === j.creditors &&
+		i.outstandingBalance === j.outstandingBalance &&
+		i.nondeclarantExclusive === j.nondeclarantExclusive
+	);
+}
+
+function isConnectionEqual(i, j) {
+	return (
+		i.name === j.name &&
+		i.businessAddress === j.businessAddress &&
+		i.nature === j.nature &&
+		i.dateOfAcquisition === j.dateOfAcquisition &&
+		i.nondeclarantExclusive === j.nondeclarantExclusive
+	);
+}
+
+function isRelativeEqual(i, j) {
+	return (
+		i.name === j.name &&
+		i.relationship === j.relationship &&
+		i.position === j.position &&
+		i.agency === j.agency
+	);
+}
+
 export function preprocessJSON(obj) {
 	console.log("OBJ", obj);
 	// Clone obj with a new salnID and updatedAt field
@@ -358,12 +416,24 @@ export function preprocessJSON(obj) {
 		obj.children[index] = {...child, age: getAgeFromDate(child.dob).toString(), unmarriedChildID: uuidv4()};
 		if (!validateChild(child, index)) throw new Error(`Invalid Child at Index ${index}.`);
 	}
+	for (let i = 0; i < obj.children.length; i++) {
+		for (let j = 0; j < obj.children.length; j++) {
+			if (i !== j && isChildEqual(obj.children[i], obj.children[j]))
+				throw new Error(`Duplicate Children at Indexes ${i} and ${j}.`);
+		}
+	}
 
 	// Check if each realProperty is valid.
 	obj.realProperties ||= [];
 	for (const [index, realProperty] of obj.realProperties.entries()) {
 		obj.realProperties[index] = {...realProperty, realPropertyID: uuidv4()};
 		if (!validateRealProperty(realProperty, index)) throw new Error(`Invalid Real Property at Index ${index}.`);
+	}
+	for (let i = 0; i < obj.realProperties.length; i++) {
+		for (let j = 0; j < obj.realProperties.length; j++) {
+			if (i !== j && isRealPropertyEqual(obj.realProperties[i], obj.realProperties[j]))
+				throw new Error(`Duplicate Real Properties at Indexes ${i} and ${j}.`);
+		}
 	}
 
 	// Check if each personalProperty is valid.
@@ -372,12 +442,24 @@ export function preprocessJSON(obj) {
 		obj.personalProperties[index] = {...personalProperty, personalPropertyID: uuidv4()};
 		if (!validatePersonalProperty(personalProperty, index)) throw new Error(`Invalid Personal Property at Index ${index}.`);
 	}
+	for (let i = 0; i < obj.personalProperties.length; i++) {
+		for (let j = 0; j < obj.personalProperties.length; j++) {
+			if (i !== j && isPersonalPropertyEqual(obj.personalProperties[i], obj.personalProperties[j]))
+				throw new Error(`Duplicate Personal Properties at Indexes ${i} and ${j}.`);
+		}
+	}
 
 	// Check if each liability is valid.
 	obj.liabilities ||= [];
 	for (const [index, liability] of obj.liabilities.entries()) {
 		obj.liabilities[index] = {...liability, liabilityID: uuidv4()};
 		if (!validateLiability(liability, index)) throw new Error(`Invalid Liability at Index ${index}.`);
+	}
+	for (let i = 0; i < obj.liabilities.length; i++) {
+		for (let j = 0; j < obj.liabilities.length; j++) {
+			if (i !== j && isLiabilityEqual(obj.liabilities[i], obj.liabilities[j]))
+				throw new Error(`Duplicate Liabilities at Indexes ${i} and ${j}.`);
+		}
 	}
 
 	// Check if each connection is valid.
@@ -386,11 +468,23 @@ export function preprocessJSON(obj) {
 		obj.connections[index] = {...connection, connectionID: uuidv4()};
 		if (!validateConnection(connection, index)) throw new Error(`Invalid Connection at Index ${index}`);
 	}
+	for (let i = 0; i < obj.connections.length; i++) {
+		for (let j = 0; j < obj.connections.length; j++) {
+			if (i !== j && isConnectionEqual(obj.connections[i], obj.connections[j]))
+				throw new Error(`Duplicate Connections at Indexes ${i} and ${j}.`);
+		}
+	}
 
 	obj.relatives ||= [];
 	for (const [index, relative] of obj.relatives.entries()) {
 		obj.relatives[index] = {...relative, relativeID: uuidv4()};
 		if (!validateRelative(relative, index)) throw new Error(`Invalid Relative at Index ${index}`);
+	}
+	for (let i = 0; i < obj.relatives.length; i++) {
+		for (let j = 0; j < obj.relatives.length; j++) {
+			if (i !== j && isRelativeEqual(obj.relatives[i], obj.relatives[j]))
+				throw new Error(`Duplicate Relatives at Indexes ${i} and ${j}.`);
+		}
 	}
 
 	return obj;
