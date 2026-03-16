@@ -146,3 +146,27 @@ export interface Input {
 		}
 	/>
 </if>
+
+
+<if=(showEditModal && editIndex >= 0)>
+	<AssetModal
+		type=AssetTypes.CONNECTION
+		attributes=input.connections[editIndex]
+		idx=editIndex
+		mode="Edit"
+		closeModal() {
+			showEditModal = false;
+			editIndex = -1;
+		}
+		fetchData (obj, i) {
+			const updatedConnection = {...obj, connectionID: input.connections[i].connectionID};
+			const newconnectionsList = input.connections.map((connection, idx) => idx === i ? updatedConnection: connection);
+			input.updateFormData(newconnectionsList);
+			showEditModal = false;
+			editIndex = -1;
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>

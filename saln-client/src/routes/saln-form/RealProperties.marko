@@ -190,3 +190,28 @@ export interface Input {
 		}
 	/>
 </if>
+
+
+<!-- Edit Modal -->
+<if=(showEditModal && editIndex >= 0)>
+	<AssetModal
+		type=AssetTypes.REAL_PROPERTY
+		attributes=input.realProperties[editIndex]
+		idx=editIndex
+		mode="Edit"
+		closeModal() {
+			showEditModal = false;
+			editIndex = -1;
+		}
+		fetchData (obj, i) {
+			const updatedProperty = {...obj, realPropertyID: input.realProperties[i].realPropertyID};
+			const newrealPropertiesList = input.realProperties.map((property, idx) => idx === i ? updatedProperty: property);
+			input.updateFormData(newrealPropertiesList);
+			showEditModal = false;
+			editIndex = -1;
+		}
+		validateData (obj) {
+			return checkData(obj);
+		}
+	/>
+</if>
