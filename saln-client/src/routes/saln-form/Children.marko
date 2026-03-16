@@ -1,4 +1,4 @@
-import { AssetTypes, agePattern, datePattern } from "../../utils/assetTypes.ts";
+import { AssetTypes, datePattern } from "../../utils/assetTypes.ts";
 import { v4 as uuidv4 } from "uuid";
 
 export interface Input {
@@ -11,7 +11,23 @@ export interface Input {
 <let/editIndex = -1 />
 <let/showEditModal = false />
 
-<let/checkData = (obj: any) => {
+<let/isChildEqual = (c1: any, c2: any) => {
+	if (c1.dob !== c2.dob) {
+		return false;
+	}
+	if (c1.name !== c2.name) {
+		return false;
+	}
+	return true;
+} />
+
+<let/checkData = (oldList: any[], obj: any) => {
+	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
+	if (oldList.some(x => isChildEqual(x, obj))) {
+		console.log("already in list.");
+		return false;
+	}
+
 	if (!obj.name) {
 		console.log("Name fails.");
 		return false;
@@ -102,7 +118,7 @@ export interface Input {
 			showModal = false;
 		}
 		validateData (obj) {
-			return checkData(obj);
+			return checkData(input.children, obj);
 		}
 	/>
 </if>
@@ -126,7 +142,7 @@ export interface Input {
 			editIndex = -1;
 		}
 		validateData (obj) {
-			return checkData(obj);
+			return checkData(input.children, obj);
 		}
 	/>
 </if>
