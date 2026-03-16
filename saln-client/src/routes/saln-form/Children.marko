@@ -22,21 +22,37 @@ export interface Input {
 		return false;
 	}
 
-	if (
-		!obj.age ||
-		!agePattern.test(obj.age)
-	) {
-		console.log("Age fail.");
-		return false;
+	const birthdate = new Date(obj.dob);
+	const dateToday = new Date();
+
+	console.log(`dob: ${birthdate}`);
+	console.log(`today: ${dateToday}`);
+
+	// attempting to input future date
+	if (dateToday.getTime() - birthdate.getTime() < 0) {
+		console.log("date is in the future");
+		return false; 
 	}
 
-	const age = Number(obj.age);
-	if (age >= 18) {
-		console.log("Age fails.");
-		return false;
+	const yearDiff = dateToday.getFullYear() - birthdate.getFullYear();
+	const monthDiff = dateToday.getMonth() - birthdate.getMonth();
+	const dayDiff = dateToday.getDate() - birthdate.getDate();
+	let age = yearDiff;
+	if ((monthDiff < 0) || ((monthDiff === 0) && (dayDiff < 0))) {
+		age--;
 	}
 
-	return true;
+	console.log(`year diff: ${yearDiff}`);
+	console.log(`month diff: ${monthDiff}`);
+	console.log(`day diff: ${dayDiff}`);
+	console.log(`computed age: ${age}`);
+
+	// check if less than 18 years old
+	if (age < 18) {
+		return true;
+	}
+	console.log("age is more than 18");
+	return false;
 } />
 
 <script>
