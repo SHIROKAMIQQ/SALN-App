@@ -17,7 +17,8 @@ return new class extends Migration
 
 			$table->text('name'); // ENCRYPTED
 			$table->text('dob'); // ENCRYPTED
-
+			$table->text('age'); // ENCRYPTED
+			
 			$table->foreign('salnID')
 				->references('salnID')
 				->on('salnForms')

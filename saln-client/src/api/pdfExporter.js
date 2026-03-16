@@ -1,5 +1,4 @@
 import { PDFDocument } from 'pdf-lib';
-import { getAgeOfChild } from '../utils/assetTypes';
 
 // New templates (Vite `?url` import)
 import mainTemplatePDFUrl from './2015 SALN Form.pdf?url';
@@ -161,7 +160,7 @@ export async function fillPDFFormFields(salnData) {
       const idx = index + 1;
       setTextField(firstForm, `childName${idx}`, child.name);
       setTextField(firstForm, `childDOB${idx}`, child.dob);
-      setTextField(firstForm, `childAge${idx}`, getAgeOfChild(child).toString());
+      setTextField(firstForm, `childAge${idx}`, child.age);
     });
 
   

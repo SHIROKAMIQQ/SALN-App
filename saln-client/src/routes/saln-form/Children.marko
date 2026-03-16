@@ -61,6 +61,7 @@ export interface Input {
 		return false;
 	}
 	console.log("age is more than 18");
+	obj.age = `${age}`;
 
 	console.log(`old list: ${JSON.stringify(oldList)}, obj: ${JSON.stringify(obj)}`);
 	if (oldList.some(x => isChildEqual(x, obj))) {

@@ -23,6 +23,11 @@ export const AssetFields = {
       subtext: "Must be less than 18 years ago",
       inputName: "dob",
       placeholder: "YYYY-MM-DD",
+    },
+    {
+      inputType: "derived",
+      label: "Age",
+      inputName: "age"
     }
   ],
   [AssetTypes.REAL_PROPERTY]: [
@@ -203,9 +208,9 @@ export function commaCost(costString: string) {
   });
 }
 
-export function getAgeOfChild(child: child) {
+export function getAgeFromDate(date: string) {
   const todayDate = new Date();
-	const dobDate = new Date(child.dob);
+	const dobDate = new Date(date);
 	let age = todayDate.getFullYear() - dobDate.getFullYear();
 	const m = todayDate.getMonth() - dobDate.getMonth();
 	if (m < 0 || (m === 0 && todayDate.getDate() < dobDate.getDate())) age--;
@@ -250,6 +255,7 @@ export interface child {
   unmarriedChildID: string;
   name: string; // any string
   dob: string; // YYYY-MM-DD
+  age: string; // int, derived
 }
 
 export interface realProperty {

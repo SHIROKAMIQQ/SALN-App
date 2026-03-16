@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { namePattern, agePattern, datePattern, costPattern, commaCost, yearPattern } from "./assetTypes.ts";
+import { namePattern, agePattern, datePattern, costPattern, commaCost, yearPattern, getAgeFromDate } from "./assetTypes.ts";
 
 function validatePersonalInformation (obj) {
 
@@ -347,7 +347,7 @@ export function preprocessJSON(obj) {
 	// Check if each child is valid.
 	obj.children ||= [];
 	for (const [index, child] of obj.children.entries()) {
-		obj.children[index] = {...child, unmarriedChildID: uuidv4()};
+		obj.children[index] = {...child, age: getAgeFromDate(child.dob).toString(), unmarriedChildID: uuidv4()};
 		if (!validateChild(child, index)) throw new Error(`Invalid Child at Index ${index}.`);
 	}
 
