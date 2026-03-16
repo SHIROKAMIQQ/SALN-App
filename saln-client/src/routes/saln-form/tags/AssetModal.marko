@@ -8,7 +8,7 @@ export interface Input {
   mode: string;
   closeModal: () => void;
   fetchData: (obj: any, i: number) => void;
-  validateData: (obj: any) => boolean;
+  validateData: (obj: any, i: number) => boolean;
 }
 
 <div class="modal-overlay">
@@ -20,7 +20,7 @@ export interface Input {
           const formData = new FormData(event.target);
           const data = Object.fromEntries(formData.entries()); 
           
-          const valid = input.validateData(data);
+          const valid = input.validateData(data, input.idx);
 
           if (valid) {
             input.fetchData(data, input.idx);

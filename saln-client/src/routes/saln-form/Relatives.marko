@@ -101,7 +101,7 @@ export interface Input {
 			const newRelative = {...obj, relativeID: uuidv4()};
 			input.updateFormData([...input.relatives, newRelative]);
 		}
-		validateData (obj) {
+		validateData (obj, i) {
 			return checkData(input.relatives, obj);
 		}
 	/>
@@ -125,8 +125,9 @@ export interface Input {
 			showEditModal = false;
 			editIndex = -1;
 		}
-		validateData (obj) {
-			return checkData(input.relatives, obj);
+		validateData (obj, i) {
+			const filteredList = (input.relatives).filter((_, idx) => idx !== i);
+			return checkData(filteredList, obj);
 		}
 	/>
 </if>

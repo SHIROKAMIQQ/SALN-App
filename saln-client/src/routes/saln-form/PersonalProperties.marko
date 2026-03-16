@@ -113,7 +113,7 @@ export interface Input {
 			const newProperty = {...obj, personalPropertyID: uuidv4()};
 			input.updateFormData([...input.personalProperties, newProperty]);
 		}
-		validateData (obj) {
+		validateData (obj, i) {
 			return checkData(input.personalProperties, obj);
 		}
 	/>
@@ -136,8 +136,9 @@ export interface Input {
 			showEditModal = false;
 			editIndex = -1;
 		}
-		validateData (obj) {
-			return checkData(input.personalProperties, obj);
+		validateData (obj, i) {
+			const filteredList = (input.personalProperties).filter((_, idx) => idx !== i);
+			return checkData(filteredList, obj);
 		}
 	/>
 </if>

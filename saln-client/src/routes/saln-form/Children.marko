@@ -117,7 +117,7 @@ export interface Input {
 			input.updateFormData([...input.children, newChild]);
 			showModal = false;
 		}
-		validateData (obj) {
+		validateData (obj, i) {
 			return checkData(input.children, obj);
 		}
 	/>
@@ -141,8 +141,9 @@ export interface Input {
 			showEditModal = false;
 			editIndex = -1;
 		}
-		validateData (obj) {
-			return checkData(input.children, obj);
+		validateData (obj, i) {
+			const filteredList = (input.children).filter((_, idx) => idx !== i);
+			return checkData(filteredList, obj);
 		}
 	/>
 </if>

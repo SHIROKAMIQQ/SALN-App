@@ -102,7 +102,7 @@ export interface Input {
 			const newLiability = {...obj, liabilityID: uuidv4()};
 			input.updateFormData([...input.liabilities, newLiability]);
 		}
-		validateData (obj) {
+		validateData (obj, i) {
 			return checkData(input.liabilities, obj);
 		}
 	/>
@@ -125,8 +125,9 @@ export interface Input {
 			showEditModal = false;
 			editIndex = -1;
 		}
-		validateData (obj) {
-			return checkData(input.liabilities, obj);
+		validateData (obj, i) {
+			const filteredList = (input.liabilities).filter((_, idx) => idx !== i);
+			return checkData(filteredList, obj);
 		}
 	/>
 </if>

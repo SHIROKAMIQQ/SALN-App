@@ -185,8 +185,9 @@ export interface Input {
 			showEditModal = false;
 			editIndex = -1;
 		}
-		validateData (obj) {
-			return checkData(input.realProperties, obj);
+		validateData (obj, i) {
+			const filteredList = (input.realProperties).filter((_, idx) => idx !== i);
+			return checkData(filteredList, obj);
 		}
 	/>
 </if>
