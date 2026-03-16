@@ -270,11 +270,7 @@ class SalnFormController extends Controller
 							return [
 								'unmarriedChildID' => $child['unmarriedChildID'] ?? "",
 								'name' => $decrypt($child['name'] ?? ""),
-<<<<<<< HEAD
-								'dob' => $decrypt($child['dob'] ?? ""),
-=======
 								'dob' => $decrypt($child['dob'] ?? "")
->>>>>>> c8982f8 (feat: remove unmarriedChildren.age from Database and SALNController)
 							];
 						})
 						->toArray();
