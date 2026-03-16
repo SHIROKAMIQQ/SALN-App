@@ -21,10 +21,10 @@ export interface Input {
 	if (c1.nature !== c2.nature) {
 		return false;
 	}
-	if (Date.parse(c1.dateOfAcquisition) !== Date.parse(c2.dateOfAcquisition)) {
+	if (c1.dateOfAcquisition !== c2.dateOfAcquisition) {
 		return false;
 	}
-	if (c1.nondeclarantExclusive !== (c2.nondeclarantExclusive === "on" ? "true" : "false")) {
+	if (c1.nondeclarantExclusive !== c2.nondeclarantExclusive) {
 		return false;
 	}
 	return true;
