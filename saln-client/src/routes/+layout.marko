@@ -21,17 +21,22 @@ import { redirect } from "../utils/redirect.ts";
 
 // Script for registering service worker
 <script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function() {
-      navigator.serviceWorker
-        .register("/service-worker.js")
-        .then(function() {
-          console.log("service worker registered")
-        })
-        .catch(function(err) {
-          console.log("service worker not registered", err)
-        })
-    })
+  if ("serviceWorker" in navigator && "SyncManager" in window) {
+    window.addEventListener("load", async () => {
+      try {
+        const registration = await navigator.serviceWorker.register("/service-worker.js");
+        console.log("Service Worker registered:", registration);
+
+        // Wait until the service worker is fully active
+        const readyReg = await navigator.serviceWorker.ready;
+        await readyReg.sync.register("sync-requests");
+        console.log("Background sync registered (sync-requests)");
+      } catch (err) {
+        console.error("Service Worker registration failed:", err);
+      }
+    });
+  } else {
+    console.warn("Background Sync not supported — fallback will be used");
   }
 </script>
 
