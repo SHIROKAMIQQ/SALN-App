@@ -9,4 +9,4 @@ Artisan::command('inspire', function () {
 
 use Illuminate\Support\Facades\Schedule;
 
-Schedule::command('saln:cleanup')->everyMinute();
+Schedule::command('saln:cleanup')->dailyAt('00:00');
