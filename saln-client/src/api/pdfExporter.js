@@ -96,22 +96,6 @@ export async function fillPDFFormFields(salnData) {
           console.warn(`Could not set field "${fieldName}":`, e.message);
         }
       };
-      
-      // Helper function to safely set checkbox
-      const setCheckbox = (form, fieldName, isChecked) => {
-        try {
-          const field = form.getCheckBox(fieldName);
-          if (field) {
-            if (isChecked) {
-              field.check();
-            } else {
-              field.uncheck();
-            }
-          }
-        } catch (e) {
-          console.warn(`Could not set checkbox "${fieldName}":`, e.message);
-        }
-      };
     
     // Updated with 'prefix' parameter
     const fillBasicDeclarantInfo = (form, prefix = "") => {
@@ -133,10 +117,10 @@ export async function fillPDFFormFields(salnData) {
     const firstPdfDoc = await PDFDocument.load(existingPdfBytes);
     const firstForm = firstPdfDoc.getForm();
 
-    // Filing type checkboxes
-    setCheckbox(firstForm, 'jointFiling', salnData.personalInfo.filingType === 'Joint Filing');
-    setCheckbox(firstForm, 'separateFiling', salnData.personalInfo.filingType === 'Separate Filing');
-    setCheckbox(firstForm, 'notApplicable', salnData.personalInfo.filingType === 'Not Applicable');
+    // Filing type - now text fields instead of checkboxes
+    setTextField(firstForm, 'jointFiling', salnData.personalInfo.filingType === 'Joint Filing' ? 'X' : '');
+    setTextField(firstForm, 'separateFiling', salnData.personalInfo.filingType === 'Separate Filing' ? 'X' : '');
+    setTextField(firstForm, 'notApplicable', salnData.personalInfo.filingType === 'Not Applicable' ? 'X' : '');
 
     fillBasicDeclarantInfo(firstForm);
     setTextField(firstForm, `declarantOfficeAddress`, salnData.personalInfo.officeAddress);
@@ -178,7 +162,7 @@ export async function fillPDFFormFields(salnData) {
     };
 
     if (declarantData.connections.length === 0) {
-      setCheckbox(firstForm, 'noBusinessInterest', true);
+      setTextField(firstForm, 'noBusinessInterest', 'X');
     }
     
     const nonDeclarantData = {
@@ -283,7 +267,7 @@ export async function fillPDFFormFields(salnData) {
     // Fill Business Interests (first page)
     const connections = declarantData.connections || [];
     if (connections.length === 0) {
-      setCheckbox(firstForm, 'noBusinessInterest', true);
+      setTextField(firstForm, 'noBusinessInterest', 'X');
     } else {
       const firstPageConnections = connections.slice(0, BusinessConnectionsMaxLen);
       firstPageConnections.forEach((business, index) => {
@@ -297,7 +281,7 @@ export async function fillPDFFormFields(salnData) {
     // Fill Relatives (first page)
     const relatives = salnData.relatives || [];
     if (relatives.length === 0) {
-      setCheckbox(firstForm, 'noRelatives', true);
+      setTextField(firstForm, 'noRelatives', 'X');
     } else {
       const firstPageRelatives = relatives.slice(0, RelativesMaxLen);
       firstPageRelatives.forEach((relative, index) => {
