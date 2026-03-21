@@ -8,8 +8,6 @@ You should also get the `saln-server/.env` file from the developers.
 
 Upon pulling the repository, you may want to check these files for production code:
 - `saln-client/src/api/config.js`
-- `saln-server/config/cors.php`
-- `saln-server/config/mail.php`
 - `saln-server/.env`
 
 # Installing Git

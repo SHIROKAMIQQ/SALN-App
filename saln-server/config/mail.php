@@ -41,6 +41,10 @@ return [
 
     'mailers' => [
 
+        'mailgun' => [
+            'transport' => 'mailgun',
+        ],
+
         'sendgrid' => [
             'transport' => 'sendgrid',
         ],
