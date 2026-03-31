@@ -7,13 +7,10 @@ import Connections from "./Connections.marko";
 import Relatives from "./Relatives.marko";
 import { v4 as uuidv4 } from "uuid";
 import { saveFormToIDB, getFormFromIDB } from "../../utils/idb.js";
-import { encryptSalnForm } from "../../utils/salnEncryption.js";
 import { submitSALN } from "../../api/saln.js";
 
 
-// TODO: Have this generated via fetch request from IndexedDB. (For Edit SALN feature)
 // For tmpData, all fields would be strings for readability.
-// But, they will be converted into appropriate data types once stored into the database.
 <let/tmpData = null/>
 
 <let/currentPage = 0 />
@@ -38,16 +35,9 @@ import { submitSALN } from "../../api/saln.js";
   console.log("Finished saving to IndexedDB");
 
   try {
-    // Encrypt formData
-    console.log("Encrypting formData");
-    // const keyBase64 = localStorage.getItem("encryptionKey");
-    // const encryptedFormData = await encryptSalnForm(formData, keyBase64);
-    console.log("Finished encrypting formData");
-
     // Send to Server Database
     console.log("Saving to Server");
     const employeeID = localStorage.getItem("employeeID");
-    // const result = await submitSALN(encryptedFormData, employeeID);
     const result = await submitSALN(formData, employeeID);
     console.log("Finished saving to server");
 
