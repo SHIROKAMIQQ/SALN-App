@@ -1,0 +1,436 @@
+{
+    "personalInfo": {
+        "filingType": "Separate Filing",
+        "declarantFamilyName": "FULL",
+        "declarantFirstName": "Miguel",
+        "declarantMI": "A",
+        "address": "40 Maginhawa, Teacher's Village, Quezon City",
+        "position": "Instructor",
+        "agency": "University of the Philippines - Diliman",
+        "officeAddress": "Some address",
+        "spouseFamilyName": "Last",
+        "spouseFirstName": "First",
+        "spouseMI": "M",
+        "spousePosition": "Instructor",
+        "spouseAgency": "Some Uni",
+        "spouseOfficeAddress": "Some Address"
+    },
+    "children": [
+        {
+            "name": "Unmarried Child 1",
+            "dob": "2010-04-24"
+        },
+        {
+            "name": "Unmarried Child 2",
+            "dob": "2011-03-23"
+        },
+        {
+            "name": "Unmarried Child 3",
+            "dob": "2011-06-21"
+        },
+        {
+            "name": "Unmarried Child 4",
+            "dob": "2015-08-10"
+        }
+    ],
+    "realProperties": [
+        {
+            "description": "Lot",
+            "kind": "Residential",
+            "exactLocation": "Address 1",
+            "assessedValue": "123.42",
+            "currentFairMarketValue": "34,321,234.10",
+            "acquisitionYear": "2005",
+            "acquisitionMode": "Purchase",
+            "acquisitionCost": "23432.10",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "House and Lot",
+            "kind": "Residential",
+            "exactLocation": "Address 2",
+            "assessedValue": "100000.41",
+            "currentFairMarketValue": "2,333,121,222.10",
+            "acquisitionYear": "2006",
+            "acquisitionMode": "Purchase",
+            "acquisitionCost": "23432.10",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Condominium",
+            "kind": "Residential",
+            "exactLocation": "Address 3",
+            "assessedValue": "1231323.42",
+            "currentFairMarketValue": "1,234,321,234.10",
+            "acquisitionYear": "2002",
+            "acquisitionMode": "Some Mode",
+            "acquisitionCost": "23431212.10",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Lot",
+            "kind": "Commercial",
+            "exactLocation": "Address 4",
+            "assessedValue": "123564.42",
+            "currentFairMarketValue": "1,234,321,234.10",
+            "acquisitionYear": "2004",
+            "acquisitionMode": "Some Mode",
+            "acquisitionCost": "2433212.10",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Lot",
+            "kind": "Commercial",
+            "exactLocation": "Address 5",
+            "assessedValue": "12311111.42",
+            "currentFairMarketValue": "1234.10",
+            "acquisitionYear": "2008",
+            "acquisitionMode": "Some Mode",
+            "acquisitionCost": "234321312.10",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "House",
+            "kind": "Residential",
+            "exactLocation": "Address 6",
+            "assessedValue": "123111.42",
+            "currentFairMarketValue": "48237.10",
+            "acquisitionYear": "2005",
+            "acquisitionMode": "Some Mode",
+            "acquisitionCost": "2569022.10",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Lot",
+            "kind": "Industrial",
+            "exactLocation": "Address 7",
+            "assessedValue": "121143.42",
+            "currentFairMarketValue": "344322.10",
+            "acquisitionYear": "2005",
+            "acquisitionMode": "Some Mode",
+            "acquisitionCost": "2343312.10",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Factory",
+            "kind": "Industrial",
+            "exactLocation": "Address 8",
+            "assessedValue": "3123123.42",
+            "currentFairMarketValue": "12931809.00",
+            "acquisitionYear": "2003",
+            "acquisitionMode": "Some Mode",
+            "acquisitionCost": "23432.10",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Condominium",
+            "kind": "Commercial",
+            "exactLocation": "Address 9",
+            "assessedValue": "3213123.42",
+            "currentFairMarketValue": "3423.10",
+            "acquisitionYear": "2002",
+            "acquisitionMode": "Some Mode",
+            "acquisitionCost": "534223432.10",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "description": "House",
+            "kind": "Residential",
+            "exactLocation": "Address 10",
+            "assessedValue": "31231123.42",
+            "currentFairMarketValue": "111,234,321,234.10",
+            "acquisitionYear": "2009",
+            "acquisitionMode": "Some Mode",
+            "acquisitionCost": "266723432.10",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "description": "Lot",
+            "kind": "Commercial",
+            "exactLocation": "Address 11",
+            "assessedValue": "123.42",
+            "currentFairMarketValue": "1,321,234.10",
+            "acquisitionYear": "2001",
+            "acquisitionMode": "Some Mode",
+            "acquisitionCost": "723432.10",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "description": "Lot",
+            "kind": "Industrial",
+            "exactLocation": "Address 12",
+            "assessedValue": "86123.42",
+            "currentFairMarketValue": "24,321,234.10",
+            "acquisitionYear": "2005",
+            "acquisitionMode": "Some Mode",
+            "acquisitionCost": "23432.10",
+            "nondeclarantExclusive": "true"
+        }
+    ],
+    "personalProperties": [
+        {
+            "description": "Personal Property 1",
+            "yearAcquired": "2001",
+            "acquisitionCost": "1,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Personal Property 2",
+            "yearAcquired": "2002",
+            "acquisitionCost": "2,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Personal Property 3",
+            "yearAcquired": "2003",
+            "acquisitionCost": "3,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Personal Property 4",
+            "yearAcquired": "2004",
+            "acquisitionCost": "4,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Personal Property 5",
+            "yearAcquired": "2005",
+            "acquisitionCost": "5,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Personal Property 6",
+            "yearAcquired": "2006",
+            "acquisitionCost": "6,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Personal Property 7",
+            "yearAcquired": "2007",
+            "acquisitionCost": "7,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Personal Property 8",
+            "yearAcquired": "2008",
+            "acquisitionCost": "8,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "description": "Personal Property 9",
+            "yearAcquired": "2009",
+            "acquisitionCost": "9,000,000.00",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "description": "Personal Property 10",
+            "yearAcquired": "2010",
+            "acquisitionCost": "10,000,000.00",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "description": "Personal Property 11",
+            "yearAcquired": "2011",
+            "acquisitionCost": "11,000,000.00",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "description": "Personal Property 12",
+            "yearAcquired": "2012",
+            "acquisitionCost": "12,000,000.00",
+            "nondeclarantExclusive": "true"
+        }
+    ],
+    "liabilities": [
+        {
+            "nature": "Liability 1",
+            "creditors": "Creditor 1",
+            "outstandingBalance": "1,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "nature": "Liability 2",
+            "creditors": "Creditor 2",
+            "outstandingBalance": "2,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "nature": "Liability 3",
+            "creditors": "Creditor 3",
+            "outstandingBalance": "3,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "nature": "Liability 4",
+            "creditors": "Creditor 4",
+            "outstandingBalance": "4,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "nature": "Liability 5",
+            "creditors": "Creditor 5",
+            "outstandingBalance": "5,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "nature": "Liability 6",
+            "creditors": "Creditor 6",
+            "outstandingBalance": "6,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "nature": "Liability 7",
+            "creditors": "Creditor 7",
+            "outstandingBalance": "7,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "nature": "Liability 8",
+            "creditors": "Creditor 8",
+            "outstandingBalance": "8,000,000.00",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "nature": "Liability 9",
+            "creditors": "Creditor 9",
+            "outstandingBalance": "9,000,000.00",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "nature": "Liability 10",
+            "creditors": "Creditor 10",
+            "outstandingBalance": "10,000,000.00",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "nature": "Liability 11",
+            "creditors": "Creditor 11",
+            "outstandingBalance": "11,000,000.00",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "nature": "Liability 12",
+            "creditors": "Creditor 12",
+            "outstandingBalance": "12,000,000.00",
+            "nondeclarantExclusive": "true"
+        }
+    ],
+    "connections": [
+        {
+            "name": "Connection 1",
+            "businessAddress": "Address 1",
+            "nature": "Nature 1",
+            "dateOfAcquisition": "2001",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "name": "Connection 2",
+            "businessAddress": "Address 2",
+            "nature": "Nature 2",
+            "dateOfAcquisition": "2002",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "name": "Connection 3",
+            "businessAddress": "Address 3",
+            "nature": "Nature 3",
+            "dateOfAcquisition": "2003",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "name": "Connection 4",
+            "businessAddress": "Address 4",
+            "nature": "Nature 4",
+            "dateOfAcquisition": "2004",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "name": "Connection 5",
+            "businessAddress": "Address 5",
+            "nature": "Nature 5",
+            "dateOfAcquisition": "2005",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "name": "Connection 6",
+            "businessAddress": "Address 6",
+            "nature": "Nature 6",
+            "dateOfAcquisition": "2006",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "name": "Connection 7",
+            "businessAddress": "Address 7",
+            "nature": "Nature 7",
+            "dateOfAcquisition": "2007",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "name": "Connection 8",
+            "businessAddress": "Address 8",
+            "nature": "Nature 8",
+            "dateOfAcquisition": "2008",
+            "nondeclarantExclusive": "false"
+        },
+        {
+            "name": "Connection 9",
+            "businessAddress": "Address 9",
+            "nature": "Nature 9",
+            "dateOfAcquisition": "2009",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "name": "Connection 10",
+            "businessAddress": "Address 10",
+            "nature": "Nature 10",
+            "dateOfAcquisition": "2010",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "name": "Connection 11",
+            "businessAddress": "Address 11",
+            "nature": "Nature 11",
+            "dateOfAcquisition": "2011",
+            "nondeclarantExclusive": "true"
+        },
+        {
+            "name": "Connection 12",
+            "businessAddress": "Address 12",
+            "nature": "Nature 12",
+            "dateOfAcquisition": "2012",
+            "nondeclarantExclusive": "true"
+        }
+    ],
+    "relatives": [
+        {
+            "name": "Relative 1",
+            "relationship": "Brother",
+            "position": "Instructor",
+            "agency": "University of the Philippines - Diliman"
+        },
+        {
+            "name": "Relative 2",
+            "relationship": "Sister",
+            "position": "Chemical Engineer",
+            "agency": "DOST"
+        },
+        {
+            "name": "Relative 3",
+            "relationship": "Sister",
+            "position": "Teacher",
+            "agency": "PSHS-CLC"
+        },
+        {
+            "name": "Relative 4",
+            "relationship": "Mother",
+            "position": "Mayor",
+            "agency": "LGU"
+        },
+        {
+            "name": "Relative 5",
+            "relationship": "Father",
+            "position": "Policeman",
+            "agency": "PNP"
+        }
+    ]
+}

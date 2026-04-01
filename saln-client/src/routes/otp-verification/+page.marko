@@ -12,7 +12,6 @@ import { verifyOTP } from "../../api/verifyOTP.js";
         if (result.success) {
             localStorage.setItem("email", result.email);
             localStorage.setItem("employeeID", result.employeeID);
-            localStorage.setItem("encryptionKey", result.encryptionKey);
             window.location.href = "/dashboard";
         } else {
             alert(result.message);
@@ -30,7 +29,7 @@ import { verifyOTP } from "../../api/verifyOTP.js";
 
     <input type="text" id="OTPInput" class="enterOTP" placeholder="Enter OTP" required>
     <br>
-    <button class="submitOTP" onClick() { // TODO: handle API call for OTP verification
+    <button class="submitOTP" onClick() {
         const inputElement = document.getElementById("OTPInput")! as HTMLInputElement;
         const userInput = inputElement.value;
         console.log(userInput);

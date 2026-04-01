@@ -24,12 +24,8 @@ import { deleteEmployee } from "../../api/deleteEmployee.js";
       await deleteAllFormsFromIDB();
       console.log("[Dashboard] Saving fetched forms");
       console.log(result.salnForms);
-      // console.log(keyBase64);
-      // console.log(typeof keyBase64);
-      // console.log("decrypt and then save");
       for (const salnForm of result.salnForms) {
         console.log(salnForm);
-        // const salnData = await decryptSalnForm(salnForm, keyBase64);
         await saveFormToIDB(salnForm);
       }
       console.log("[Dashboard] Finished saving fetched forms.");
