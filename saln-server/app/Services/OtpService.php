@@ -65,7 +65,7 @@ class OtpService
         // add new OTP entry
         OTP::create([
             'email' => $email,
-            'otp_code' => $otp,
+            'otp_code' => Hash::make($otp),
             'expires_at' => Carbon::now()->addMinutes(10),
         ]);
 
@@ -77,7 +77,7 @@ class OtpService
     public function verify(string $email, string $otp)
     {
         DB::beginTransaction();
-        $otpRecord = OTP::where('email', $email) //TODO: seems to be wrong when there are multiple OTPs for one account
+        $otpRecord = OTP::where('email', $email)
                     ->latest()
                     ->first();
 
@@ -99,12 +99,12 @@ class OtpService
             ], 400);
         }
 
-        if ($otp !== $otpRecord->otp_code) {
+        if (!Hash::check($otp, $otpRecord->otp_code)) {
             log::error('invalid otp');
             DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid OTP.'
+                'message' => 'Wrong OTP.'
             ], 400);
         }
 

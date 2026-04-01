@@ -14,7 +14,7 @@ return new class extends Migration
 		Schema::create('otps', function (Blueprint $table) {
 			$table->id('otpID')->primary();
 			$table->string('email');
-			$table->string('otp_code');
+			$table->string('otp_code'); // HASHED
 			$table->timestamp('created_at');
 			$table->timestamp('updated_at');
 			$table->timestamp('expires_at');
