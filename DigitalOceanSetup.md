@@ -20,7 +20,7 @@ cd SALN-App
 ```
 Now, you should have `/var/www/SALN-App` directory.
 
-
+ 
 # Installing npm
 
 Firstly, install npm, the package manager of Node.js. \
