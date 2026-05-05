@@ -141,7 +141,11 @@ import { deleteEmployee } from "../../api/deleteEmployee.js";
           <DashboardCard
             salnID=saln.salnID,
             dateFilled=saln.updatedAt.replace('T', ' ').replace('Z', '').split('.')[0],
-            name=saln.personalInfo.declarantFamilyName + ', ' + saln.personalInfo.declarantFirstName + ', ' + saln.personalInfo.declarantMI + '.',
+            name=saln.personalInfo.declarantFamilyName + ', ' +
+            saln.personalInfo.declarantFirstName +
+            (saln.personalInfo.declarantMI
+                ? ', ' + saln.personalInfo.declarantMI + '.'
+                : ''),
             position=saln.personalInfo.position,
             agency=saln.personalInfo.agency,
             officeAddress=saln.personalInfo.officeAddress,
